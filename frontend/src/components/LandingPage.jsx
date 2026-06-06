@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useState } from 'react';
-import { ChevronRight, Heart } from 'lucide-react';
+import { ChevronRight } from 'lucide-react';
 import SiteHeader, { readSaved, SAVED_KEY } from './SiteHeader.jsx';
 import heroVideo from '../../assets/hero-web-landscape.mp4';
 
@@ -7,40 +7,37 @@ const categories = [
     {
         name: 'Wedding',
         copy: 'Save the dates, invitations, and wedding weekend details.',
-        accent: '#b8956f',
+        preview: '#d9cfc3',
     },
     {
         name: 'Birthday',
         copy: 'Milestones, surprise parties, and group celebrations.',
-        accent: '#7a96a8',
+        preview: '#c8d2d9',
     },
     {
         name: 'Dinner',
         copy: 'Holiday dinners, supper clubs, and seated gatherings.',
-        accent: '#a89b6a',
+        preview: '#d5cdb8',
     },
     {
         name: 'Baby',
         copy: 'Showers, announcements, and first birthdays.',
-        accent: '#a88a96',
+        preview: '#d4c8cc',
     },
 ];
 
 const products = [
     {
         title: 'Card invitations',
-        copy: 'Digital invitations with envelopes, liners, and built-in RSVP tracking.',
-        detail: 'Guest lists, reminders, and delivery in one place.',
+        copy: 'Digital invitations with envelopes, liners, RSVP tracking, guest lists, and delivery reminders.',
     },
     {
         title: 'Flyer event pages',
-        copy: 'Shareable event pages for launches, fundraisers, and community gatherings.',
-        detail: 'Designed for quick publishing and clear event details.',
+        copy: 'Shareable pages for launches, fundraisers, and community events with clear date, time, and location details.',
     },
     {
         title: 'Greeting cards',
-        copy: 'Personal notes for holidays, thank-yous, birthdays, and announcements.',
-        detail: 'Send individually or share a link with your message.',
+        copy: 'Personal notes for holidays, thank-yous, birthdays, and announcements — send directly or by link.',
     },
 ];
 
@@ -144,115 +141,91 @@ export default function LandingPage() {
             </section>
 
             <section id="categories" className="celebrate-section">
-                <div className="celebrate-section-header">
-                    <p className="section-eyebrow">Invitations by occasion</p>
-                    <h2 className="section-title">What are you celebrating?</h2>
-                    <p className="section-lead">
-                        Browse templates by event type. Every design can be customized for your guest list.
-                    </p>
-                </div>
-
-                {searchQuery.trim() && visibleCategories.length > 0 ? (
-                    <p className="celebrate-search-note">
-                        {visibleCategories.length} result{visibleCategories.length === 1 ? '' : 's'} for
-                        &ldquo;{searchQuery.trim()}&rdquo;
-                    </p>
-                ) : null}
-
-                <div className="category-tabs" role="tablist" aria-label="Celebration categories">
-                    {categories.map(({ name }) => (
-                        <button
-                            key={name}
-                            type="button"
-                            role="tab"
-                            aria-selected={activeCategory === name}
-                            className={`category-tab ${activeCategory === name ? 'is-active' : ''}`}
-                            onClick={() => setActiveCategory(name)}
-                        >
-                            {name}
-                        </button>
-                    ))}
-                </div>
-
-                <div className="category-grid">
-                    {visibleCategories.length === 0 ? (
-                        <p className="category-empty">
-                            No categories match your search. Try wedding, birthday, dinner, or baby.
+                <div className="celebrate-section-inner">
+                    <header className="celebrate-header">
+                        <h2 className="celebrate-heading">What are you celebrating?</h2>
+                        <p className="celebrate-subheading">
+                            Select an occasion to view invitation designs.
                         </p>
-                    ) : (
-                        visibleCategories.map(({ name, copy, accent }) => (
-                            <article
-                                key={name}
-                                className={`category-card ${activeCategory === name ? 'is-selected' : ''}`}
-                                style={{ '--category-accent': accent }}
-                                onClick={() => setActiveCategory(name)}
-                                onKeyDown={(event) => {
-                                    if (event.key === 'Enter' || event.key === ' ') {
-                                        event.preventDefault();
-                                        setActiveCategory(name);
-                                    }
-                                }}
-                                role="button"
-                                tabIndex={0}
-                            >
-                                <div className="category-card-accent" aria-hidden="true" />
-                                <div className="category-card-body">
-                                    <div className="category-card-top">
-                                        <span className="category-card-label">{name} invitations</span>
-                                        <button
-                                            type="button"
-                                            className={`category-save-btn ${savedItems.includes(name) ? 'is-saved' : ''}`}
-                                            aria-label={
-                                                savedItems.includes(name)
-                                                    ? `Remove ${name} from saved`
-                                                    : `Save ${name} invitations`
+                    </header>
+
+                    {searchQuery.trim() && visibleCategories.length > 0 ? (
+                        <p className="celebrate-search-note">
+                            {visibleCategories.length} result{visibleCategories.length === 1 ? '' : 's'} for
+                            &ldquo;{searchQuery.trim()}&rdquo;
+                        </p>
+                    ) : null}
+
+                    <div className="category-grid">
+                        {visibleCategories.length === 0 ? (
+                            <p className="category-empty">
+                                No categories match your search. Try wedding, birthday, dinner, or baby.
+                            </p>
+                        ) : (
+                            visibleCategories.map(({ name, copy, preview }) => {
+                                const isSaved = savedItems.includes(name);
+                                const isActive = activeCategory === name;
+
+                                return (
+                                    <article
+                                        key={name}
+                                        className={`category-tile ${isActive ? 'is-active' : ''}`}
+                                        onClick={() => setActiveCategory(name)}
+                                        onKeyDown={(event) => {
+                                            if (event.key === 'Enter' || event.key === ' ') {
+                                                event.preventDefault();
+                                                setActiveCategory(name);
                                             }
-                                            onClick={(event) => toggleSaved(name, event)}
-                                        >
-                                            <Heart size={16} strokeWidth={1.75} />
-                                        </button>
-                                    </div>
-                                    <h3 className="category-card-title">{name}</h3>
-                                    <p className="category-card-copy">{copy}</p>
-                                    <span className="category-card-action">
-                                        Browse templates
-                                        <ChevronRight size={16} strokeWidth={1.75} aria-hidden="true" />
-                                    </span>
-                                </div>
-                            </article>
-                        ))
-                    )}
+                                        }}
+                                        role="button"
+                                        tabIndex={0}
+                                        aria-pressed={isActive}
+                                    >
+                                        <div
+                                            className="category-tile-preview"
+                                            style={{ backgroundColor: preview }}
+                                            aria-hidden="true"
+                                        />
+                                        <div className="category-tile-body">
+                                            <h3 className="category-tile-name">{name}</h3>
+                                            <p className="category-tile-desc">{copy}</p>
+                                            <div className="category-tile-footer">
+                                                <span className="category-tile-action">View designs</span>
+                                                <button
+                                                    type="button"
+                                                    className={`category-tile-save ${isSaved ? 'is-saved' : ''}`}
+                                                    aria-pressed={isSaved}
+                                                    onClick={(event) => toggleSaved(name, event)}
+                                                >
+                                                    {isSaved ? 'Saved' : 'Save for later'}
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </article>
+                                );
+                            })
+                        )}
+                    </div>
                 </div>
             </section>
 
             <section id="products" className="products-section">
                 <div className="products-section-inner">
-                    <div className="products-intro">
-                        <p className="section-eyebrow">What Convive offers</p>
-                        <h2 className="section-title">
-                            From the first save-the-date to the last RSVP.
+                    <header className="products-header">
+                        <h2 className="products-heading">
+                            Invitations, event pages, and greeting cards
                         </h2>
-                        <p className="products-intro-copy">
-                            Convive gives hosts one place to design invitations, manage guests, and
-                            send polished communications without juggling multiple tools.
+                        <p className="products-subheading">
+                            Design, send, and track guest responses in one place — from the
+                            save-the-date through the final RSVP.
                         </p>
-                        <ul className="products-trust-list">
-                            <li>RSVP tracking and guest list management</li>
-                            <li>Branded envelopes and delivery-ready formats</li>
-                            <li>Templates built for weddings, parties, and private events</li>
-                        </ul>
-                    </div>
+                    </header>
 
                     <div className="products-grid">
-                        {products.map(({ title, copy, detail }) => (
-                            <article key={title} className="product-card">
-                                <h3 className="product-card-title">{title}</h3>
-                                <p className="product-card-copy">{copy}</p>
-                                <p className="product-card-detail">{detail}</p>
-                                <button type="button" className="product-card-link">
-                                    Learn more
-                                    <ChevronRight size={16} strokeWidth={1.75} aria-hidden="true" />
-                                </button>
+                        {products.map(({ title, copy }) => (
+                            <article key={title} className="product-panel">
+                                <h3 className="product-panel-title">{title}</h3>
+                                <p className="product-panel-copy">{copy}</p>
                             </article>
                         ))}
                     </div>
