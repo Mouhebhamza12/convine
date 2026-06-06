@@ -2,11 +2,11 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
     ChevronDown,
+    ChevronRight,
     Heart,
     LogIn,
     Menu,
     Search,
-    Sparkles,
     UserRound,
     X,
 } from 'lucide-react';
@@ -363,6 +363,18 @@ export default function SiteHeader({
                         </div>
 
                         <div className="mobile-drawer-body">
+                            <button
+                                type="button"
+                                className="mobile-drawer-create"
+                                onClick={() => scrollToCategories('Wedding')}
+                            >
+                                <span className="mobile-drawer-create-copy">
+                                    <span className="mobile-drawer-create-eyebrow">Blank canvas</span>
+                                    <span className="mobile-drawer-create-title">Make your own</span>
+                                </span>
+                                <ChevronRight size={18} strokeWidth={1.75} aria-hidden="true" />
+                            </button>
+
                             {navMenus.map((menu) => (
                                 <div key={menu.id} className="mobile-drawer-group">
                                     <p className="drawer-section-title">{menu.label}</p>
@@ -378,15 +390,6 @@ export default function SiteHeader({
                                     ))}
                                 </div>
                             ))}
-
-                            <button
-                                type="button"
-                                className="mobile-drawer-cta"
-                                onClick={() => scrollToCategories('Wedding')}
-                            >
-                                <Sparkles size={18} />
-                                Start from scratch
-                            </button>
 
                             <div className="mobile-drawer-group">
                                 <p className="drawer-section-title">For professionals</p>
