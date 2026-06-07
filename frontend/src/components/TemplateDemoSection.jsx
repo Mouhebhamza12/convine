@@ -55,7 +55,6 @@ export default function TemplateDemoSection() {
         <section id="demo" className="template-demo-section">
             <div className="template-demo-showcase-header">
                 <span className="template-demo-badge">
-                    <Sparkles size={14} />
                     Live guest demos · No login
                 </span>
                 <h2 className="template-demo-showcase-title">Choose your story</h2>
