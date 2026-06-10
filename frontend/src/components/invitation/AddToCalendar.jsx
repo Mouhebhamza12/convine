@@ -69,6 +69,44 @@ function buildIcsContent({ title, date, time, venue, address }) {
     ].join('\r\n');
 }
 
+const G = 'var(--hero-gold)';
+
+/* ─── Oval medallion with a leaf sprig ─── */
+function OvalMedallion() {
+    return (
+        <svg className="cal-medallion" width="72" height="96" viewBox="0 0 72 96" fill="none" aria-hidden="true">
+            <ellipse cx="36" cy="48" rx="26" ry="34" stroke={G} strokeWidth="0.9" fill="none" />
+            <ellipse cx="36" cy="48" rx="23" ry="31" stroke={G} strokeWidth="0.5" fill="none" opacity="0.4" />
+            <g stroke={G} strokeWidth="0.9" fill="none" strokeLinecap="round">
+                <path d="M36 64 C36 56 36 46 36 36" />
+                <path d="M36 44 C31 42 28 39 26 34" />
+                <path d="M36 44 C41 42 44 39 46 34" />
+                <path d="M36 52 C32 50 29 48 27 43" />
+                <path d="M36 52 C40 50 43 48 45 43" />
+            </g>
+            <circle cx="36" cy="34" r="1.4" fill={G} />
+            <path d="M36 3 L39 7 L36 11 L33 7 Z" fill={G} />
+            <path d="M36 85 L39 89 L36 93 L33 89 Z" fill={G} />
+        </svg>
+    );
+}
+
+/* ─── Fleuron rule (line · ornament · line) ─── */
+function FleuronRule({ className = '' }) {
+    return (
+        <svg className={`cal-fleuron ${className}`.trim()} width="180" height="16" viewBox="0 0 180 16" fill="none" aria-hidden="true">
+            <g stroke={G} strokeWidth="0.8" fill="none" strokeLinecap="round">
+                <line x1="20" y1="8" x2="74" y2="8" opacity="0.45" />
+                <line x1="106" y1="8" x2="160" y2="8" opacity="0.45" />
+                <path d="M80 8 C84 4 86 6 86 8 C86 10 88 12 92 8" opacity="0.7" />
+                <path d="M100 8 C96 4 94 6 94 8 C94 10 92 12 88 8" opacity="0.7" />
+            </g>
+            <path d="M90 3 L94 8 L90 13 L86 8 Z" stroke={G} strokeWidth="0.8" fill="none" />
+            <circle cx="90" cy="8" r="1.1" fill={G} />
+        </svg>
+    );
+}
+
 export default function AddToCalendar({ eventDate, eventTime, venue, venueAddress, brideName, groomName }) {
     const sceneRef = useRef(null);
     const contentRef = useRef(null);
@@ -110,39 +148,36 @@ export default function AddToCalendar({ eventDate, eventTime, venue, venueAddres
     }, [title, eventDate, eventTime, venue, venueAddress]);
 
     return (
-        <section ref={sceneRef} className="invite-scene invite-scene--compact calendar-scene">
+        <section ref={sceneRef} className="invite-scene calendar-scene velvet-section">
             <div ref={contentRef} className="calendar-card">
-                {/* Decorative calendar icon */}
-                <div className="calendar-icon" aria-hidden="true">
-                    <svg width="44" height="44" viewBox="0 0 44 44" fill="none">
-                        <rect x="4" y="8" width="36" height="32" rx="4" stroke="currentColor" strokeWidth="1.3" />
-                        <path d="M4 18H40" stroke="currentColor" strokeWidth="1" opacity="0.5" />
-                        <path d="M14 4V12M30 4V12" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
-                        <path d="M16 26L20 30L28 22" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                </div>
+                <OvalMedallion />
 
-                <p className="calendar-title">Save This Date</p>
+                <p className="calendar-title">Save the Date</p>
+
+                <FleuronRule />
+
                 <p className="calendar-subtitle">Add our special day to your calendar so you never forget</p>
 
                 <div className="calendar-buttons">
-                    <button type="button" className="calendar-btn calendar-btn--google btn-shimmer" onClick={handleGoogle}>
-                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <button type="button" className="calendar-btn calendar-btn--google" onClick={handleGoogle}>
+                        <svg width="17" height="17" viewBox="0 0 16 16" fill="none">
                             <rect x="1" y="3" width="14" height="11" rx="1.5" stroke="currentColor" strokeWidth="1" />
                             <path d="M1 7H15" stroke="currentColor" strokeWidth="0.8" opacity="0.5" />
                             <path d="M5 1V5M11 1V5" stroke="currentColor" strokeWidth="1" strokeLinecap="round" />
                         </svg>
-                        Google Calendar
+                        Add to Google Calendar
                     </button>
-                    <button type="button" className="calendar-btn calendar-btn--ics btn-shimmer" onClick={handleIcs}>
-                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <button type="button" className="calendar-btn calendar-btn--ics" onClick={handleIcs}>
+                        <svg width="17" height="17" viewBox="0 0 16 16" fill="none">
                             <path d="M4 1H10L14 5V14C14 14.6 13.6 15 13 15H4C3.4 15 3 14.6 3 14V2C3 1.4 3.4 1 4 1Z" stroke="currentColor" strokeWidth="1" />
                             <path d="M10 1V5H14" stroke="currentColor" strokeWidth="0.8" />
                             <path d="M6 9H11M6 11.5H9" stroke="currentColor" strokeWidth="0.8" strokeLinecap="round" opacity="0.6" />
                         </svg>
-                        Download .ics
+                        Download .ics File
                     </button>
                 </div>
+
+                <FleuronRule className="cal-fleuron--bottom" />
             </div>
         </section>
     );

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useInvitationScroll } from '../../hooks/useInvitationScroll';
 import DrapeOpening from '../../components/invitation/DrapeOpening';
 import CoupleNames from '../../components/invitation/CoupleNames';
@@ -11,7 +11,6 @@ import Location from '../../components/invitation/Location';
 import RSVP from '../../components/invitation/RSVP';
 import GoldenParticles from '../../components/invitation/GoldenParticles';
 import OrnamentalDivider from '../../components/invitation/OrnamentalDivider';
-import CeremonySchedule from '../../components/invitation/CeremonySchedule';
 import AddToCalendar from '../../components/invitation/AddToCalendar';
 import InvitationFooter from '../../components/invitation/InvitationFooter';
 import '../../css/invitation.css';
@@ -19,6 +18,7 @@ import '../../css/invitation.css';
 export default function VelvetInvitation({ data, isDemo, onRsvp }) {
     const [startedOpening, setStartedOpening] = useState(false);
     const [drapeOpen, setDrapeOpen] = useState(false);
+    const [scrollPct, setScrollPct] = useState(0);
     const { guest, wedding } = data;
 
     const bride = wedding.bride_name || 'Amina';
@@ -26,10 +26,34 @@ export default function VelvetInvitation({ data, isDemo, onRsvp }) {
 
     useInvitationScroll(drapeOpen);
 
+    // Track scroll progress for the gold progress indicator.
+    useEffect(() => {
+        if (!drapeOpen) return undefined;
+        const onScroll = () => {
+            const el = document.documentElement;
+            const max = el.scrollHeight - el.clientHeight;
+            const y = window.scrollY || el.scrollTop || 0;
+            setScrollPct(max > 0 ? Math.min(1, Math.max(0, y / max)) : 0);
+        };
+        window.addEventListener('scroll', onScroll, { passive: true });
+        onScroll();
+        return () => window.removeEventListener('scroll', onScroll);
+    }, [drapeOpen]);
+
     return (
         <div className="invitation-root velvet-invitation">
             {/* Floating golden particles background */}
             {startedOpening && <GoldenParticles />}
+
+            {/* Cinematic vignette + film grain for depth */}
+            {startedOpening && <div className="cinematic-overlay" aria-hidden="true" />}
+
+            {/* Gold scroll-progress indicator */}
+            {startedOpening && (
+                <div className="velvet-scroll-progress" aria-hidden="true">
+                    <div className="velvet-scroll-progress__bar" style={{ transform: `scaleX(${scrollPct})` }} />
+                </div>
+            )}
 
             {!drapeOpen && (
                 <DrapeOpening
@@ -74,12 +98,7 @@ export default function VelvetInvitation({ data, isDemo, onRsvp }) {
 
                 <OrnamentalDivider variant="arabesque" />
 
-                {/* ── Section 6: The Celebration Timeline ── */}
-                <CeremonySchedule schedule={wedding.schedule} />
-
-                <OrnamentalDivider variant="dots" />
-
-                {/* ── Section 7: Countdown Timer ── */}
+                {/* ── Section 6: Countdown Timer ── */}
                 <Countdown eventDate={wedding.event_date} eventTime={wedding.event_time} />
 
                 <OrnamentalDivider variant="arabesque" />

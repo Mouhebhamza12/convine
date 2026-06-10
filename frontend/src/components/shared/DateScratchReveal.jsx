@@ -14,9 +14,9 @@ gsap.registerPlugin(ScrollTrigger);
 
 const DATE_KEYS = ['day', 'month', 'year'];
 const BRUSH_SCALE = 1.05;
-const REVEAL_RATIO = 0.2;
+const REVEAL_RATIO = 0.5;
 
-function ScratchCard({ label, value, variant, theme, shape, revealed, onReveal }) {
+function ScratchCard({ label, value, variant, theme, shape, revealed, onReveal, showLabel = true, CoinIcon = null }) {
     const containerRef = useRef(null);
     const canvasRef = useRef(null);
     const isDrawing = useRef(false);
@@ -31,7 +31,9 @@ function ScratchCard({ label, value, variant, theme, shape, revealed, onReveal }
         }
 
         const { ctx, width, height } = setupCanvasSize(canvas, container);
-        drawScratchOverlay(ctx, width, height, theme);
+        // Pass initCanvas as the async-ready callback: when the real foil
+        // texture finishes baking it repaints over the gradient placeholder.
+        drawScratchOverlay(ctx, width, height, theme, () => initCanvas());
         revealedRef.current = false;
         lastPoint.current = null;
     }, [theme]);
@@ -133,8 +135,15 @@ function ScratchCard({ label, value, variant, theme, shape, revealed, onReveal }
                         onTouchEnd={handleEnd}
                     />
                 )}
+                {CoinIcon && !revealed && (
+                    <span className="scratch-date-icon" aria-hidden="true">
+                        <CoinIcon />
+                    </span>
+                )}
             </div>
-            <span className={`scratch-date-label scratch-date-label--${theme}`}>{label}</span>
+            {showLabel && (
+                <span className={`scratch-date-label scratch-date-label--${theme}`}>{label}</span>
+            )}
         </div>
     );
 }
@@ -173,6 +182,8 @@ export default function DateScratchReveal({
     title = 'Our Wedding Date',
     hintScratch = 'Scratch each circle to reveal our date',
     hintDone = 'Save the date in your heart',
+    showLabel = true,
+    CoinIcon = null,
 }) {
     const sceneRef = useRef(null);
     const titleRef = useRef(null);
@@ -253,6 +264,8 @@ export default function DateScratchReveal({
                         shape={shape}
                         value={values[key]}
                         revealed={revealed[key]}
+                        showLabel={showLabel}
+                        CoinIcon={CoinIcon}
                         onReveal={() => setRevealed((prev) => ({ ...prev, [key]: true }))}
                     />
                 ))}

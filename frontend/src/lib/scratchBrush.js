@@ -1,4 +1,144 @@
-/** Procedural scratch-card brush texture — bristled, grainy stamp rotated along swipe */
+/**
+ * scratchBrush — realistic foil scratch-card coating + brush.
+ *
+ * The coating is no longer a flat CSS gradient. We load a real crinkled-foil
+ * NORMAL map (ambientCG Foil002, CC0) and bake a *lit* metallic surface from it
+ * at runtime — diffuse + specular against a moving light — so it reads as a
+ * genuine sheet of gold foil with creases catching the light. Same lighting
+ * principle as the WebGL curtain, done in a 2D canvas.
+ */
+
+/* ------------------------------------------------------------------ */
+/*  Foil normal map (async) + lit-foil baking                          */
+/* ------------------------------------------------------------------ */
+
+const FOIL_NORMAL_SRC = '/textures/foil-normal.jpg';
+const BAKE_SIZE = 512;
+
+let foilNormalImg = null;
+let foilNormalReady = false;
+const readyListeners = new Set();
+const bakedFoil = {}; // theme -> canvas
+
+function loadFoilNormal() {
+    if (foilNormalImg) {
+        return;
+    }
+    foilNormalImg = new Image();
+    foilNormalImg.crossOrigin = 'anonymous';
+    foilNormalImg.onload = () => {
+        foilNormalReady = true;
+        readyListeners.forEach((fn) => fn());
+        readyListeners.clear();
+    };
+    foilNormalImg.src = FOIL_NORMAL_SRC;
+}
+
+/* Per-theme metallic look. base = body tint, spec = highlight colour. */
+const FOIL_LOOK = {
+    velvet: {
+        base: [188, 150, 72],
+        spec: [255, 246, 214],
+        ambient: 0.34,
+        kd: 0.86,
+        ks: 0.95,
+        shininess: 24,
+        sheen: ['#f6e4ad', '#b88b3e'],
+    },
+    bloom: {
+        base: [214, 156, 128],
+        spec: [255, 234, 224],
+        ambient: 0.36,
+        kd: 0.82,
+        ks: 0.9,
+        shininess: 22,
+        sheen: ['#f7d9cf', '#c98a7a'],
+    },
+    noir: {
+        base: [44, 42, 52],
+        spec: [216, 178, 92],
+        ambient: 0.42,
+        kd: 0.55,
+        ks: 1.0,
+        shininess: 18,
+        sheen: ['#3a3a46', '#15151c'],
+    },
+};
+
+/** Bake a lit gold-foil tile for a theme from the crinkle normal map. */
+function bakeFoil(theme) {
+    const look = FOIL_LOOK[theme] ?? FOIL_LOOK.velvet;
+    const canvas = document.createElement('canvas');
+    canvas.width = BAKE_SIZE;
+    canvas.height = BAKE_SIZE;
+    const ctx = canvas.getContext('2d');
+
+    // 1. Soft anisotropic sheen so the foil reflects a graded environment.
+    const sheen = ctx.createLinearGradient(0, 0, BAKE_SIZE, BAKE_SIZE);
+    sheen.addColorStop(0, look.sheen[0]);
+    sheen.addColorStop(0.5, look.sheen[1]);
+    sheen.addColorStop(1, look.sheen[0]);
+    ctx.fillStyle = sheen;
+    ctx.fillRect(0, 0, BAKE_SIZE, BAKE_SIZE);
+    const sheenData = ctx.getImageData(0, 0, BAKE_SIZE, BAKE_SIZE).data;
+
+    // 2. Read the crinkle normals.
+    ctx.drawImage(foilNormalImg, 0, 0, BAKE_SIZE, BAKE_SIZE);
+    const src = ctx.getImageData(0, 0, BAKE_SIZE, BAKE_SIZE);
+    const data = src.data;
+
+    // Light + view vectors.
+    const lx = -0.34, ly = -0.46, lz = 0.82;
+    const ll = Math.hypot(lx, ly, lz);
+    const Lx = lx / ll, Ly = ly / ll, Lz = lz / ll;
+    // Half-vector between light and viewer (0,0,1).
+    let Hx = Lx, Hy = Ly, Hz = Lz + 1;
+    const hl = Math.hypot(Hx, Hy, Hz);
+    Hx /= hl; Hy /= hl; Hz /= hl;
+
+    const { base, spec, ambient, kd, ks, shininess } = look;
+
+    for (let i = 0; i < data.length; i += 4) {
+        // Decode GL normal.
+        const nx = (data[i] / 255) * 2 - 1;
+        const ny = (data[i + 1] / 255) * 2 - 1;
+        const nz = (data[i + 2] / 255) * 2 - 1;
+
+        const diff = Math.max(0, nx * Lx + ny * Ly + nz * Lz);
+        let s = Math.max(0, nx * Hx + ny * Hy + nz * Hz);
+        s = Math.pow(s, shininess) * ks;
+
+        const light = ambient + diff * kd;
+
+        // Body picks up the graded sheen tint, modulated by the lit body colour.
+        const sr = sheenData[i] / 255;
+        const sg = sheenData[i + 1] / 255;
+        const sb = sheenData[i + 2] / 255;
+
+        data[i] = Math.min(255, base[0] * light * (0.55 + sr * 0.65) + spec[0] * s);
+        data[i + 1] = Math.min(255, base[1] * light * (0.55 + sg * 0.65) + spec[1] * s);
+        data[i + 2] = Math.min(255, base[2] * light * (0.55 + sb * 0.65) + spec[2] * s);
+        data[i + 3] = 255;
+    }
+
+    ctx.putImageData(src, 0, 0);
+    return canvas;
+}
+
+function getBakedFoil(theme) {
+    if (!foilNormalReady) {
+        return null;
+    }
+    if (!bakedFoil[theme]) {
+        bakedFoil[theme] = bakeFoil(theme);
+    }
+    return bakedFoil[theme];
+}
+
+/* ------------------------------------------------------------------ */
+/*  Scratch brush stamp                                                */
+/* ------------------------------------------------------------------ */
+
 let cachedBrush = null;
 
 function buildBrushTexture(stampW = 76, stampH = 34) {
@@ -27,21 +167,6 @@ function buildBrushTexture(stampW = 76, stampH = 34) {
         ctx.fill();
         ctx.restore();
     }
-
-    // Scratch dust / grain
-    const grain = ctx.getImageData(0, 0, stampW, stampH);
-    for (let i = 0; i < grain.data.length; i += 4) {
-        const alpha = grain.data[i + 3];
-        if (alpha === 0) {
-            continue;
-        }
-        const n = (Math.random() - 0.5) * 36;
-        grain.data[i] = Math.min(255, Math.max(0, grain.data[i] + n));
-        grain.data[i + 1] = Math.min(255, Math.max(0, grain.data[i + 1] + n));
-        grain.data[i + 2] = Math.min(255, Math.max(0, grain.data[i + 2] + n));
-        grain.data[i + 3] = Math.min(255, alpha + Math.random() * 40);
-    }
-    ctx.putImageData(grain, 0, 0);
 
     // Soft feathered edges so stamps blend
     ctx.globalCompositeOperation = 'destination-in';
@@ -82,7 +207,7 @@ export function paintTexturedBrush(ctx, x, y, angle = 0, scale = 1) {
 
     ctx.save();
     ctx.globalCompositeOperation = 'destination-out';
-    ctx.globalAlpha = 0.78 + Math.random() * 0.22;
+    ctx.globalAlpha = 0.82 + Math.random() * 0.18;
     ctx.translate(x, y);
     ctx.rotate(angle);
     ctx.drawImage(brush.texture, -w / 2, -h / 2, w, h);
@@ -96,7 +221,7 @@ export function paintScratchStroke(ctx, x1, y1, x2, y2, scale = 1) {
     const dy = y2 - y1;
     const dist = Math.hypot(dx, dy);
     const angle = Math.atan2(dy, dx);
-    const step = Math.max(2.5, 8 * scale);
+    const step = Math.max(2, 6 * scale);
     const steps = Math.max(1, Math.ceil(dist / step));
 
     for (let i = 0; i <= steps; i++) {
@@ -144,122 +269,93 @@ export function setupCanvasSize(canvas, container) {
     return { ctx, width: rect.width, height: rect.height };
 }
 
-function addCoatingGrain(ctx, width, height, intensity = 14) {
-    const tile = document.createElement('canvas');
-    tile.width = 64;
-    tile.height = 64;
-    const tctx = tile.getContext('2d');
-    const img = tctx.createImageData(64, 64);
+/* ------------------------------------------------------------------ */
+/*  Coating drawing                                                    */
+/* ------------------------------------------------------------------ */
 
-    for (let i = 0; i < img.data.length; i += 4) {
-        const v = 200 + Math.random() * 55;
-        img.data[i] = v;
-        img.data[i + 1] = v;
-        img.data[i + 2] = v;
-        img.data[i + 3] = intensity + Math.random() * intensity;
-    }
-    tctx.putImageData(img, 0, 0);
+/** Cover-draw the square foil tile into an arbitrary rect. */
+function drawFoilCover(ctx, foil, width, height) {
+    const scale = Math.max(width / foil.width, height / foil.height);
+    const w = foil.width * scale;
+    const h = foil.height * scale;
+    ctx.drawImage(foil, (width - w) / 2, (height - h) / 2, w, h);
+}
 
+/** Engraved hint text — dark cut + light edge so it reads as pressed into foil. */
+function engraveHint(ctx, text, cx, cy, theme) {
     ctx.save();
-    ctx.globalCompositeOperation = 'overlay';
-    const pattern = ctx.createPattern(tile, 'repeat');
-    ctx.fillStyle = pattern;
-    ctx.fillRect(0, 0, width, height);
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    if (theme === 'noir') {
+        ctx.font = '600 9px Cinzel, Georgia, serif';
+    } else {
+        ctx.font = 'italic 600 12px "Cormorant Garamond", serif';
+    }
+    ctx.fillStyle = 'rgba(60,40,12,0.32)';
+    ctx.fillText(text, cx, cy + 0.6);
+    ctx.fillStyle = 'rgba(255,248,228,0.30)';
+    ctx.fillText(text, cx, cy - 0.4);
     ctx.restore();
 }
 
-function clipCircle(ctx, width, height) {
-    const cx = width / 2;
-    const cy = height / 2;
-    const radius = Math.min(width, height) / 2 - 1;
-
-    ctx.beginPath();
-    ctx.arc(cx, cy, radius, 0, Math.PI * 2);
-    ctx.clip();
-
-    return { cx, cy, radius };
-}
-
-function clipRoundRect(ctx, width, height, radius = 4) {
-    const r = Math.min(radius, width / 2, height / 2);
-    ctx.beginPath();
-    ctx.moveTo(r, 0);
-    ctx.lineTo(width - r, 0);
-    ctx.quadraticCurveTo(width, 0, width, r);
-    ctx.lineTo(width, height - r);
-    ctx.quadraticCurveTo(width, height, width - r, height);
-    ctx.lineTo(r, height);
-    ctx.quadraticCurveTo(0, height, 0, height - r);
-    ctx.lineTo(0, r);
-    ctx.quadraticCurveTo(0, 0, r, 0);
-    ctx.closePath();
-    ctx.clip();
-}
-
-const OVERLAY_DRAWERS = {
-    velvet(ctx, width, height) {
-        const { cx, cy, radius } = clipCircle(ctx, width, height);
-        const gradient = ctx.createLinearGradient(0, 0, width, height);
-        gradient.addColorStop(0, '#ead9a8');
-        gradient.addColorStop(0.35, '#c9a962');
-        gradient.addColorStop(0.7, '#b8944f');
-        gradient.addColorStop(1, '#967832');
-        ctx.fillStyle = gradient;
-        ctx.fillRect(0, 0, width, height);
-
-        addCoatingGrain(ctx, width, height, 18);
-
-        ctx.fillStyle = 'rgba(255,255,255,0.18)';
-        ctx.font = 'italic 11px "Cormorant Garamond", serif';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText('swipe to reveal', cx, cy);
-    },
-
-    bloom(ctx, width, height) {
-        const { cx, cy, radius } = clipCircle(ctx, width, height);
-        const gradient = ctx.createLinearGradient(0, 0, width, height);
-        gradient.addColorStop(0, '#f8dde0');
-        gradient.addColorStop(0.45, '#e8b4b8');
-        gradient.addColorStop(1, '#b86872');
-        ctx.fillStyle = gradient;
-        ctx.fillRect(0, 0, width, height);
-
-        addCoatingGrain(ctx, width, height, 16);
-
-        ctx.fillStyle = 'rgba(255,255,255,0.22)';
-        ctx.font = 'italic 12px "Cormorant Garamond", serif';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText('swipe to reveal', cx, cy);
-    },
-
-    noir(ctx, width, height) {
-        clipRoundRect(ctx, width, height, 2);
-        const gradient = ctx.createLinearGradient(0, 0, width, height);
-        gradient.addColorStop(0, '#252530');
-        gradient.addColorStop(0.5, '#14141c');
-        gradient.addColorStop(1, '#0a0a10');
-        ctx.fillStyle = gradient;
-        ctx.fillRect(0, 0, width, height);
-
-        addCoatingGrain(ctx, width, height, 22);
-
-        ctx.strokeStyle = 'rgba(212, 175, 55, 0.35)';
-        ctx.lineWidth = 1;
-        ctx.strokeRect(1, 1, width - 2, height - 2);
-
-        ctx.fillStyle = 'rgba(212, 175, 55, 0.5)';
-        ctx.font = '600 9px Cinzel, Georgia, serif';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText('SWIPE', width / 2, height / 2);
-    },
+/** Gradient fallback used until the foil normal map finishes loading. */
+const FALLBACK_GRADIENT = {
+    velvet: ['#ead9a8', '#c9a962', '#967832'],
+    bloom: ['#f8dde0', '#e8b4b8', '#b86872'],
+    noir: ['#252530', '#14141c', '#0a0a10'],
 };
 
-export function drawScratchOverlay(ctx, width, height, theme) {
+function drawFallback(ctx, width, height, theme) {
+    const stops = FALLBACK_GRADIENT[theme] ?? FALLBACK_GRADIENT.velvet;
+    const g = ctx.createLinearGradient(0, 0, width, height);
+    g.addColorStop(0, stops[0]);
+    g.addColorStop(0.5, stops[1]);
+    g.addColorStop(1, stops[2]);
+    ctx.fillStyle = g;
+    ctx.fillRect(0, 0, width, height);
+}
+
+/**
+ * Draw the scratch coating. If the foil normal map isn't ready yet, paints a
+ * gradient placeholder and registers `onReady` so the caller can redraw once
+ * the real foil is baked.
+ */
+export function drawScratchOverlay(ctx, width, height, theme, onReady) {
+    loadFoilNormal();
+
     ctx.save();
-    const draw = OVERLAY_DRAWERS[theme] ?? OVERLAY_DRAWERS.velvet;
-    draw(ctx, width, height);
+    // No shape clipping: the card element already masks the coating to a
+    // circle/rounded-rect via border-radius + overflow:hidden. We MUST fill the
+    // full canvas so it starts 100% opaque — otherwise the clipped-out corners
+    // read as "already scratched" and the first touch instantly reveals.
+    const cx = width / 2;
+    const cy = height / 2;
+
+    const foil = getBakedFoil(theme);
+    if (foil) {
+        drawFoilCover(ctx, foil, width, height);
+
+        // Gentle radial centre glow so it looks softly spotlit.
+        const glow = ctx.createRadialGradient(cx, cy * 0.7, 0, cx, cy, Math.max(width, height) * 0.75);
+        glow.addColorStop(0, 'rgba(255,250,232,0.18)');
+        glow.addColorStop(0.6, 'rgba(255,250,232,0)');
+        glow.addColorStop(1, 'rgba(20,12,4,0.22)');
+        ctx.fillStyle = glow;
+        ctx.fillRect(0, 0, width, height);
+
+        if (theme === 'noir') {
+            ctx.strokeStyle = 'rgba(216,178,92,0.45)';
+            ctx.lineWidth = 1;
+            ctx.strokeRect(1, 1, width - 2, height - 2);
+        }
+
+        engraveHint(ctx, theme === 'noir' ? 'SWIPE' : 'swipe to reveal', cx, cy, theme);
+    } else {
+        drawFallback(ctx, width, height, theme);
+        if (onReady) {
+            readyListeners.add(onReady);
+        }
+    }
+
     ctx.restore();
 }

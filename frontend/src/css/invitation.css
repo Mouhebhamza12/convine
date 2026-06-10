@@ -2149,6 +2149,921 @@ html.invitation-active.invitation-locked body {
     }
 }
 
+/* ===================================================================
+   PREMIUM REALISM LAYER
+   Real CC0 textures (ambientCG), baked gold foil, refined titling font,
+   and cinematic depth (vignette + film grain).
+   =================================================================== */
+
+:root {
+    --tex-paper: url('/textures/paper-color.jpg');
+    --font-titling: 'Marcellus', 'Cormorant Garamond', Georgia, serif;
+}
+
+/* ── Real paper grain across the whole velvet invitation ── */
+.invitation-root.velvet-invitation::before {
+    background-image:
+        radial-gradient(ellipse at 22% 12%, rgba(107, 15, 26, 0.05) 0%, transparent 48%),
+        radial-gradient(ellipse at 80% 88%, rgba(201, 169, 98, 0.08) 0%, transparent 45%),
+        var(--tex-paper);
+    background-repeat: no-repeat, no-repeat, repeat;
+    background-size: cover, cover, 540px 540px;
+    mix-blend-mode: multiply;
+    opacity: 0.55;
+}
+
+/* ── Cinematic overlay: edge vignette + fine film grain ── */
+.cinematic-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 6;
+    pointer-events: none;
+    background: radial-gradient(ellipse at 50% 38%, transparent 52%, rgba(28, 14, 6, 0.26) 100%);
+}
+
+.cinematic-overlay::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+    background-size: 180px 180px;
+    opacity: 0.045;
+    mix-blend-mode: overlay;
+}
+
+/* ── Refined luxury titling font for structural text ── */
+.velvet-invitation .date-scene-title,
+.velvet-invitation .schedule-title,
+.velvet-invitation .countdown-title,
+.velvet-invitation .location-title,
+.velvet-invitation .photo-story-title,
+.velvet-invitation .calendar-title,
+.velvet-invitation .rsvp-title,
+.velvet-invitation .time-label,
+.velvet-invitation .scratch-date-label {
+    font-family: var(--font-titling);
+    letter-spacing: 0.16em;
+}
+
+/* ── Real paper card stock on the key cards ── */
+.velvet-invitation .letter-frame,
+.velvet-invitation .schedule-card,
+.velvet-invitation .calendar-card {
+    background-image: var(--tex-paper);
+    background-repeat: repeat;
+    background-size: 460px 460px;
+    background-blend-mode: multiply;
+    background-color: rgba(255, 253, 248, 0.94);
+}
+
+/* ── Revealed date face: cream card stock + engraved gold numerals ── */
+.scratch-date-card--circle {
+    background-image: var(--tex-paper);
+    background-size: cover;
+    background-position: center;
+    background-color: #fbf6ec;
+}
+
+.scratch-date-card.is-revealed::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    box-shadow:
+        inset 0 0 18px rgba(201, 169, 98, 0.35),
+        inset 0 0 0 1px rgba(201, 169, 98, 0.55);
+    pointer-events: none;
+    z-index: 1;
+}
+
+.scratch-date-value--velvet,
+.scratch-date-value--bloom {
+    background: linear-gradient(160deg, #9c7528 0%, #ecd28b 42%, #b8893a 68%, #87611f 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    filter: drop-shadow(0 1px 1px rgba(80, 55, 15, 0.25));
+}
+
+/* Graceful "pop" when a number is uncovered */
+@keyframes foil-pop {
+    0% {
+        transform: scale(0.84);
+        opacity: 0;
+    }
+    55% {
+        transform: scale(1.07);
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.scratch-date-value.is-glowing {
+    animation: foil-pop 0.9s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .scratch-date-value.is-glowing {
+        animation: none;
+    }
+}
+
+/* ===================================================================
+   VELVET HERO — floral cover matching the reference
+   marble + watercolor florals (responsive), gold arch, script names
+   =================================================================== */
+
+.velvet-invitation .names-scene.velvet-hero {
+    --hero-gold: #b1924f;
+    background: transparent !important;
+}
+
+/* ── Floral marble background behind the WHOLE velvet invitation ── */
+.invitation-root.velvet-invitation {
+    --hero-gold: #b1924f;
+    background: #ece3d1 url('../../assets/velvetbg.png') center top / cover no-repeat fixed !important;
+}
+
+@media (min-aspect-ratio: 1/1) {
+    .invitation-root.velvet-invitation {
+        background-image: url('../../assets/velvetbgwide.png') !important;
+    }
+}
+
+/* Drop the paper multiply overlay for velvet — the florals carry the texture */
+.invitation-root.velvet-invitation::before {
+    background: none;
+}
+
+/* ── Gold arch frame ── */
+.hero-arch {
+    position: relative;
+    width: min(82vw, 430px);
+    max-width: 92%;
+    padding: clamp(3rem, 8vw, 5rem) clamp(1.5rem, 5vw, 2.5rem) clamp(2rem, 6vw, 3.2rem);
+    border: 1.4px solid rgba(177, 146, 79, 0.55);
+    border-radius: 50% 50% 10px 10px / 26% 26% 10px 10px;
+    background: radial-gradient(ellipse at 50% 38%, rgba(255, 252, 245, 0.4) 0%, rgba(255, 252, 245, 0) 68%);
+    text-align: center;
+    opacity: 0;
+}
+
+.hero-arch::before {
+    content: '';
+    position: absolute;
+    inset: 7px;
+    border: 0.8px solid rgba(177, 146, 79, 0.38);
+    border-radius: inherit;
+    pointer-events: none;
+}
+
+.hero-arch-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.hero-arch-fleuron {
+    display: block;
+    opacity: 0;
+    margin-bottom: clamp(1rem, 4vw, 2rem);
+}
+
+/* ── Eyebrow ── */
+.hero-eyebrow {
+    font-family: var(--font-titling, 'Marcellus', serif);
+    font-size: clamp(0.62rem, 1.7vw, 0.82rem);
+    letter-spacing: 0.38em;
+    text-transform: uppercase;
+    color: #a98a48;
+    margin: 0 0 clamp(0.8rem, 2.5vw, 1.4rem);
+    opacity: 0;
+}
+
+/* ── Names ── */
+.hero-names {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.hero-name {
+    font-family: var(--font-display, 'Great Vibes', cursive);
+    font-size: clamp(3rem, 11vw, 5.4rem);
+    line-height: 0.98;
+    color: #322a1d;
+    opacity: 0;
+}
+
+.hero-amp {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: clamp(1.4rem, 4.2vw, 2.1rem);
+    color: var(--hero-gold);
+    margin: 0.15rem 0;
+    opacity: 0;
+}
+
+.hero-fleuron {
+    display: block;
+    margin: clamp(1rem, 3vw, 1.5rem) auto clamp(0.9rem, 3vw, 1.4rem);
+    opacity: 0;
+}
+
+/* ── Tagline ── */
+.hero-tagline {
+    font-family: var(--font-titling, 'Marcellus', serif);
+    font-size: clamp(0.62rem, 1.7vw, 0.8rem);
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    line-height: 1.95;
+    color: #8c7a50;
+    margin: 0;
+    opacity: 0;
+}
+
+.hero-heart {
+    display: block;
+    margin: clamp(0.8rem, 2.5vw, 1.3rem) auto 0;
+    opacity: 0;
+}
+
+/* ── Elegant scroll cue ── */
+.velvet-hero .scroll-cue {
+    position: absolute;
+    bottom: clamp(1.1rem, 3vh, 2.2rem);
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.55rem;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.scroll-cue__label {
+    font-family: var(--font-titling, 'Marcellus', serif);
+    font-size: 0.6rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: #9c8146;
+}
+
+.scroll-cue__line {
+    width: 1px;
+    height: 32px;
+    background: linear-gradient(180deg, rgba(177, 146, 79, 0.75), rgba(177, 146, 79, 0.05));
+    animation: scroll-cue-bob 2.2s ease-in-out infinite;
+}
+
+.scroll-cue__tip {
+    width: 5px;
+    height: 5px;
+    margin-top: -6px;
+    transform: rotate(45deg);
+    border-right: 1px solid rgba(177, 146, 79, 0.75);
+    border-bottom: 1px solid rgba(177, 146, 79, 0.75);
+    animation: scroll-cue-bob 2.2s ease-in-out infinite;
+}
+
+@keyframes scroll-cue-bob {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(5px);
+    }
+}
+
+.scroll-cue__tip {
+    /* keep the diamond rotation while bobbing */
+    animation-name: scroll-cue-bob-tip;
+}
+
+@keyframes scroll-cue-bob-tip {
+    0%, 100% {
+        transform: rotate(45deg) translate(0, 0);
+    }
+    50% {
+        transform: rotate(45deg) translate(3.5px, 3.5px);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .scroll-cue__line,
+    .scroll-cue__tip {
+        animation: none;
+    }
+}
+
+/* ===================================================================
+   STATIONERY CARD — gold-arch card framing each section on the florals
+   =================================================================== */
+
+.velvet-invitation .stationery-card {
+    --hero-gold: #b1924f;
+    position: relative;
+    width: min(86vw, 460px);
+    max-width: 92%;
+    margin: 0 auto;
+    padding: clamp(2.5rem, 7vw, 3.75rem) clamp(1.5rem, 5vw, 2.5rem) clamp(2rem, 6vw, 3rem);
+    border: 1.4px solid rgba(177, 146, 79, 0.55);
+    border-radius: 46% 46% 14px 14px / 16% 16% 14px 14px;
+    background: linear-gradient(180deg, rgba(255, 253, 247, 0.62) 0%, rgba(255, 251, 243, 0.4) 100%);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    box-shadow: 0 30px 80px rgba(80, 60, 30, 0.1);
+    text-align: center;
+}
+
+.velvet-invitation .stationery-card::before {
+    content: '';
+    position: absolute;
+    inset: 8px;
+    border: 0.8px solid rgba(177, 146, 79, 0.38);
+    border-radius: inherit;
+    pointer-events: none;
+}
+
+.sc-fleuron-top {
+    display: block;
+    margin: 0 auto clamp(1rem, 4vw, 1.8rem);
+}
+
+.sc-flourish-bottom {
+    display: block;
+    margin: clamp(1rem, 4vw, 1.8rem) auto 0;
+}
+
+.sc-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Shared eyebrow / hint typography inside cards */
+.velvet-invitation .sc-eyebrow {
+    font-family: var(--font-titling, 'Marcellus', serif);
+    font-size: clamp(0.7rem, 2vw, 0.9rem);
+    letter-spacing: 0.38em;
+    text-transform: uppercase;
+    color: #a98a48;
+    margin: 0 0 clamp(1.4rem, 5vw, 2.4rem);
+}
+
+.velvet-invitation .sc-hint {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: clamp(0.85rem, 2.4vw, 1.05rem);
+    color: #9a8a66;
+    margin: clamp(1.4rem, 5vw, 2.2rem) 0 0;
+    max-width: 22ch;
+}
+
+.date-scratch-scene {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.velvet-invitation .date-coins-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(1rem, 4.5vw, 1.85rem);
+    width: 100%;
+    max-width: 100%;
+}
+
+/* Calendar icon centered on each coin (replaces the day/month/year labels) */
+.scratch-date-icon {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    pointer-events: none;
+    z-index: 3;
+    color: rgba(255, 250, 236, 0.95);
+}
+
+.scratch-date-icon svg {
+    width: 36%;
+    height: 36%;
+    stroke-width: 1.4;
+    filter: drop-shadow(0 1px 2px rgba(90, 60, 15, 0.45));
+}
+
+/* Coins sized to sit comfortably inside the card (incl. the gold bezel) */
+.velvet-invitation .date-coins-row .scratch-date-card--day,
+.velvet-invitation .date-coins-row .scratch-date-card--year {
+    width: clamp(62px, 18vw, 88px);
+    height: clamp(62px, 18vw, 88px);
+}
+
+.velvet-invitation .date-coins-row .scratch-date-card--month {
+    width: clamp(76px, 22vw, 104px);
+    height: clamp(76px, 22vw, 104px);
+}
+
+.velvet-invitation .date-coins-row .scratch-date-item {
+    flex: 0 1 auto;
+    min-width: 0;
+}
+
+/* Polished gold bezel ring around each date coin */
+.velvet-invitation .scratch-date-card--velvet {
+    border: none;
+    box-shadow:
+        0 0 0 2px #d9bd77,
+        0 0 0 4px rgba(255, 252, 244, 0.65),
+        0 0 0 6px #b8964e,
+        0 12px 26px rgba(120, 90, 40, 0.28);
+}
+
+.velvet-invitation .scratch-date-card.is-revealed.scratch-date-card--velvet {
+    box-shadow:
+        0 0 0 2px #e6cd8c,
+        0 0 0 4px rgba(255, 252, 244, 0.7),
+        0 0 0 6px #c2a154,
+        0 12px 26px rgba(120, 90, 40, 0.3);
+}
+
+/* ===================================================================
+   VELVET CEREMONY TIME — raised plaque on the florals
+   =================================================================== */
+
+.velvet-invitation .time-fleuron {
+    display: block;
+    margin: 0 auto clamp(1.5rem, 5vw, 2.4rem);
+    opacity: 0;
+}
+
+.velvet-invitation .time-label {
+    font-family: var(--font-titling, 'Marcellus', serif);
+    font-size: clamp(0.7rem, 2vw, 0.9rem);
+    letter-spacing: 0.38em;
+    text-transform: uppercase;
+    color: #b0808f;
+    margin: 0 0 clamp(1.6rem, 5vw, 2.6rem);
+    opacity: 0;
+}
+
+.velvet-invitation .time-display {
+    padding: clamp(1.1rem, 3.2vw, 1.6rem) clamp(2.2rem, 7vw, 3.4rem) !important;
+    border-radius: 999px !important;
+    background: linear-gradient(180deg, #fffdf8 0%, #f5eddf 100%) !important;
+    border: 1px solid rgba(177, 146, 79, 0.55) !important;
+    box-shadow:
+        0 20px 44px rgba(110, 85, 40, 0.18),
+        inset 0 0 0 4px rgba(255, 255, 255, 0.55) !important;
+    gap: clamp(0.9rem, 2.8vw, 1.4rem);
+    opacity: 0;
+}
+
+.velvet-invitation .time-display.time-glow {
+    border-color: var(--hero-gold) !important;
+    box-shadow:
+        0 20px 44px rgba(110, 85, 40, 0.2),
+        inset 0 0 0 4px rgba(255, 255, 255, 0.6),
+        0 0 26px rgba(201, 169, 98, 0.22) !important;
+}
+
+.velvet-invitation .time-value {
+    font-family: var(--font-display, 'Great Vibes', cursive);
+    font-size: clamp(2.3rem, 9vw, 3.6rem);
+    line-height: 1;
+    color: #322a1d;
+    margin: 0;
+}
+
+.velvet-invitation .time-heart {
+    display: block;
+    margin: clamp(1.6rem, 5vw, 2.4rem) auto clamp(1rem, 3vw, 1.4rem);
+    opacity: 0;
+}
+
+.velvet-invitation .time-thanks {
+    font-family: var(--font-titling, 'Marcellus', serif);
+    font-size: clamp(0.62rem, 1.7vw, 0.8rem);
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    line-height: 1.95;
+    color: #8c7a50;
+    max-width: 26ch;
+    margin: 0;
+    opacity: 0;
+}
+
+.velvet-invitation .time-flourish {
+    display: block;
+    margin: clamp(1.6rem, 5vw, 2.4rem) auto 0;
+    opacity: 0;
+}
+
+/* ===================================================================
+   VELVET LETTER — message centered directly on the florals
+   =================================================================== */
+
+.velvet-invitation .letter-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: min(88vw, 460px);
+    max-width: 92%;
+    margin: 0 auto;
+}
+
+.letter-top-divider {
+    display: block;
+    margin: 0 auto clamp(1.6rem, 5vw, 2.4rem);
+    opacity: 0;
+}
+
+.velvet-invitation .letter-greeting {
+    font-family: var(--font-serif);
+    font-size: clamp(1.3rem, 4vw, 1.7rem);
+    color: #4a3c28;
+    margin: 0 0 clamp(1rem, 3vw, 1.5rem);
+    opacity: 0;
+}
+
+.velvet-invitation .letter-greeting strong {
+    font-weight: 600;
+    color: var(--hero-gold);
+}
+
+.letter-fleuron {
+    display: block;
+    margin: 0 auto clamp(1.6rem, 5vw, 2.4rem);
+    opacity: 0;
+}
+
+.velvet-invitation .letter-body {
+    font-family: var(--font-serif);
+    font-size: clamp(1.15rem, 3.4vw, 1.5rem);
+    line-height: 1.85;
+    color: #4a3e2c;
+    max-width: 24ch;
+    margin: 0 0 clamp(1.8rem, 6vw, 3rem);
+    opacity: 0;
+}
+
+.velvet-invitation .letter-names {
+    font-family: var(--font-display, 'Great Vibes', cursive);
+    font-size: clamp(2.8rem, 11vw, 4.4rem);
+    line-height: 1.05;
+    color: var(--hero-gold);
+    margin: 0;
+    opacity: 0;
+}
+
+.letter-names-heart {
+    display: block;
+    margin: clamp(0.8rem, 2.5vw, 1.2rem) auto clamp(0.6rem, 2vw, 1rem);
+    opacity: 0;
+}
+
+.velvet-invitation .letter-seal {
+    display: block;
+    margin: clamp(1.8rem, 5vw, 2.6rem) auto 0;
+    filter: drop-shadow(0 8px 16px rgba(120, 90, 40, 0.25));
+    opacity: 0;
+}
+
+/* ===================================================================
+   VELVET LOCATION — venue with watercolor building on the florals
+   =================================================================== */
+
+.velvet-invitation .location-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: min(90vw, 520px);
+    max-width: 94%;
+    margin: 0 auto;
+}
+
+.velvet-invitation .location-pin {
+    opacity: 0;
+    margin-bottom: clamp(0.8rem, 2.5vw, 1.2rem);
+}
+
+.velvet-invitation .location-title {
+    font-family: var(--font-titling, 'Marcellus', serif);
+    font-size: clamp(0.7rem, 2vw, 0.9rem);
+    letter-spacing: 0.38em;
+    text-transform: uppercase;
+    color: #a98a48;
+    margin: 0 0 clamp(0.8rem, 2.5vw, 1.2rem);
+    opacity: 0;
+}
+
+.location-fleuron {
+    display: block;
+    margin: 0 auto;
+}
+
+.velvet-invitation .location-venue {
+    font-family: var(--font-display, 'Great Vibes', cursive);
+    font-size: clamp(2.6rem, 9vw, 4.2rem);
+    line-height: 1.05;
+    color: #322a1d;
+    margin: clamp(0.6rem, 2vw, 1rem) 0 0;
+    opacity: 0;
+}
+
+/* Crop buildingsvg.png to the building (cutting its dark vignette halo),
+   then multiply the linework + light halo into the marble. */
+.velvet-invitation .location-building {
+    position: relative;
+    width: min(100%, 480px);
+    aspect-ratio: 1.12 / 1;
+    margin: clamp(-0.5rem, -1vw, -0.2rem) auto clamp(-0.2rem, -0.5vw, 0rem);
+    overflow: hidden;
+    mix-blend-mode: multiply;
+    -webkit-mask-image: radial-gradient(ellipse 94% 92% at 50% 50%, #000 70%, transparent 100%);
+    mask-image: radial-gradient(ellipse 94% 92% at 50% 50%, #000 70%, transparent 100%);
+    opacity: 0;
+}
+
+.velvet-invitation .location-building-img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 44%;
+}
+
+.velvet-invitation .location-address {
+    font-family: var(--font-titling, 'Marcellus', serif);
+    font-size: clamp(0.72rem, 2vw, 0.92rem);
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    line-height: 2;
+    color: #8c7a50;
+    margin: 0 0 clamp(0.6rem, 2vw, 1rem);
+    opacity: 0;
+}
+
+.velvet-invitation .location-map-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-top: clamp(0.8rem, 2.5vw, 1.2rem);
+    padding: clamp(0.7rem, 2vw, 0.95rem) clamp(1.6rem, 5vw, 2.4rem);
+    border: 1px solid rgba(177, 146, 79, 0.6);
+    border-radius: 2px;
+    background: rgba(255, 253, 247, 0.35);
+    font-family: var(--font-titling, 'Marcellus', serif);
+    font-size: clamp(0.68rem, 1.8vw, 0.82rem);
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: #8a6f3a;
+    text-decoration: none;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 0;
+}
+
+.velvet-invitation .location-map-btn:hover {
+    background: var(--hero-gold);
+    border-color: var(--hero-gold);
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px rgba(177, 146, 79, 0.3);
+}
+
+/* ===================================================================
+   VELVET SAVE-THE-DATE — ornate gold-framed calendar card
+   =================================================================== */
+
+.velvet-invitation .calendar-card {
+    position: relative;
+    width: min(86vw, 440px);
+    max-width: 92%;
+    margin: 0 auto;
+    padding: clamp(2.6rem, 7vw, 3.6rem) clamp(1.6rem, 5vw, 2.5rem) clamp(2rem, 5vw, 2.6rem);
+    border: 1.4px solid rgba(177, 146, 79, 0.55) !important;
+    border-radius: 38% 38% 14px 14px / 22% 22% 14px 14px;
+    background: linear-gradient(180deg, rgba(255, 253, 247, 0.72), rgba(255, 251, 243, 0.5)) !important;
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    box-shadow: 0 30px 80px rgba(80, 60, 30, 0.12) !important;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.velvet-invitation .calendar-card::before {
+    content: '';
+    position: absolute;
+    inset: 8px;
+    border: 0.8px solid rgba(177, 146, 79, 0.38);
+    border-radius: inherit;
+    pointer-events: none;
+}
+
+.cal-medallion {
+    display: block;
+    margin: 0 auto clamp(1.2rem, 4vw, 1.8rem);
+}
+
+.velvet-invitation .calendar-title {
+    font-family: var(--font-titling, 'Marcellus', serif);
+    font-size: clamp(1.6rem, 6vw, 2.4rem);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: #a47e32;
+    margin: 0;
+}
+
+.cal-fleuron {
+    display: block;
+    margin: clamp(0.9rem, 3vw, 1.3rem) auto;
+}
+
+.cal-fleuron--bottom {
+    margin: clamp(1rem, 3vw, 1.4rem) auto 0;
+}
+
+.velvet-invitation .calendar-subtitle {
+    font-family: var(--font-serif);
+    font-size: clamp(1rem, 2.8vw, 1.2rem);
+    line-height: 1.7;
+    color: #5a4e3a;
+    max-width: 26ch;
+    margin: 0;
+}
+
+.velvet-invitation .calendar-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+    width: 100%;
+    margin: clamp(1.4rem, 4vw, 2rem) 0 0;
+}
+
+.velvet-invitation .calendar-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.7rem;
+    width: 100%;
+    padding: clamp(0.85rem, 2.6vw, 1.1rem) 1.5rem;
+    border-radius: 4px;
+    font-family: var(--font-titling, 'Marcellus', serif);
+    font-size: clamp(0.66rem, 1.8vw, 0.82rem);
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.35s ease;
+}
+
+.velvet-invitation .calendar-btn--google {
+    background: #2e2417;
+    color: #f3e8d2;
+    border: 1px solid #2e2417;
+    box-shadow: 0 10px 24px rgba(46, 36, 23, 0.28);
+}
+
+.velvet-invitation .calendar-btn--google svg {
+    color: var(--hero-gold);
+}
+
+.velvet-invitation .calendar-btn--google:hover {
+    background: #3c3020;
+    transform: translateY(-2px);
+}
+
+.velvet-invitation .calendar-btn--ics {
+    background: transparent;
+    color: #8a6f3a;
+    border: 1px solid rgba(177, 146, 79, 0.6);
+}
+
+.velvet-invitation .calendar-btn--ics svg {
+    color: var(--hero-gold);
+}
+
+.velvet-invitation .calendar-btn--ics:hover {
+    background: rgba(177, 146, 79, 0.1);
+    transform: translateY(-2px);
+}
+
+/* ===================================================================
+   VELVET RSVP — "Kindly Respond" directly on the florals
+   =================================================================== */
+
+.velvet-invitation .rsvp-scene {
+    text-align: center;
+}
+
+.velvet-invitation .rsvp-envelope-icon {
+    display: flex;
+    justify-content: center;
+    margin: 0 auto clamp(1.4rem, 4vw, 2rem);
+}
+
+.velvet-invitation .rsvp-title {
+    font-family: var(--font-serif);
+    font-size: clamp(2.4rem, 9vw, 4rem);
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    line-height: 1.05;
+    margin: 0 0 clamp(0.8rem, 2.5vw, 1.2rem);
+    background: linear-gradient(95deg, #c2a35d 0%, #8a6a38 55%, #5f4523 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+}
+
+.velvet-invitation .rsvp-subtitle {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: clamp(1rem, 2.8vw, 1.2rem);
+    letter-spacing: 0.04em;
+    color: #9a8a66;
+    margin: 0 0 clamp(1.8rem, 5vw, 2.6rem);
+}
+
+.velvet-invitation .rsvp-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+    width: min(86vw, 420px);
+    max-width: 92%;
+    margin: 0 auto;
+}
+
+.velvet-invitation .rsvp-btn {
+    width: 100%;
+    padding: clamp(0.9rem, 2.8vw, 1.2rem) 1.5rem;
+    border-radius: 4px !important;
+    font-family: var(--font-titling, 'Marcellus', serif);
+    font-size: clamp(0.7rem, 1.9vw, 0.85rem);
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    transition: all 0.35s ease;
+}
+
+.velvet-invitation .rsvp-btn--primary {
+    background: #2e2417 !important;
+    color: #f3e8d2 !important;
+    border: 1px solid #2e2417 !important;
+    box-shadow: 0 12px 26px rgba(46, 36, 23, 0.28) !important;
+}
+
+.velvet-invitation .rsvp-btn--primary:hover:not(:disabled) {
+    background: #3c3020 !important;
+    transform: translateY(-2px);
+}
+
+.velvet-invitation .rsvp-btn:not(.rsvp-btn--primary) {
+    background: transparent;
+    color: #8a6f3a;
+    border: 1px solid rgba(177, 146, 79, 0.6);
+}
+
+.velvet-invitation .rsvp-btn:not(.rsvp-btn--primary):hover:not(:disabled) {
+    background: rgba(177, 146, 79, 0.1);
+    transform: translateY(-2px);
+}
+
+/* ── Gold scroll-progress indicator + smooth scrolling ── */
+.velvet-scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    z-index: 50;
+    background: rgba(177, 146, 79, 0.12);
+    pointer-events: none;
+}
+
+.velvet-scroll-progress__bar {
+    height: 100%;
+    width: 100%;
+    transform-origin: left center;
+    transform: scaleX(0);
+    background: linear-gradient(90deg, #e6cd8c, var(--hero-gold));
+    box-shadow: 0 0 8px rgba(177, 146, 79, 0.4);
+    transition: transform 0.12s linear;
+}
+
+html.invitation-active {
+    scroll-behavior: smooth;
+}
+
 /* ── Velvet schedule mobile alignment fix ── */
 @media (max-width: 480px) {
     .velvet-invitation .schedule-card {
