@@ -1,0 +1,500 @@
+/* ===================================================================
+   SAGE TEMPLATE — botanical sage & ivory elegance
+   Green cover (screen 1) + cream botanical details (screen 2)
+   =================================================================== */
+
+.sage-invitation {
+    --sage-green: #8c9a6c;
+    --sage-green-deep: #6f7d50;
+    --sage-cream: #f8f4ec;
+    --sage-ink: #7c7a64;
+    --sage-gold: #c3a468;
+    --sage-white: #fbf9f3;
+    --hero-gold: var(--sage-green-deep);
+    --gold: var(--sage-green);
+
+    background: var(--sage-cream);
+    color: var(--sage-ink);
+    font-family: 'Cormorant Garamond', Georgia, serif;
+}
+
+/* .invitation-root sets overflow-x:hidden, which makes overflow-y compute to
+   `auto` → it silently becomes a (non-scrolling) scroll container and steals
+   the snap. Use overflow-x:clip instead so it is NOT a scroll container and
+   the document (html) stays the real snap scroller. */
+.invitation-root.sage-invitation {
+    overflow-x: clip;
+    overflow-y: visible;
+}
+
+/* Full-screen sections snap one-at-a-time ("teleport" scroll) on the document
+   scroller, so GSAP ScrollTrigger (which watches the window) keeps firing. */
+html:has(.sage-invitation) {
+    scroll-snap-type: y mandatory;
+}
+
+/* ─────────────── COVER (green, screen 1) ─────────────── */
+.sage-cover {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    background: #8c9a6c;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    overflow: hidden;
+    text-align: center;
+    padding: 2rem 1.5rem;
+}
+
+.sage-cover__floral {
+    position: absolute;
+    width: min(58vw, 400px);
+    height: auto;
+    color: #61703e;
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.sage-cover__floral--tr { top: -2%; right: -2%; transform: rotate(4deg); }
+.sage-cover__floral--bl { bottom: -2%; left: -2%; transform: rotate(184deg); }
+
+.sage-cover__inner {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: min(92vw, 560px);
+}
+
+.sage-cover__doves {
+    width: clamp(92px, 22vw, 140px);
+    height: auto;
+    color: var(--sage-white);
+    margin-bottom: clamp(1.4rem, 5vw, 2.4rem);
+}
+
+.sage-cover__eyebrow {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+    font-size: clamp(1.15rem, 4.4vw, 1.85rem);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--sage-white);
+    margin: 0;
+}
+
+.sage-cover__names {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    position: relative;
+    margin: clamp(0.2rem, 1vw, 0.6rem) auto clamp(2.4rem, 8vw, 3.8rem);
+    width: fit-content;
+    max-width: 100%;
+}
+
+.sage-cover__name {
+    font-family: 'Dancing Script', cursive;
+    font-weight: 700;
+    font-size: clamp(4.2rem, 21vw, 8.5rem);
+    line-height: 0.92;
+    color: var(--sage-white);
+}
+
+.sage-cover__name--1 { align-self: flex-start; }
+.sage-cover__name--2 { align-self: flex-start; margin-top: -0.04em; margin-left: 0.4em; }
+
+.sage-cover__amp {
+    position: absolute;
+    right: -0.45em;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: 'Cormorant Garamond', serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: clamp(2.6rem, 9vw, 4.2rem);
+    color: #e8e3d2;
+    margin: 0;
+}
+
+.sage-cover__addressed {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(0.85rem, 2.6vw, 1.05rem);
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--sage-white);
+    margin: 0 0 0.85rem;
+}
+
+.sage-cover__guest {
+    width: min(74vw, 380px);
+    min-height: clamp(58px, 14vw, 82px);
+    background: #fff;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 1rem;
+    font-family: 'Dancing Script', cursive;
+    font-weight: 600;
+    font-size: clamp(1.5rem, 5.5vw, 2.2rem);
+    color: var(--sage-green-deep);
+    box-shadow: 0 10px 26px rgba(0, 0, 0, 0.09);
+}
+
+.sage-cover__apology {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(0.85rem, 2.4vw, 1.05rem);
+    color: rgba(251, 249, 243, 0.9);
+    margin: clamp(1rem, 3vw, 1.6rem) 0 0;
+}
+
+/* ─────────────── SHARED SCENE SHELL (cream) ─────────────── */
+.sage-scene {
+    position: relative;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: clamp(3rem, 9vh, 5.5rem) clamp(1.2rem, 5vw, 2.5rem);
+    text-align: center;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+}
+
+.sage-eyebrow {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(0.9rem, 2.8vw, 1.15rem);
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--sage-green-deep);
+    margin: 0;
+}
+
+.sage-section-rule {
+    display: block;
+    width: min(46%, 170px);
+    height: auto;
+    color: var(--sage-green);
+    margin: 0 auto;
+    opacity: 0.75;
+}
+
+.sage-eyebrow-rule {
+    display: block;
+    width: 150px;
+    color: var(--sage-green);
+    margin: 0.5rem auto 0;
+}
+
+/* ─────────────── DETAILS CARD (cream, screen 2) ─────────────── */
+.sage-details { padding: clamp(1.5rem, 5vw, 3rem); }
+
+.sage-frame {
+    position: relative;
+    width: min(92vw, 560px);
+    padding: clamp(2.8rem, 8vw, 4.4rem) clamp(1.8rem, 6vw, 3.2rem);
+    background: var(--sage-cream);
+    overflow: hidden;
+}
+
+.sage-frame__dotted {
+    position: absolute;
+    inset: clamp(14px, 3vw, 22px);
+    border: 1.5px dotted rgba(140, 154, 108, 0.55);
+    pointer-events: none;
+}
+
+.sage-filigree {
+    position: absolute;
+    width: clamp(56px, 14vw, 90px);
+    height: auto;
+    color: var(--sage-green);
+    z-index: 2;
+}
+
+.sage-filigree--tl { top: clamp(8px, 2vw, 14px); left: clamp(8px, 2vw, 14px); }
+.sage-filigree--br { bottom: clamp(8px, 2vw, 14px); right: clamp(8px, 2vw, 14px); transform: rotate(180deg); }
+
+.sage-detail-floral {
+    position: absolute;
+    width: min(42%, 210px);
+    height: auto;
+    color: var(--sage-gold);
+    opacity: 0.16;
+    pointer-events: none;
+}
+
+.sage-detail-floral--tr { top: -3%; right: -4%; transform: rotate(18deg); }
+.sage-detail-floral--bl { bottom: -3%; left: -4%; transform: rotate(198deg); }
+
+.sage-frame__inner {
+    position: relative;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.sage-detail__eyebrow {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.4rem, 4.6vw, 2.1rem);
+    letter-spacing: 0.05em;
+    color: var(--sage-green-deep);
+    margin: 0;
+}
+
+.sage-detail__sprig {
+    width: clamp(125px, 33vw, 205px);
+    height: auto;
+    color: var(--sage-gold);
+    margin: clamp(1rem, 3vw, 1.8rem) 0;
+}
+
+.sage-detail__names {
+    font-family: 'Dancing Script', cursive;
+    font-weight: 600;
+    font-size: clamp(2.6rem, 10vw, 4.4rem);
+    line-height: 1;
+    color: var(--sage-green);
+    margin: 0;
+}
+
+.sage-detail__date {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+    font-size: clamp(1.5rem, 5vw, 2.2rem);
+    letter-spacing: 0.12em;
+    color: var(--sage-green-deep);
+    margin: clamp(0.8rem, 2.5vw, 1.4rem) 0 0;
+}
+
+.sage-detail__meta {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1rem, 3vw, 1.25rem);
+    color: var(--sage-ink);
+    margin: 0.4rem 0 0;
+}
+
+/* ─────────────── LETTER ─────────────── */
+.sage-letter {
+    position: relative;
+    width: min(92vw, 460px);
+    padding: clamp(2.8rem, 7vw, 3.6rem) clamp(2rem, 6vw, 2.8rem);
+    background: #fff;
+    box-shadow: 0 20px 50px rgba(111, 125, 80, 0.1);
+}
+
+.sage-letter__greeting {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.2rem, 3.6vw, 1.5rem);
+    color: var(--sage-green-deep);
+    margin: 0 0 1rem;
+}
+
+.sage-letter__greeting strong { color: var(--sage-green); font-weight: 600; }
+
+.sage-letter__body {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.1rem, 3vw, 1.3rem);
+    line-height: 1.8;
+    color: var(--sage-ink);
+    margin: 0;
+}
+
+.sage-letter__rule { display: block; width: 150px; color: var(--sage-green); margin: 1.4rem auto; }
+
+.sage-letter__sign {
+    font-family: 'Dancing Script', cursive;
+    font-weight: 600;
+    font-size: clamp(2rem, 7vw, 3rem);
+    color: var(--sage-green);
+    margin: 0;
+}
+
+/* ─────────────── PHOTOS ─────────────── */
+.sage-photo-stage {
+    display: flex;
+    justify-content: center;
+    gap: clamp(0.6rem, 2vw, 1.2rem);
+    margin-top: clamp(1.5rem, 4vw, 2.4rem);
+    flex-wrap: wrap;
+}
+
+.sage-photo {
+    width: clamp(140px, 28vw, 200px);
+    aspect-ratio: 3 / 4;
+    background: #fff;
+    padding: 8px;
+    box-shadow: 0 14px 36px rgba(111, 125, 80, 0.14);
+}
+
+.sage-photo img,
+.sage-photo__fill { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+/* ─────────────── SHARED COMPONENTS (sage-styled) ─────────────── */
+.sage-invitation .invite-scene {
+    background: transparent !important;
+    min-height: 100svh;
+    padding-block: clamp(3rem, 9vh, 5rem);
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+}
+
+/* Wedding time */
+.sage-invitation .time-label {
+    font-family: 'Cormorant Garamond', serif;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--sage-green-deep);
+}
+
+.sage-invitation .time-display {
+    background: #fff !important;
+    border: 1px solid rgba(140, 154, 108, 0.4) !important;
+    border-radius: 999px !important;
+    box-shadow: 0 16px 36px rgba(111, 125, 80, 0.12) !important;
+}
+
+.sage-invitation .time-value {
+    font-family: 'Dancing Script', cursive !important;
+    font-weight: 600;
+    color: var(--sage-green) !important;
+    font-size: clamp(3rem, 12vw, 4.6rem) !important;
+}
+
+.sage-invitation .time-thanks {
+    font-family: 'Cormorant Garamond', serif;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--sage-ink);
+}
+
+/* Location */
+.sage-invitation .location-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: min(90vw, 500px);
+    margin: 0 auto;
+}
+
+.sage-invitation .location-title {
+    font-family: 'Cormorant Garamond', serif;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--sage-green-deep);
+}
+
+.sage-invitation .location-venue {
+    font-family: 'Dancing Script', cursive !important;
+    font-weight: 600;
+    color: var(--sage-green) !important;
+    font-size: clamp(2.6rem, 10vw, 4rem) !important;
+}
+
+.sage-invitation .location-building {
+    width: min(100%, 420px);
+    aspect-ratio: 1.1 / 1;
+    margin: clamp(-0.4rem, -1vw, 0rem) auto;
+    overflow: hidden;
+    mix-blend-mode: multiply;
+    -webkit-mask-image: radial-gradient(ellipse 92% 90% at 50% 50%, #000 70%, transparent 100%);
+    mask-image: radial-gradient(ellipse 92% 90% at 50% 50%, #000 70%, transparent 100%);
+}
+
+.sage-invitation .location-building-img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+.sage-invitation .location-address {
+    font-family: 'Cormorant Garamond', serif;
+    letter-spacing: 0.15em;
+    color: var(--sage-ink);
+}
+
+.sage-invitation .location-map-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    border: 1px solid rgba(140, 154, 108, 0.6);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--sage-green-deep);
+    font-family: 'Cormorant Garamond', serif;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 0.85rem 2.1rem;
+    text-decoration: none;
+    transition: all 0.35s ease;
+}
+
+.sage-invitation .location-map-btn:hover { background: var(--sage-green); color: #fff; transform: translateY(-2px); }
+
+/* Countdown */
+.sage-invitation .countdown-title,
+.sage-invitation .countdown-label { color: var(--sage-green-deep); }
+.sage-invitation .countdown-value,
+.sage-invitation .countdown-number { color: var(--sage-green); }
+
+/* RSVP */
+.sage-invitation .rsvp-scene { text-align: center; }
+
+.sage-invitation .rsvp-envelope-icon { display: flex; justify-content: center; margin: 0 auto clamp(1.2rem, 4vw, 1.8rem); }
+
+.sage-invitation .rsvp-title {
+    font-family: 'Dancing Script', cursive !important;
+    font-weight: 600;
+    background: none;
+    -webkit-text-fill-color: var(--sage-green);
+    color: var(--sage-green) !important;
+    font-size: clamp(3.4rem, 13vw, 5.4rem) !important;
+}
+
+.sage-invitation .rsvp-subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    color: var(--sage-green-deep);
+}
+
+.sage-invitation .rsvp-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+    width: min(86vw, 400px);
+    margin: 0 auto;
+}
+
+.sage-invitation .rsvp-btn {
+    width: 100%;
+    padding: 1rem 1.5rem;
+    border-radius: 999px !important;
+    font-family: 'Cormorant Garamond', serif;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-size: clamp(0.8rem, 2vw, 0.95rem);
+    transition: all 0.35s ease;
+}
+
+.sage-invitation .rsvp-btn--primary {
+    background: var(--sage-green) !important;
+    color: #fff !important;
+    border: none !important;
+    box-shadow: 0 12px 26px rgba(111, 125, 80, 0.28) !important;
+}
+
+.sage-invitation .rsvp-btn--primary:hover:not(:disabled) { transform: translateY(-2px); }
+
+.sage-invitation .rsvp-btn:not(.rsvp-btn--primary) {
+    background: transparent;
+    color: var(--sage-green-deep);
+    border: 1px solid rgba(140, 154, 108, 0.6);
+}
+
+.sage-invitation .rsvp-btn:not(.rsvp-btn--primary):hover:not(:disabled) { background: rgba(140, 154, 108, 0.12); }
+
+.sage-invitation .rsvp-confirmation-title { font-family: 'Dancing Script', cursive; color: var(--sage-green); }
+.sage-invitation .rsvp-confirmation-text { font-family: 'Cormorant Garamond', serif; color: var(--sage-ink); }
+.sage-invitation .rsvp-confirmation-icon { color: var(--sage-green); }

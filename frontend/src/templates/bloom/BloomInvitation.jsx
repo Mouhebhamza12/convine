@@ -6,8 +6,8 @@ import Location from '../../components/invitation/Location';
 import RSVP from '../../components/invitation/RSVP';
 import BloomOpening from './BloomOpening';
 import { BloomNames, BloomDate, BloomLetter, BloomPhotos } from './BloomScenes';
+import { LeafDivider } from './BloomBotanicals';
 import FallingPetals from '../../components/invitation/FallingPetals';
-import OrnamentalDivider from '../../components/invitation/OrnamentalDivider';
 import '../../css/invitation.css';
 import '../../css/bloom.css';
 
@@ -26,19 +26,19 @@ export default function BloomInvitation({ data, isDemo, onRsvp }) {
             {!opened && <BloomOpening onComplete={() => setOpened(true)} />}
             <main className={`invitation-story${opened ? ' is-visible' : ''}`}>
                 <BloomNames bride={bride} groom={groom} visible={opened} />
-                <OrnamentalDivider variant="floral" />
+                <LeafDivider className="bloom-section-divider" />
                 <BloomDate eventDate={wedding.event_date} />
-                <OrnamentalDivider variant="floral" />
+                <LeafDivider className="bloom-section-divider" />
                 <WeddingTime eventTime={wedding.event_time} />
-                <OrnamentalDivider variant="floral" />
+                <LeafDivider className="bloom-section-divider" />
                 <BloomLetter guestName={guest.name} bride={bride} groom={groom} message={wedding.message} />
-                <OrnamentalDivider variant="floral" />
+                <LeafDivider className="bloom-section-divider" />
                 <BloomPhotos photos={wedding.photos} />
-                <OrnamentalDivider variant="floral" />
+                <LeafDivider className="bloom-section-divider" />
                 <Countdown eventDate={wedding.event_date} eventTime={wedding.event_time} />
-                <OrnamentalDivider variant="floral" />
+                <LeafDivider className="bloom-section-divider" />
                 <Location venue={wedding.venue} venueAddress={wedding.venue_address} googleMapsUrl={wedding.google_maps_url} />
-                <OrnamentalDivider variant="floral" />
+                <LeafDivider className="bloom-section-divider" />
                 <RSVP guestName={guest.name} initialStatus={guest.rsvp_status} onSubmit={onRsvp} isDemo={isDemo} />
             </main>
         </div>

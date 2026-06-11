@@ -3,7 +3,8 @@ import { DEMO_INVITATION } from './invitationDemo';
 const DEMO_TOKENS = {
     demo: 'velvet',
     'demo-bloom': 'bloom',
-    'demo-noir': 'noir',
+    'demo-sage': 'sage',
+    'demo-azure': 'azure',
 };
 
 export function resolveInvitationToken(token) {
@@ -27,7 +28,7 @@ export function resolveInvitationToken(token) {
 const LEGACY_TEMPLATE_MAP = {
     classic: 'velvet',
     berry: 'bloom',
-    minimal: 'noir',
+    minimal: 'sage',
 };
 
 export function resolveTemplateSlug(templateSlugFromApi, demoSlug) {

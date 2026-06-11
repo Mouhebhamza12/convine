@@ -4,12 +4,12 @@ import WeddingTime from '../../components/invitation/WeddingTime';
 import Countdown from '../../components/invitation/Countdown';
 import Location from '../../components/invitation/Location';
 import RSVP from '../../components/invitation/RSVP';
-import NoirOpening from './NoirOpening';
-import { NoirNames, NoirDate, NoirLetter, NoirPhotos } from './NoirScenes';
+import SageOpening from './SageOpening';
+import { SageDetails, SageLetter, SagePhotos } from './SageScenes';
 import '../../css/invitation.css';
-import '../../css/noir.css';
+import '../../css/sage.css';
 
-export default function NoirInvitation({ data, isDemo, onRsvp }) {
+export default function SageInvitation({ data, isDemo, onRsvp }) {
     const [opened, setOpened] = useState(false);
     const { guest, wedding } = data;
 
@@ -19,14 +19,27 @@ export default function NoirInvitation({ data, isDemo, onRsvp }) {
     const groom = wedding.groom_name || 'Yacine';
 
     return (
-        <div className="invitation-root noir-invitation">
-            {!opened && <NoirOpening onComplete={() => setOpened(true)} />}
+        <div className="invitation-root sage-invitation">
+            {!opened && (
+                <SageOpening
+                    onComplete={() => setOpened(true)}
+                    bride={bride}
+                    groom={groom}
+                    guestName={guest.name}
+                />
+            )}
             <main className={`invitation-story${opened ? ' is-visible' : ''}`}>
-                <NoirNames bride={bride} groom={groom} visible={opened} />
-                <NoirDate eventDate={wedding.event_date} />
+                <SageDetails
+                    bride={bride}
+                    groom={groom}
+                    eventDate={wedding.event_date}
+                    eventTime={wedding.event_time}
+                    venue={wedding.venue}
+                    venueAddress={wedding.venue_address}
+                />
                 <WeddingTime eventTime={wedding.event_time} />
-                <NoirLetter guestName={guest.name} bride={bride} groom={groom} message={wedding.message} />
-                <NoirPhotos photos={wedding.photos} />
+                <SageLetter guestName={guest.name} bride={bride} groom={groom} message={wedding.message} />
+                <SagePhotos photos={wedding.photos} />
                 <Countdown eventDate={wedding.event_date} eventTime={wedding.event_time} />
                 <Location venue={wedding.venue} venueAddress={wedding.venue_address} googleMapsUrl={wedding.google_maps_url} />
                 <RSVP guestName={guest.name} initialStatus={guest.rsvp_status} onSubmit={onRsvp} isDemo={isDemo} />

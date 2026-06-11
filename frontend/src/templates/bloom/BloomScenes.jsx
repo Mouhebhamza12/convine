@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import DateScratchReveal from '../../components/shared/DateScratchReveal';
+import { OvalWreath, LeafDivider, LeafSprig, BudSeal } from './BloomBotanicals';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -30,9 +31,9 @@ export function BloomNames({ bride, groom, visible }) {
 
         // Names fade up
         gsap.fromTo(
-            refs.current, 
-            { opacity: 0, y: 36 }, 
-            { opacity: 1, y: 0, duration: 1.4, stagger: 0.2, ease: 'power3.out' }
+            refs.current.filter(Boolean),
+            { opacity: 0, y: 36 },
+            { opacity: 1, y: 0, duration: 1.4, stagger: 0.18, ease: 'power3.out' }
         );
 
         // Subtle frame zoom
@@ -59,19 +60,18 @@ export function BloomNames({ bride, groom, visible }) {
     }, [visible]);
 
     return (
-        <section ref={sectionRef} className="bloom-scene">
+        <section ref={sectionRef} className="bloom-scene bloom-hero">
             <div ref={frameRef} className="bloom-names-frame">
-                <CornerVineFlourish className="bloom-vine-flourish--tl" />
-                <CornerVineFlourish className="bloom-vine-flourish--tr" />
-                <CornerVineFlourish className="bloom-vine-flourish--bl" />
-                <CornerVineFlourish className="bloom-vine-flourish--br" />
-
-                <p ref={(el) => { refs.current[0] = el; }} className="bloom-eyebrow">Together with their families</p>
-                <h1 ref={(el) => { refs.current[1] = el; }} className="bloom-name">{bride}</h1>
-                <p ref={(el) => { refs.current[2] = el; }} className="bloom-amp">&amp;</p>
-                <h1 ref={(el) => { refs.current[3] = el; }} className="bloom-name">{groom}</h1>
-                <div ref={(el) => { refs.current[4] = el; }} className="bloom-divider" />
+                <OvalWreath className="bloom-wreath" />
+                <div className="bloom-names-inner">
+                    <p ref={(el) => { refs.current[0] = el; }} className="bloom-eyebrow">The wedding of</p>
+                    <h1 ref={(el) => { refs.current[1] = el; }} className="bloom-name">{bride}</h1>
+                    <p ref={(el) => { refs.current[2] = el; }} className="bloom-amp">&amp;</p>
+                    <h1 ref={(el) => { refs.current[3] = el; }} className="bloom-name">{groom}</h1>
+                </div>
             </div>
+
+            <LeafDivider className="bloom-hero-divider" />
 
             <div className="bloom-scroll-hint">
                 <span className="bloom-scroll-hint-label">Scroll to reveal</span>
@@ -141,29 +141,15 @@ export function BloomLetter({ guestName, bride, groom, message }) {
     return (
         <section className="bloom-scene">
             <div ref={cardRef} className="bloom-letter bloom-letter-deckled">
-                {/* SVG Botanical Vines Background Details */}
-                <svg className="bloom-letter__floral bloom-letter__floral--tl" viewBox="0 0 64 64" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="0.8">
-                    <path d="M4 12 Q20 8 36 28 M12 6 C20 12, 18 20, 10 24 M28 20 C32 12, 40 18, 32 24" opacity="0.35" />
-                    <circle cx="36" cy="28" r="1.5" fill="currentColor" opacity="0.4" />
-                    <circle cx="10" cy="24" r="1.2" fill="currentColor" opacity="0.4" />
-                </svg>
-                <svg className="bloom-letter__floral bloom-letter__floral--br" viewBox="0 0 64 64" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="0.8">
-                    <path d="M60 52 Q44 56 28 36 M52 58 C44 52, 46 44, 54 40 M36 44 C32 52, 24 46, 32 40" opacity="0.35" />
-                    <circle cx="28" cy="36" r="1.5" fill="currentColor" opacity="0.4" />
-                    <circle cx="54" cy="40" r="1.2" fill="currentColor" opacity="0.4" />
-                </svg>
+                <LeafSprig className="bloom-letter-sprig bloom-letter-sprig--tl" />
+                <LeafSprig className="bloom-letter-sprig bloom-letter-sprig--br" />
 
                 <p className="bloom-letter__greeting bloom-letter-item">Dear <strong>{guestName}</strong>,</p>
                 <p className="bloom-letter__body bloom-letter-item">{message || defaultMsg}</p>
                 <p className="bloom-letter__sign bloom-letter-item">{bride} &amp; {groom}</p>
 
-                {/* Stamped Botanical Wax Seal */}
-                <div className="bloom-wax-seal bloom-letter-item">
-                    <svg viewBox="0 0 100 100" className="bloom-wax-seal-svg" width="48" height="48" fill="none" stroke="currentColor">
-                        <path d="M 50 10 C 27.9 10 10 27.9 10 50 C 10 72.1 27.9 90 50 90 C 72.1 90 90 72.1 90 50 C 90 27.9 72.1 10 50 10 Z" fill="currentColor" opacity="0.85" strokeWidth="0" />
-                        <path d="M 50 15 C 30.7 15 15 30.7 15 50 C 15 69.3 30.7 85 50 85 C 69.3 85 85 69.3 85 50 C 85 30.7 69.3 15 50 15 Z" fill="none" stroke="rgba(255,255,255,0.25)" strokeWidth="1" />
-                        <path d="M 40 65 Q 50 45 42 32 M 52 50 C 58 45, 62 48, 56 55 C 50 62, 46 64, 52 50 Z M 36 45 C 30 40, 34 32, 42 38 C 50 44, 46 50, 36 45 Z" fill="rgba(255,255,255,0.7)" stroke="rgba(255,255,255,0.7)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
+                <div className="bloom-letter-item bloom-letter-seal-wrap">
+                    <BudSeal className="bloom-letter-seal" />
                 </div>
             </div>
         </section>

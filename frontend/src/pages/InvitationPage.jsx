@@ -4,12 +4,14 @@ import { api } from '../lib/api';
 import { resolveInvitationToken, resolveTemplateSlug } from '../lib/resolveInvitation';
 import VelvetInvitation from '../templates/velvet/VelvetInvitation';
 import BloomInvitation from '../templates/bloom/BloomInvitation';
-import NoirInvitation from '../templates/noir/NoirInvitation';
+import SageInvitation from '../templates/sage/SageInvitation';
+import AzureInvitation from '../templates/azure/AzureInvitation';
 
 const TEMPLATE_VIEWS = {
     velvet: VelvetInvitation,
     bloom: BloomInvitation,
-    noir: NoirInvitation,
+    sage: SageInvitation,
+    azure: AzureInvitation,
 };
 
 export default function InvitationPage() {

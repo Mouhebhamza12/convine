@@ -18,16 +18,26 @@ export const BLOOM_TEMPLATE = {
     features: ['Petal bloom opening', 'Scratch date reveal', 'Deckled letter', 'RSVP'],
 };
 
-export const NOIR_TEMPLATE = {
-    slug: 'noir',
-    name: 'Noir',
-    tagline: 'Art deco midnight & gold foil',
-    demoPath: '/invite/demo-noir',
-    preview: 'noir',
+export const SAGE_TEMPLATE = {
+    slug: 'sage',
+    name: 'Sage',
+    tagline: 'Botanical sage & ivory elegance',
+    demoPath: '/invite/demo-sage',
+    preview: 'sage',
     couple: { bride: 'Amina', groom: 'Yacine' },
-    features: ['Gold line reveal', 'Scratch date panels', 'Foil letter', 'RSVP'],
+    features: ['Sage green cover', 'Botanical line art', 'Guest letter', 'RSVP'],
 };
 
-export const WEDDING_TEMPLATES = [VELVET_TEMPLATE, BLOOM_TEMPLATE, NOIR_TEMPLATE];
+export const AZURE_TEMPLATE = {
+    slug: 'azure',
+    name: 'Azure',
+    tagline: 'Blue & cream illustrated charm',
+    demoPath: '/invite/demo-azure',
+    preview: 'azure',
+    couple: { bride: 'Amina', groom: 'Yacine' },
+    features: ['Illustrated couple', 'Hand-drawn accents', 'Guest letter', 'RSVP'],
+};
+
+export const WEDDING_TEMPLATES = [VELVET_TEMPLATE, BLOOM_TEMPLATE, SAGE_TEMPLATE, AZURE_TEMPLATE];
 
 export const TEMPLATE_BY_SLUG = Object.fromEntries(WEDDING_TEMPLATES.map((t) => [t.slug, t]));

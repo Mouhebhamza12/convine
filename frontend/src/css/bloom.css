@@ -1,15 +1,20 @@
 .bloom-invitation {
-    --bloom-bg: #fdf8f6;
+    --bloom-bg: #fbf6f2;
     --bloom-blush: #e8b4b8;
     --bloom-rose: #c47b84;
     --bloom-sage: #8fa98f;
+    --bloom-sage-deep: #6f8a6f;
     --bloom-gold: #c9a87c;
-    --bloom-ink: #4a3a3a;
+    --bloom-ink: #5a4a44;
     --bloom-cream: #fffaf7;
+
+    --font-bloom-script: 'Tangerine', cursive;
+    --font-bloom-sans: 'Jost', sans-serif;
+    --font-bloom-body: 'EB Garamond', Georgia, serif;
 
     background: var(--bloom-bg);
     color: var(--bloom-ink);
-    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-family: var(--font-bloom-body);
 }
 
 /* Opening */
@@ -532,3 +537,475 @@
 .bloom-photo-polaroid:hover .bloom-photo-img {
     transform: scale(1.08);
 }
+
+/* ===================================================================
+   BLOOM PREMIUM LAYER — real florals + textures, blush aesthetic
+   (mirrors the velvet upgrade but soft/rounded, not identical)
+   =================================================================== */
+
+.invitation-root.bloom-invitation {
+    --hero-gold: #c08a72; /* soft rose-gold for shared ornaments */
+    /* Opaque blush base (no fixed → always paints, no transparency) */
+    background:
+        radial-gradient(ellipse at 50% 14%, #fdf3f1 0%, #f7dde0 55%, #f3d2d7 100%),
+        url('/textures/paper-color.jpg') center / 560px 560px !important;
+    background-blend-mode: multiply !important;
+    background-color: #f7dde0 !important;
+}
+
+/* Tighten sections so content isn't floating in huge empty voids */
+.bloom-invitation .bloom-scene,
+.bloom-invitation .invite-scene {
+    min-height: auto;
+    padding-block: clamp(3.5rem, 9vh, 6rem);
+}
+
+/* Keep the opening hero tall enough for the scroll cue */
+.bloom-invitation .invitation-story > .bloom-scene:first-child {
+    min-height: 88svh;
+    justify-content: center;
+}
+
+/* ── Shared WeddingTime, bloom-styled ── */
+.bloom-invitation .time-fleuron {
+    display: block;
+    margin: 0 auto clamp(1.5rem, 5vw, 2.4rem);
+    opacity: 0;
+}
+
+.bloom-invitation .time-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(0.7rem, 2vw, 0.9rem);
+    letter-spacing: 0.38em;
+    text-transform: uppercase;
+    color: var(--bloom-rose);
+    margin: 0 0 clamp(1.6rem, 5vw, 2.6rem);
+    opacity: 0;
+}
+
+.bloom-invitation .time-display {
+    padding: clamp(1.1rem, 3.2vw, 1.6rem) clamp(2.2rem, 7vw, 3.4rem) !important;
+    border-radius: 999px !important;
+    background: linear-gradient(180deg, #fffaf8 0%, #f8e7e9 100%) !important;
+    border: 1px solid rgba(196, 123, 132, 0.45) !important;
+    box-shadow: 0 20px 44px rgba(196, 123, 132, 0.2) !important;
+    gap: clamp(0.9rem, 2.8vw, 1.4rem);
+    opacity: 0;
+}
+
+.bloom-invitation .time-value {
+    font-family: 'Pinyon Script', cursive;
+    font-size: clamp(2.8rem, 11vw, 4.2rem);
+    line-height: 1;
+    color: var(--bloom-rose);
+    margin: 0;
+}
+
+.bloom-invitation .time-heart {
+    display: block;
+    margin: clamp(1.6rem, 5vw, 2.4rem) auto clamp(1rem, 3vw, 1.4rem);
+    opacity: 0;
+}
+
+.bloom-invitation .time-thanks {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(0.62rem, 1.7vw, 0.8rem);
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    line-height: 1.95;
+    color: #a87680;
+    max-width: 26ch;
+    margin: 0;
+    opacity: 0;
+}
+
+.bloom-invitation .time-flourish {
+    display: block;
+    margin: clamp(1.6rem, 5vw, 2.4rem) auto 0;
+    opacity: 0;
+}
+
+/* ── Shared Location, bloom-styled ── */
+.bloom-invitation .location-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: min(90vw, 520px);
+    max-width: 94%;
+    margin: 0 auto;
+}
+
+.bloom-invitation .location-pin {
+    opacity: 0;
+    margin-bottom: clamp(0.8rem, 2.5vw, 1.2rem);
+}
+
+.bloom-invitation .location-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(0.7rem, 2vw, 0.9rem);
+    letter-spacing: 0.38em;
+    text-transform: uppercase;
+    color: var(--bloom-rose);
+    margin: 0 0 clamp(0.8rem, 2.5vw, 1.2rem);
+    opacity: 0;
+}
+
+.bloom-invitation .location-fleuron {
+    display: block;
+    margin: 0 auto;
+}
+
+.bloom-invitation .location-venue {
+    font-family: 'Pinyon Script', cursive;
+    font-size: clamp(2.8rem, 10vw, 4.4rem);
+    line-height: 1.05;
+    color: var(--bloom-ink);
+    margin: clamp(0.4rem, 1.5vw, 0.8rem) 0 0;
+    opacity: 0;
+}
+
+.bloom-invitation .location-building {
+    position: relative;
+    width: min(100%, 470px);
+    aspect-ratio: 1.12 / 1;
+    margin: clamp(-0.5rem, -1vw, -0.2rem) auto clamp(-0.2rem, -0.5vw, 0rem);
+    overflow: hidden;
+    mix-blend-mode: multiply;
+    -webkit-mask-image: radial-gradient(ellipse 94% 92% at 50% 50%, #000 70%, transparent 100%);
+    mask-image: radial-gradient(ellipse 94% 92% at 50% 50%, #000 70%, transparent 100%);
+    opacity: 0;
+}
+
+.bloom-invitation .location-building-img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 44%;
+}
+
+.bloom-invitation .location-address {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(0.72rem, 2vw, 0.92rem);
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    line-height: 2;
+    color: #a87680;
+    margin: 0 0 clamp(0.6rem, 2vw, 1rem);
+    opacity: 0;
+}
+
+.bloom-invitation .location-map-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-top: clamp(0.8rem, 2.5vw, 1.2rem);
+    padding: clamp(0.7rem, 2vw, 0.95rem) clamp(1.6rem, 5vw, 2.4rem);
+    border: 1px solid rgba(196, 123, 132, 0.55);
+    border-radius: 999px;
+    background: rgba(255, 250, 248, 0.4);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(0.68rem, 1.8vw, 0.82rem);
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--bloom-rose);
+    text-decoration: none;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 0;
+}
+
+.bloom-invitation .location-map-btn:hover {
+    background: linear-gradient(135deg, var(--bloom-blush), var(--bloom-rose));
+    border-color: var(--bloom-rose);
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px rgba(196, 123, 132, 0.3);
+}
+
+/* ── Shared RSVP, bloom-styled (soft pill buttons) ── */
+.bloom-invitation .rsvp-scene {
+    text-align: center;
+}
+
+.bloom-invitation .rsvp-envelope-icon {
+    display: flex;
+    justify-content: center;
+    margin: 0 auto clamp(1.4rem, 4vw, 2rem);
+}
+
+.bloom-invitation .rsvp-title {
+    font-family: 'Pinyon Script', cursive;
+    font-size: clamp(3rem, 12vw, 4.8rem);
+    line-height: 1.05;
+    color: var(--bloom-rose);
+    margin: 0 0 clamp(0.6rem, 2vw, 1rem);
+}
+
+.bloom-invitation .rsvp-subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(1rem, 2.8vw, 1.2rem);
+    letter-spacing: 0.04em;
+    color: #a87680;
+    margin: 0 0 clamp(1.8rem, 5vw, 2.6rem);
+}
+
+.bloom-invitation .rsvp-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+    width: min(86vw, 420px);
+    max-width: 92%;
+    margin: 0 auto;
+}
+
+.bloom-invitation .rsvp-btn {
+    width: 100%;
+    padding: clamp(0.9rem, 2.8vw, 1.2rem) 1.5rem;
+    border-radius: 999px !important;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(0.74rem, 2vw, 0.9rem);
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    transition: all 0.35s ease;
+}
+
+.bloom-invitation .rsvp-btn--primary {
+    background: linear-gradient(135deg, var(--bloom-blush), var(--bloom-rose)) !important;
+    color: #fff !important;
+    border: none !important;
+    box-shadow: 0 12px 26px rgba(196, 123, 132, 0.32) !important;
+}
+
+.bloom-invitation .rsvp-btn--primary:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 16px 32px rgba(196, 123, 132, 0.4) !important;
+}
+
+.bloom-invitation .rsvp-btn:not(.rsvp-btn--primary) {
+    background: rgba(255, 250, 248, 0.5);
+    color: var(--bloom-rose);
+    border: 1px solid rgba(196, 123, 132, 0.5);
+}
+
+.bloom-invitation .rsvp-btn:not(.rsvp-btn--primary):hover:not(:disabled) {
+    background: rgba(232, 180, 184, 0.18);
+    transform: translateY(-2px);
+}
+
+/* Gold scroll-progress already defined globally; tint for bloom */
+.bloom-invitation ~ .velvet-scroll-progress__bar {
+    background: linear-gradient(90deg, var(--bloom-blush), var(--bloom-rose));
+}
+
+/* ===================================================================
+   BLOOM IDENTITY — garden romance (Tangerine + Jost + EB Garamond,
+   sage & dusty-rose, botanical ornaments). Deliberately unlike velvet.
+   =================================================================== */
+
+.invitation-root.bloom-invitation {
+    --hero-gold: var(--bloom-sage-deep); /* shared ornaments become sage */
+}
+
+/* ── Hero: names inside the oval wreath ── */
+.bloom-names-frame {
+    position: relative !important;
+    background: transparent !important;
+    border: none !important;
+    padding: clamp(2.5rem, 8vw, 4.5rem) clamp(2rem, 8vw, 3.5rem) !important;
+    display: grid;
+    place-items: center;
+}
+
+.bloom-wreath {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: min(94vw, 380px);
+    height: auto;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.bloom-names-inner {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.bloom-eyebrow {
+    font-family: var(--font-bloom-sans);
+    font-weight: 400;
+    font-size: clamp(0.6rem, 1.7vw, 0.76rem);
+    letter-spacing: 0.42em;
+    text-transform: uppercase;
+    color: var(--bloom-sage-deep);
+    margin: 0 0 clamp(0.4rem, 1.5vw, 0.8rem);
+}
+
+.bloom-name {
+    font-family: var(--font-bloom-script);
+    font-weight: 700;
+    font-size: clamp(4.5rem, 20vw, 9rem);
+    line-height: 0.78;
+    color: var(--bloom-ink);
+    margin: 0;
+}
+
+.bloom-amp {
+    font-family: var(--font-bloom-body);
+    font-style: italic;
+    font-size: clamp(1.3rem, 4vw, 1.9rem);
+    color: var(--bloom-rose);
+    letter-spacing: 0;
+    margin: 0.1rem 0;
+}
+
+.bloom-hero-divider {
+    display: block;
+    width: min(72%, 240px);
+    height: auto;
+    margin: clamp(1.4rem, 4vw, 2.2rem) auto 0;
+}
+
+.bloom-section-divider {
+    display: block;
+    width: min(58%, 200px);
+    height: auto;
+    margin: 0 auto;
+    opacity: 0.92;
+}
+
+/* ── Date: bloom eyebrow font ── */
+.bloom-invitation .bloom-eyebrow,
+.bloom-invitation .scratch-date-hint--bloom {
+    font-family: var(--font-bloom-sans);
+}
+
+/* ── Letter: deckle paper + botanical sprigs ── */
+.bloom-letter {
+    position: relative;
+    width: min(100%, 400px);
+    padding: clamp(3rem, 8vw, 4rem) clamp(2rem, 6vw, 2.6rem) clamp(2.5rem, 7vw, 3.2rem) !important;
+    background: var(--bloom-cream) !important;
+    border-radius: 4px;
+    box-shadow: 0 24px 60px rgba(143, 169, 143, 0.18) !important;
+}
+
+.bloom-letter::before {
+    border-color: rgba(143, 169, 143, 0.4) !important;
+}
+
+.bloom-letter-sprig {
+    position: absolute;
+    width: clamp(42px, 13vw, 62px);
+    height: auto;
+    z-index: 1;
+}
+
+.bloom-letter-sprig--tl {
+    top: -16px;
+    left: 8px;
+    transform: rotate(-22deg);
+}
+
+.bloom-letter-sprig--br {
+    bottom: -16px;
+    right: 8px;
+    transform: rotate(158deg);
+}
+
+.bloom-letter__greeting {
+    font-family: var(--font-bloom-body);
+    font-size: clamp(1.15rem, 3.4vw, 1.45rem);
+    color: var(--bloom-ink);
+    margin-bottom: 1.2rem;
+}
+
+.bloom-letter__greeting strong {
+    color: var(--bloom-rose);
+    font-weight: 600;
+}
+
+.bloom-letter__body {
+    font-family: var(--font-bloom-body);
+    font-size: clamp(1.05rem, 3vw, 1.3rem);
+    line-height: 1.85;
+    color: #6a5a52;
+}
+
+.bloom-letter__sign {
+    font-family: var(--font-bloom-script);
+    font-weight: 700;
+    font-size: clamp(2.6rem, 10vw, 3.8rem);
+    line-height: 0.85;
+    color: var(--bloom-rose);
+    margin-top: 1.2rem;
+}
+
+.bloom-letter-seal-wrap {
+    margin-top: clamp(1.6rem, 4vw, 2.2rem);
+}
+
+.bloom-letter-seal {
+    display: block;
+    margin: 0 auto;
+    filter: drop-shadow(0 8px 16px rgba(111, 138, 111, 0.28));
+}
+
+/* ── Shared components: bloom typography ── */
+.bloom-invitation .time-value,
+.bloom-invitation .location-venue,
+.bloom-invitation .rsvp-title {
+    font-family: var(--font-bloom-script) !important;
+    font-weight: 700;
+}
+
+.bloom-invitation .time-value {
+    font-size: clamp(3.6rem, 14vw, 5.4rem) !important;
+}
+
+.bloom-invitation .location-venue {
+    font-size: clamp(3.4rem, 12vw, 5rem) !important;
+}
+
+.bloom-invitation .rsvp-title {
+    font-size: clamp(4rem, 16vw, 6rem) !important;
+    /* solid rose, not velvet's gradient */
+    background: none;
+    -webkit-text-fill-color: var(--bloom-rose);
+    color: var(--bloom-rose);
+}
+
+.bloom-invitation .time-label,
+.bloom-invitation .location-title {
+    font-family: var(--font-bloom-sans) !important;
+    font-weight: 400;
+    letter-spacing: 0.42em;
+    color: var(--bloom-sage-deep);
+}
+
+.bloom-invitation .time-thanks,
+.bloom-invitation .location-address {
+    font-family: var(--font-bloom-sans) !important;
+    font-weight: 300;
+    letter-spacing: 0.28em;
+    color: #8a9a8a;
+}
+
+.bloom-invitation .rsvp-subtitle {
+    font-family: var(--font-bloom-body) !important;
+    color: var(--bloom-sage-deep);
+}
+
+.bloom-invitation .rsvp-btn,
+.bloom-invitation .location-map-btn {
+    font-family: var(--font-bloom-sans) !important;
+    font-weight: 400;
+    letter-spacing: 0.24em;
+}
+

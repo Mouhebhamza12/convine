@@ -108,7 +108,8 @@ export default function CreateCustomerPage() {
                         >
                             <option value="velvet">Velvet — Red drape cinematic</option>
                             <option value="bloom">Bloom — Blush botanical</option>
-                            <option value="noir">Noir — Art deco midnight gold</option>
+                            <option value="sage">Sage — Botanical sage &amp; ivory</option>
+                            <option value="azure">Azure — Blue &amp; cream illustrated</option>
                         </select>
                     </label>
 

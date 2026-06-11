@@ -3,18 +3,24 @@ import { Heart, Pen, Mail, ArrowRight, Sparkles, Flower2, FileText, ShieldCheck 
 import { WEDDING_TEMPLATES } from '../lib/templates';
 import redBg from '../../assets/red.png';
 import pinkBg from '../../assets/pink.png';
-import blackBg from '../../assets/black.png';
 
 const BG_MAP = {
     velvet: redBg,
     bloom: pinkBg,
-    noir: blackBg,
 };
 
 const ACCENT_MAP = {
     velvet: { primary: '#6b0f1a', hover: '#8b1a2b', text: '#fff' },
     bloom: { primary: '#c47b84', hover: '#d4929a', text: '#fff' },
-    noir: { primary: '#111115', hover: '#22222a', text: '#e8d5a3' },
+    sage: { primary: '#6f7d50', hover: '#8c9a6c', text: '#fff' },
+    azure: { primary: '#2e5e9e', hover: '#244c82', text: '#fff' },
+};
+
+const DESC_MAP = {
+    velvet: 'A dramatic opening with rich textures and timeless elegance. Perfect for the classic romantic.',
+    bloom: 'Soft florals and watercolor details for a fresh, romantic feel. Perfect for the modern couple.',
+    sage: 'Botanical line art on sage and ivory for understated, garden elegance. Perfect for the refined couple.',
+    azure: 'Bold blue type and a hand-drawn couple on warm cream. Perfect for the playful, characterful couple.',
 };
 
 // Custom elegant drape/curtain icon SVG
@@ -54,22 +60,36 @@ function TemplatePreview({ template }) {
         );
     }
 
-    if (template.preview === 'noir') {
+    if (template.preview === 'sage') {
         return (
-            <div className="td2-phone-screen td2-phone-screen--noir">
-                <svg className="template-preview-noir__frame" viewBox="0 0 200 320" aria-hidden="true">
-                    <rect x="20" y="20" width="160" height="280" fill="none" stroke="#d4af37" strokeWidth="1" />
-                    <line x1="100" y1="20" x2="100" y2="80" stroke="#d4af37" strokeWidth="1" />
-                    <line x1="40" y1="80" x2="160" y2="80" stroke="#d4af37" strokeWidth="1" />
-                </svg>
-                <div className="template-preview-noir__names">
-                    <span>{template.couple.bride}</span>
-                    <span className="template-preview-noir__amp">&amp;</span>
-                    <span>{template.couple.groom}</span>
-                    <svg className="template-preview-noir__emblem" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#d4af37" strokeWidth="1.5">
-                        <polygon points="12 2 22 12 12 22 2 12" />
-                        <polygon points="12 6 18 12 12 18 6 12" />
-                    </svg>
+            <div
+                className="td2-phone-screen"
+                style={{ background: '#8c9a6c', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '0.35rem', textAlign: 'center', padding: '1rem' }}
+            >
+                <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '0.62rem', letterSpacing: '0.28em', textTransform: 'uppercase', color: '#fbf9f3', margin: 0 }}>
+                    The Wedding Of
+                </p>
+                <div style={{ display: 'flex', flexDirection: 'column', lineHeight: 0.82 }}>
+                    <span style={{ fontFamily: "'Dancing Script', cursive", fontWeight: 600, fontSize: '2rem', color: '#fbf9f3' }}>{template.couple.bride}</span>
+                    <em style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic', fontSize: '0.95rem', color: '#e8e3d2' }}>&amp;</em>
+                    <span style={{ fontFamily: "'Dancing Script', cursive", fontWeight: 600, fontSize: '2rem', color: '#fbf9f3' }}>{template.couple.groom}</span>
+                </div>
+            </div>
+        );
+    }
+
+    if (template.preview === 'azure') {
+        return (
+            <div
+                className="td2-phone-screen"
+                style={{ background: '#f6f1e3', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '0.3rem', textAlign: 'center', padding: '1rem' }}
+            >
+                <p style={{ fontFamily: "'Playfair Display', serif", fontSize: '0.55rem', color: '#2e5e9e', margin: 0 }}>
+                    you&apos;re invited
+                </p>
+                <div style={{ display: 'flex', flexDirection: 'column', lineHeight: 0.9 }}>
+                    <span style={{ fontFamily: "'Playfair Display', serif", fontWeight: 900, fontSize: '1.7rem', color: '#2e5e9e' }}>{template.couple.bride}</span>
+                    <span style={{ fontFamily: "'Playfair Display', serif", fontWeight: 900, fontSize: '1.7rem', color: '#2e5e9e' }}>&amp; {template.couple.groom}</span>
                 </div>
             </div>
         );
@@ -101,7 +121,7 @@ export default function TemplateDemoSection() {
                     <div className="td2-line-right" />
                 </div>
                 <span className="td2-eyebrow">CHOOSE YOUR EXPERIENCE</span>
-                <h2 className="td2-title">Three Distinct Experiences</h2>
+                <h2 className="td2-title">Four Distinct Experiences</h2>
                 <p className="td2-subtitle">
                     Each demo showcases a unique style of luxury wedding stationery.
                 </p>
@@ -114,14 +134,19 @@ export default function TemplateDemoSection() {
 
                     return (
                         <article key={template.slug} className={`td2-card td2-card--${template.preview}`}>
-                            <div className="td2-card-visual">
-                                <img
-                                    className="td2-card-bg"
-                                    src={bg}
-                                    alt=""
-                                    aria-hidden="true"
-                                    loading="lazy"
-                                />
+                            <div
+                                className="td2-card-visual"
+                                style={!bg ? { background: 'linear-gradient(160deg, #9aa87a, #76845a)' } : undefined}
+                            >
+                                {bg && (
+                                    <img
+                                        className="td2-card-bg"
+                                        src={bg}
+                                        alt=""
+                                        aria-hidden="true"
+                                        loading="lazy"
+                                    />
+                                )}
                                 <Link to={template.demoPath} className="td2-phone-link" aria-label={`Open ${template.name} guest demo`}>
                                     <div className="td2-phone">
                                         <div className="td2-phone-notch" />
@@ -133,13 +158,7 @@ export default function TemplateDemoSection() {
                             <div className="td2-card-body">
                                 <h3 className="td2-card-name">{template.name}</h3>
                                 <p className="td2-card-tagline">{template.tagline}</p>
-                                <p className="td2-card-desc">
-                                    {template.preview === 'velvet'
-                                        ? 'A dramatic opening with rich textures and timeless elegance. Perfect for the classic romantic.'
-                                        : template.preview === 'bloom'
-                                          ? 'Soft florals and watercolor details for a fresh, romantic feel. Perfect for the modern couple.'
-                                          : 'Bold, sleek, and sophisticated with golden accents. Perfect for the contemporary couple.'}
-                                </p>
+                                <p className="td2-card-desc">{DESC_MAP[template.preview]}</p>
 
                                 <ul className="td2-features">
                                     {template.features.map((feature) => {
