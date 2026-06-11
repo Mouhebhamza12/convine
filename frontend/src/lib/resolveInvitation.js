@@ -5,6 +5,8 @@ const DEMO_TOKENS = {
     'demo-bloom': 'bloom',
     'demo-sage': 'sage',
     'demo-azure': 'azure',
+    'demo-filigree': 'filigree',
+    'demo-lilyrose': 'lilyrose',
 };
 
 export function resolveInvitationToken(token) {

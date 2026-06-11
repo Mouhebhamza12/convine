@@ -38,6 +38,26 @@ export const AZURE_TEMPLATE = {
     features: ['Illustrated couple', 'Hand-drawn accents', 'Guest letter', 'RSVP'],
 };
 
-export const WEDDING_TEMPLATES = [VELVET_TEMPLATE, BLOOM_TEMPLATE, SAGE_TEMPLATE, AZURE_TEMPLATE];
+export const FILIGREE_TEMPLATE = {
+    slug: 'filigree',
+    name: 'Filigree',
+    tagline: 'A single golden thread that ties the knot',
+    demoPath: '/invite/demo-filigree',
+    preview: 'filigree',
+    couple: { bride: 'Amina', groom: 'Yacine' },
+    features: ['Stitched monogram opening', 'Living golden thread', 'Tie-the-knot climax', 'RSVP'],
+};
+
+export const LILYROSE_TEMPLATE = {
+    slug: 'lilyrose',
+    name: 'Lily & Rose',
+    tagline: 'A luxury love story told through flowers',
+    demoPath: '/invite/demo-lilyrose',
+    preview: 'lilyrose',
+    couple: { bride: 'Amina', groom: 'Yacine' },
+    features: ['Morning-garden bloom opening', 'Hand-painted lilies & roses', 'Names emerge from the bouquet', 'RSVP'],
+};
+
+export const WEDDING_TEMPLATES = [LILYROSE_TEMPLATE, FILIGREE_TEMPLATE, VELVET_TEMPLATE, BLOOM_TEMPLATE, SAGE_TEMPLATE, AZURE_TEMPLATE];
 
 export const TEMPLATE_BY_SLUG = Object.fromEntries(WEDDING_TEMPLATES.map((t) => [t.slug, t]));

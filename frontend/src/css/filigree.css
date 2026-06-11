@@ -1,0 +1,693 @@
+/* ════════════════════════════════════════════════════════════════════
+   FILIGREE — "The Golden Thread"
+   A single luminous thread stitches the whole story and ties the knot.
+   Art direction: haute-couture atelier. Midnight ink + spun gold.
+   Mobile-first.
+   ════════════════════════════════════════════════════════════════════ */
+
+.filigree-invitation {
+    --fil-ink: #0b0910;
+    --fil-ink-soft: #15101e;
+    --fil-gold: #d8b26e;
+    --fil-gold-bright: #f4e0ab;
+    --fil-gold-deep: #9c7637;
+    --fil-cream: #efe6d2;
+    --fil-mist: rgba(239, 230, 210, 0.62);
+    --fil-gold-mist: rgba(216, 178, 110, 0.7);
+
+    --fil-serif: 'Cormorant Garamond', Georgia, serif;
+    --fil-caps: 'Cinzel', Georgia, serif;
+    --fil-label: 'Jost', 'Instrument Sans', sans-serif;
+    --fil-script: 'Tangerine', 'Pinyon Script', cursive;
+
+    position: relative;
+    isolation: isolate;
+    min-height: 100svh;
+    color: var(--fil-cream);
+    background:
+        radial-gradient(125% 70% at 50% -8%, rgba(86, 66, 36, 0.55), transparent 58%),
+        radial-gradient(100% 60% at 50% 108%, rgba(70, 52, 30, 0.4), transparent 60%),
+        linear-gradient(180deg, #0c0a12 0%, #0a0810 50%, #0d0a13 100%);
+    font-family: var(--fil-serif);
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Vignette + the faintest woven texture, painted over the whole experience. */
+.filigree-invitation::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 4;
+    pointer-events: none;
+    background:
+        radial-gradient(130% 120% at 50% 45%, transparent 52%, rgba(0, 0, 0, 0.55) 100%),
+        repeating-linear-gradient(45deg, rgba(216, 178, 110, 0.014) 0 2px, transparent 2px 4px),
+        repeating-linear-gradient(-45deg, rgba(216, 178, 110, 0.014) 0 2px, transparent 2px 4px);
+}
+
+/* ── Ambient layers ─────────────────────────────────────────────── */
+.filigree-dust {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.filigree-spine {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    pointer-events: none;
+    overflow: visible;
+}
+
+.filigree-spine__thread {
+    stroke: var(--fil-gold);
+    stroke-width: 1.4;
+    opacity: 0.42;
+    filter: drop-shadow(0 0 5px rgba(216, 178, 110, 0.55));
+}
+
+.filigree-spine__tip-core { fill: #fff4d6; }
+.filigree-spine__tip-halo { fill: rgba(247, 226, 168, 0.5); filter: blur(3px); }
+
+/* ── Shared gold-foil text ──────────────────────────────────────── */
+.filigree-goldtext {
+    background: linear-gradient(176deg, #fbeec0 0%, #e7c87c 36%, #cb9f50 66%, #9a7636 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 1px 12px rgba(216, 178, 110, 0.18));
+}
+
+.filigree-story {
+    position: relative;
+    z-index: 3;
+}
+
+/* ════════════════════════════════════════════════════════════════════
+   THE OPENING — the threshold
+   ════════════════════════════════════════════════════════════════════ */
+.filigree-open {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(1.6rem, 5vh, 2.8rem);
+    padding: 9vh 8vw;
+    cursor: pointer;
+    text-align: center;
+    background:
+        radial-gradient(120% 80% at 50% 40%, rgba(40, 30, 18, 0.6), transparent 62%),
+        linear-gradient(180deg, #0a0810, #0c0a12);
+    -webkit-tap-highlight-color: transparent;
+}
+
+.filigree-open__halo {
+    position: absolute;
+    width: 74vmin;
+    height: 74vmin;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(216, 178, 110, 0.18), transparent 62%);
+    filter: blur(8px);
+    pointer-events: none;
+}
+
+.filigree-open__eyebrow {
+    font-family: var(--fil-label);
+    font-weight: 300;
+    text-transform: uppercase;
+    letter-spacing: 0.42em;
+    font-size: 0.7rem;
+    color: var(--fil-gold-mist);
+    margin: 0;
+    padding-left: 0.42em;
+}
+
+.filigree-open__monogram {
+    position: relative;
+    width: clamp(186px, 58vw, 246px);
+}
+
+.filigree-open__svg {
+    width: 100%;
+    height: auto;
+    display: block;
+    overflow: visible;
+}
+
+.filigree-open__initials {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.05em;
+}
+
+.filigree-open__initials span {
+    font-family: var(--fil-caps);
+    font-weight: 500;
+    font-size: clamp(2.3rem, 12vw, 3.1rem);
+    line-height: 1;
+    background: linear-gradient(176deg, #fbeec0, #d4a85c 70%, #9a7636);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+}
+
+.filigree-open__initials em {
+    font-family: var(--fil-script);
+    font-style: normal;
+    font-weight: 700;
+    font-size: clamp(2rem, 9vw, 2.6rem);
+    color: var(--fil-gold);
+    margin: 0 0.02em;
+    transform: translateY(-0.04em);
+}
+
+.filigree-open__hint {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    font-family: var(--fil-label);
+    font-weight: 300;
+    text-transform: uppercase;
+    letter-spacing: 0.34em;
+    font-size: 0.66rem;
+    color: var(--fil-gold-mist);
+    margin: 0;
+    padding-left: 0.34em;
+}
+
+.filigree-open__hint-rule {
+    width: 30px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--fil-gold));
+}
+.filigree-open__hint-rule:last-child {
+    background: linear-gradient(90deg, var(--fil-gold), transparent);
+}
+
+.filigree-open__sweep {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    width: 2px;
+    height: 100%;
+    transform: translateX(-50%);
+    background: linear-gradient(180deg, transparent, rgba(247, 226, 168, 0.85) 50%, transparent);
+    filter: blur(2px);
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* ════════════════════════════════════════════════════════════════════
+   SCENES — shared
+   ════════════════════════════════════════════════════════════════════ */
+.filigree-scene {
+    position: relative;
+    z-index: 3;
+    min-height: 88svh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 13vh 7vw;
+    gap: 1.4rem;
+}
+
+.filigree-stitch {
+    position: relative;
+    z-index: 3;
+    display: flex;
+    justify-content: center;
+    height: 64px;
+}
+.filigree-stitch svg {
+    height: 100%;
+    width: auto;
+    overflow: visible;
+    filter: drop-shadow(0 0 4px rgba(216, 178, 110, 0.4));
+}
+
+/* Eyebrow label, used across scenes */
+.filigree-names__eyebrow,
+.filigree-date__label,
+.filigree-photos__label,
+.filigree-count__label,
+.filigree-cer__label,
+.filigree-letter__label,
+.filigree-knot__label,
+.filigree-rsvp__label {
+    font-family: var(--fil-label);
+    font-weight: 300;
+    text-transform: uppercase;
+    letter-spacing: 0.4em;
+    font-size: 0.68rem;
+    color: var(--fil-gold-mist);
+    margin: 0 0 0.4rem;
+    padding-left: 0.4em;
+}
+
+/* ── Names ──────────────────────────────────────────────────────── */
+.filigree-names__title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.1rem;
+    margin: 0;
+}
+.filigree-names__bride,
+.filigree-names__groom {
+    font-family: var(--fil-caps);
+    font-weight: 500;
+    font-size: clamp(2.7rem, 13.5vw, 4.6rem);
+    line-height: 0.98;
+    letter-spacing: 0.03em;
+}
+.filigree-names__amp {
+    font-family: var(--fil-script);
+    font-style: normal;
+    font-weight: 700;
+    font-size: clamp(2.6rem, 12vw, 3.6rem);
+    line-height: 0.7;
+    color: var(--fil-gold);
+    margin: 0.1rem 0;
+}
+.filigree-names__flourish {
+    width: clamp(200px, 64vw, 320px);
+    margin-top: 0.4rem;
+}
+.filigree-names__flourish svg { width: 100%; height: auto; overflow: visible; }
+
+/* ── Whispered words ────────────────────────────────────────────── */
+.filigree-words { min-height: 66svh; }
+.filigree-words__line {
+    font-family: var(--fil-serif);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(1.45rem, 6.4vw, 2.3rem);
+    line-height: 1.5;
+    color: #ecdfc4;
+    max-width: 19ch;
+    margin: 0;
+}
+.filigree-words__w { display: inline-block; }
+
+/* ── Date ───────────────────────────────────────────────────────── */
+.filigree-date__weekday {
+    font-family: var(--fil-serif);
+    font-style: italic;
+    font-size: clamp(1.1rem, 5vw, 1.5rem);
+    color: var(--fil-cream);
+    margin: 0;
+}
+.filigree-date__row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(0.6rem, 4vw, 1.6rem);
+    margin-top: 0.6rem;
+}
+.filigree-date__month,
+.filigree-date__year {
+    font-family: var(--fil-label);
+    font-weight: 300;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    font-size: clamp(0.72rem, 3.6vw, 0.95rem);
+    color: var(--fil-gold-mist);
+    white-space: nowrap;
+}
+.filigree-date__day-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: clamp(118px, 40vw, 160px);
+    height: clamp(118px, 40vw, 160px);
+    flex: none;
+}
+.filigree-date__day {
+    font-family: var(--fil-caps);
+    font-weight: 600;
+    font-size: clamp(3.4rem, 19vw, 5.4rem);
+    line-height: 1;
+}
+.filigree-date__ring {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    filter: drop-shadow(0 0 6px rgba(216, 178, 110, 0.3));
+}
+
+/* ── Photos ─────────────────────────────────────────────────────── */
+.filigree-photos { gap: 2.4rem; }
+.filigree-photos__column {
+    display: flex;
+    flex-direction: column;
+    gap: 13vh;
+    width: 100%;
+    max-width: 380px;
+    margin-top: 1rem;
+}
+.filigree-photo { position: relative; width: 82%; }
+.filigree-photo--l { align-self: flex-start; }
+.filigree-photo--r { align-self: flex-end; }
+.filigree-photo__num {
+    position: absolute;
+    top: -2.2rem;
+    left: 0.2rem;
+    font-family: var(--fil-serif);
+    font-style: italic;
+    font-size: 1.5rem;
+    color: var(--fil-gold);
+    letter-spacing: 0.1em;
+}
+.filigree-photo--r .filigree-photo__num { left: auto; right: 0.2rem; }
+.filigree-photo__frame {
+    position: relative;
+    padding: 9px;
+    border: 1px solid rgba(216, 178, 110, 0.38);
+    background: rgba(20, 16, 28, 0.5);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+}
+.filigree-photo__frame img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    filter: sepia(0.1) saturate(0.95) contrast(1.02) brightness(0.96);
+}
+.filigree-photo__corner {
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    border: 1px solid var(--fil-gold);
+}
+.filigree-photo__corner--tl { top: -1px; left: -1px; border-right: 0; border-bottom: 0; }
+.filigree-photo__corner--br { bottom: -1px; right: -1px; border-left: 0; border-top: 0; }
+
+/* ── Letter ─────────────────────────────────────────────────────── */
+.filigree-letter__card {
+    max-width: 460px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.1rem;
+    padding: 7vh 7vw;
+    border-top: 1px solid rgba(216, 178, 110, 0.22);
+    border-bottom: 1px solid rgba(216, 178, 110, 0.22);
+    background: rgba(15, 11, 23, 0.4);
+}
+.filigree-letter__greeting {
+    font-family: var(--fil-serif);
+    font-style: italic;
+    font-size: clamp(1.4rem, 6vw, 1.8rem);
+    color: var(--fil-cream);
+    margin: 0;
+}
+.filigree-letter__body {
+    font-family: var(--fil-serif);
+    font-size: clamp(1.1rem, 4.6vw, 1.25rem);
+    line-height: 1.85;
+    color: #e6dcc6;
+    max-width: 34ch;
+    margin: 0;
+}
+.filigree-letter__sign {
+    font-family: var(--fil-script);
+    font-weight: 700;
+    font-size: clamp(1.9rem, 9vw, 2.4rem);
+    color: var(--fil-gold);
+    margin: 0.2rem 0 0;
+}
+
+/* ── Countdown ──────────────────────────────────────────────────── */
+.filigree-count__grid {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    margin-top: 0.6rem;
+}
+.filigree-count__cell { display: flex; align-items: flex-start; }
+.filigree-count__unit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.45rem;
+    min-width: clamp(3.2rem, 17vw, 4.6rem);
+}
+.filigree-count__num {
+    font-family: var(--fil-caps);
+    font-weight: 500;
+    font-size: clamp(1.9rem, 9.5vw, 2.9rem);
+    line-height: 1;
+    background: linear-gradient(176deg, #fbeec0, #d4a85c 70%, #9a7636);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+}
+.filigree-count__unit-label {
+    font-family: var(--fil-label);
+    font-weight: 300;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    font-size: 0.56rem;
+    color: var(--fil-gold-mist);
+}
+.filigree-count__sep {
+    color: var(--fil-gold);
+    opacity: 0.45;
+    font-size: 1.4rem;
+    line-height: 1;
+    margin-top: 0.4rem;
+    align-self: flex-start;
+}
+
+/* ── Ceremony ───────────────────────────────────────────────────── */
+.filigree-cer__card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.3rem;
+    width: 100%;
+    max-width: 460px;
+    padding: 7vh 7vw;
+    border: 1px solid rgba(216, 178, 110, 0.25);
+    background: rgba(16, 12, 24, 0.46);
+    box-shadow: 0 30px 70px rgba(0, 0, 0, 0.4);
+}
+.filigree-cer__time { display: flex; flex-direction: column; gap: 0.2rem; }
+.filigree-cer__time-num {
+    font-family: var(--fil-caps);
+    font-weight: 500;
+    font-size: clamp(2rem, 10vw, 3rem);
+    line-height: 1;
+}
+.filigree-cer__time-sub {
+    font-family: var(--fil-serif);
+    font-style: italic;
+    color: var(--fil-mist);
+    font-size: 1.05rem;
+}
+.filigree-cer__rule {
+    width: 56px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--fil-gold), transparent);
+}
+.filigree-cer__venue {
+    font-family: var(--fil-serif);
+    font-size: clamp(1.3rem, 5.6vw, 1.6rem);
+    color: var(--fil-cream);
+    margin: 0;
+}
+.filigree-cer__address {
+    font-family: var(--fil-label);
+    font-weight: 300;
+    font-size: 0.82rem;
+    letter-spacing: 0.04em;
+    color: var(--fil-mist);
+    margin: 0.4rem 0 0;
+    line-height: 1.6;
+}
+.filigree-cer__actions {
+    display: flex;
+    gap: 0.7rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 0.4rem;
+}
+
+/* ── Buttons ────────────────────────────────────────────────────── */
+.filigree-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-family: var(--fil-label);
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    font-size: 0.68rem;
+    padding: 0.9rem 1.5rem;
+    border-radius: 2px;
+    border: 1px solid var(--fil-gold-deep);
+    background: transparent;
+    color: var(--fil-gold-bright);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+}
+.filigree-btn--ghost:hover {
+    background: rgba(216, 178, 110, 0.1);
+    box-shadow: 0 8px 24px rgba(216, 178, 110, 0.12);
+    transform: translateY(-2px);
+}
+.filigree-btn--solid {
+    border-color: transparent;
+    color: #1c1408;
+    background: linear-gradient(180deg, #f0d18a, #c2964a);
+    box-shadow: 0 12px 34px rgba(216, 178, 110, 0.28);
+}
+.filigree-btn--solid:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 16px 40px rgba(216, 178, 110, 0.38);
+}
+.filigree-btn:disabled { opacity: 0.55; cursor: default; transform: none; }
+
+/* ── Knot — the climax ──────────────────────────────────────────── */
+.filigree-knot { min-height: 100svh; gap: 0.6rem; }
+.filigree-knot__title {
+    font-family: var(--fil-script);
+    font-weight: 700;
+    font-size: clamp(3.2rem, 19vw, 5.8rem);
+    line-height: 0.9;
+    margin: 0;
+}
+.filigree-knot__art { margin: 0.4rem 0 0.2rem; }
+.filigree-knot__art svg {
+    width: clamp(220px, 72vw, 340px);
+    height: auto;
+    overflow: visible;
+    filter: drop-shadow(0 0 14px rgba(216, 178, 110, 0.38));
+}
+.filigree-knot__reveal { display: flex; flex-direction: column; gap: 0.5rem; }
+.filigree-knot__couple {
+    font-family: var(--fil-caps);
+    font-weight: 500;
+    font-size: clamp(1.4rem, 7vw, 2rem);
+    color: var(--fil-cream);
+    margin: 0;
+}
+.filigree-knot__date {
+    font-family: var(--fil-label);
+    font-weight: 300;
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    font-size: 0.7rem;
+    color: var(--fil-gold-mist);
+    margin: 0;
+    padding-left: 0.3em;
+}
+
+/* ── RSVP ───────────────────────────────────────────────────────── */
+.filigree-rsvp__title {
+    font-family: var(--fil-caps);
+    font-weight: 500;
+    font-size: clamp(1.8rem, 8.5vw, 2.8rem);
+    line-height: 1.05;
+    margin: 0;
+}
+.filigree-rsvp__sub {
+    font-family: var(--fil-serif);
+    font-style: italic;
+    font-size: 1.15rem;
+    color: var(--fil-mist);
+    margin: 0;
+}
+.filigree-rsvp__actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+    width: min(320px, 80vw);
+    margin-top: 0.8rem;
+}
+.filigree-rsvp__actions .filigree-btn { width: 100%; padding: 1rem 1.5rem; }
+.filigree-rsvp__done { display: flex; flex-direction: column; align-items: center; gap: 1rem; max-width: 34ch; }
+.filigree-rsvp__crest { font-size: 2rem; color: var(--fil-gold); }
+.filigree-rsvp__done-title {
+    font-family: var(--fil-caps);
+    font-weight: 500;
+    font-size: clamp(1.6rem, 7.5vw, 2.3rem);
+    line-height: 1.1;
+    margin: 0;
+}
+.filigree-rsvp__done-text {
+    font-family: var(--fil-serif);
+    font-size: 1.2rem;
+    line-height: 1.8;
+    color: #e6dcc6;
+    margin: 0;
+}
+
+/* ── Closing ────────────────────────────────────────────────────── */
+.filigree-closing { min-height: 88svh; gap: 1.1rem; }
+.filigree-closing__knot {
+    width: clamp(94px, 28vw, 122px);
+    height: auto;
+    overflow: visible;
+    filter: drop-shadow(0 0 8px rgba(216, 178, 110, 0.35));
+}
+.filigree-closing__with {
+    font-family: var(--fil-serif);
+    font-style: italic;
+    font-size: 1.2rem;
+    color: var(--fil-mist);
+    margin: 0;
+}
+.filigree-closing__names {
+    font-family: var(--fil-script);
+    font-weight: 700;
+    font-size: clamp(2.6rem, 15vw, 3.8rem);
+    line-height: 1;
+    color: var(--fil-gold);
+    margin: 0;
+}
+.filigree-closing__foot {
+    font-family: var(--fil-label);
+    font-weight: 300;
+    text-transform: uppercase;
+    letter-spacing: 0.34em;
+    font-size: 0.6rem;
+    color: var(--fil-mist);
+    opacity: 0.7;
+    margin-top: 1.4rem;
+    padding-left: 0.34em;
+}
+
+/* ════════════════════════════════════════════════════════════════════
+   Larger screens — let it breathe, never sprawl.
+   ════════════════════════════════════════════════════════════════════ */
+@media (min-width: 720px) {
+    .filigree-scene { padding: 16vh 8vw; }
+    .filigree-photos__column { max-width: 440px; }
+    .filigree-count__num { font-size: 3.2rem; }
+    .filigree-rsvp__actions { flex-direction: row; width: auto; }
+    .filigree-rsvp__actions .filigree-btn { width: auto; }
+}
+
+/* Respect reduced motion — the layout already reads beautifully still. */
+@media (prefers-reduced-motion: reduce) {
+    .filigree-open__sweep { display: none; }
+}

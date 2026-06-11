@@ -32,9 +32,12 @@ Open **http://localhost:3000** in your browser.
 
 | Template | URL |
 |----------|-----|
+| Lily & Rose — fine-art floral luxury | http://localhost:3000/invite/demo-lilyrose |
+| Filigree — golden thread, tie-the-knot | http://localhost:3000/invite/demo-filigree |
 | Velvet — red drape cinematic | http://localhost:3000/invite/demo |
 | Bloom — blush botanical | http://localhost:3000/invite/demo-bloom |
-| Noir — art deco midnight gold | http://localhost:3000/invite/demo-noir |
+| Sage — botanical line art | http://localhost:3000/invite/demo-sage |
+| Azure — blue illustrated charm | http://localhost:3000/invite/demo-azure |
 
 ## Admin login
 

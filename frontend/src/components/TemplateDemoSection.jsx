@@ -14,6 +14,8 @@ const ACCENT_MAP = {
     bloom: { primary: '#c47b84', hover: '#d4929a', text: '#fff' },
     sage: { primary: '#6f7d50', hover: '#8c9a6c', text: '#fff' },
     azure: { primary: '#2e5e9e', hover: '#244c82', text: '#fff' },
+    filigree: { primary: '#caa157', hover: '#d8b26e', text: '#1c1408' },
+    lilyrose: { primary: '#c98f86', hover: '#d99a96', text: '#fff' },
 };
 
 const DESC_MAP = {
@@ -21,6 +23,8 @@ const DESC_MAP = {
     bloom: 'Soft florals and watercolor details for a fresh, romantic feel. Perfect for the modern couple.',
     sage: 'Botanical line art on sage and ivory for understated, garden elegance. Perfect for the refined couple.',
     azure: 'Bold blue type and a hand-drawn couple on warm cream. Perfect for the playful, characterful couple.',
+    filigree: 'A living golden thread stitches your story on midnight ink and ties the knot at the emotional peak. For the couple who want guests to gasp.',
+    lilyrose: 'Hand-painted lilies and roses bloom open on ivory and champagne as your love story unfolds. Editorial, fine-art floral luxury at its most romantic.',
 };
 
 // Custom elegant drape/curtain icon SVG
@@ -45,6 +49,63 @@ const getFeatureIcon = (featureName) => {
 };
 
 function TemplatePreview({ template }) {
+    if (template.preview === 'lilyrose') {
+        return (
+            <div
+                className="td2-phone-screen"
+                style={{ background: 'radial-gradient(120% 82% at 50% 24%, #fdf9f1 0%, #f4ead8 58%, #ecdcc2 100%)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', padding: '0.9rem', textAlign: 'center' }}
+            >
+                <svg width="76" height="68" viewBox="0 0 100 90" fill="none" aria-hidden="true">
+                    {/* lily */}
+                    <g>
+                        {[0, 60, 120, 180, 240, 300].map((a) => (
+                            <path key={a} transform={`rotate(${a} 50 40)`} d="M50 40 C45 30 43 17 47 6 C48 3 52 3 53 6 C57 17 55 30 50 40 Z" fill="#f7ecda" stroke="#fff" strokeOpacity="0.5" strokeWidth="0.4" />
+                        ))}
+                        <circle cx="50" cy="40" r="4" fill="#c0b06f" />
+                    </g>
+                    {/* roses */}
+                    {[{ x: 28, y: 58, c: '#d99a92' }, { x: 70, y: 60, c: '#ecd9bd' }, { x: 50, y: 70, c: '#e3b1a8' }].map((r) => (
+                        <g key={`${r.x}-${r.y}`} transform={`translate(${r.x - 50} ${r.y - 40})`}>
+                            {[0, 72, 144, 216, 288].map((a) => (
+                                <path key={a} transform={`rotate(${a} 50 40)`} d="M50 42 C42 38 40 28 47 23 C49 21 51 21 53 23 C60 28 58 38 50 42 Z" fill={r.c} stroke="#fff" strokeOpacity="0.35" strokeWidth="0.3" />
+                            ))}
+                        </g>
+                    ))}
+                    {/* leaves */}
+                    <path d="M14 44 C24 40 34 42 40 50 C30 54 20 52 14 44 Z" fill="#92a37b" />
+                    <path d="M86 46 C76 42 66 44 60 52 C70 56 80 54 86 46 Z" fill="#92a37b" />
+                </svg>
+                <p style={{ fontFamily: "'Marcellus', serif", fontSize: '0.46rem', letterSpacing: '0.34em', textTransform: 'uppercase', color: '#9c7a3f', margin: 0 }}>
+                    The Wedding Of
+                </p>
+                <p style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 400, fontSize: '1.25rem', lineHeight: 1, color: '#5b4940', margin: 0 }}>
+                    {template.couple.bride} <span style={{ fontFamily: "'Great Vibes', cursive", color: '#c98f86' }}>&amp;</span> {template.couple.groom}
+                </p>
+            </div>
+        );
+    }
+
+    if (template.preview === 'filigree') {
+        return (
+            <div
+                className="td2-phone-screen"
+                style={{ background: 'radial-gradient(120% 85% at 50% 26%, #1c1530 0%, #0b0910 62%)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '0.55rem', padding: '0.9rem', textAlign: 'center' }}
+            >
+                <svg width="60" height="76" viewBox="0 0 120 150" fill="none" aria-hidden="true">
+                    <ellipse cx="60" cy="75" rx="44" ry="58" stroke="#d8b26e" strokeWidth="1.4" />
+                    <ellipse cx="60" cy="75" rx="38" ry="52" stroke="#d8b26e" strokeWidth="0.7" opacity="0.5" />
+                    <path d="M60 17 L60 0" stroke="#d8b26e" strokeWidth="1.2" />
+                    <text x="60" y="86" textAnchor="middle" fontFamily="'Cinzel', serif" fontSize="29" fill="#e7c87c" letterSpacing="1">
+                        {template.couple.bride.charAt(0)}&amp;{template.couple.groom.charAt(0)}
+                    </text>
+                </svg>
+                <p style={{ fontFamily: "'Jost', sans-serif", fontSize: '0.5rem', letterSpacing: '0.34em', textTransform: 'uppercase', color: 'rgba(216,178,110,0.85)', margin: 0 }}>
+                    Tie the knot
+                </p>
+            </div>
+        );
+    }
+
     if (template.preview === 'bloom') {
         return (
             <div className="td2-phone-screen td2-phone-screen--bloom">

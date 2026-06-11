@@ -6,12 +6,16 @@ import VelvetInvitation from '../templates/velvet/VelvetInvitation';
 import BloomInvitation from '../templates/bloom/BloomInvitation';
 import SageInvitation from '../templates/sage/SageInvitation';
 import AzureInvitation from '../templates/azure/AzureInvitation';
+import FiligreeInvitation from '../templates/filigree/FiligreeInvitation';
+import LilyRoseInvitation from '../templates/lilyrose/LilyRoseInvitation';
 
 const TEMPLATE_VIEWS = {
     velvet: VelvetInvitation,
     bloom: BloomInvitation,
     sage: SageInvitation,
     azure: AzureInvitation,
+    filigree: FiligreeInvitation,
+    lilyrose: LilyRoseInvitation,
 };
 
 export default function InvitationPage() {
