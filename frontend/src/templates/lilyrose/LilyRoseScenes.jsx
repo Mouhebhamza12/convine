@@ -121,18 +121,18 @@ export function LilyRoseIntention({ bride, groom }) {
                     <Lily size={108} />
                     <figcaption>
                         <span className="lr-intent__name">{bride}</span>
-                        <span className="lr-intent__meaning">the lily — grace, purity, new beginnings</span>
+                        <span className="lr-intent__meaning">the lily: grace, purity, new beginnings</span>
                     </figcaption>
                 </figure>
                 <figure className="lr-intent__flower">
                     <Rose size={104} variant="rose" />
                     <figcaption>
                         <span className="lr-intent__name">{groom}</span>
-                        <span className="lr-intent__meaning">the rose — passion, devotion, enduring love</span>
+                        <span className="lr-intent__meaning">the rose: passion, devotion, enduring love</span>
                     </figcaption>
                 </figure>
             </div>
-            <p className="lr-intent__row lr-intent__line">Two flowers, one garden — beginning to bloom as one.</p>
+            <p className="lr-intent__row lr-intent__line">Two flowers, one garden, beginning to bloom as one.</p>
         </section>
     );
 }
@@ -425,7 +425,7 @@ export function LilyRoseRSVP({ guestName, initialStatus, onSubmit, isDemo }) {
                     <h2 className="lr-rsvp__done-title">{attending ? 'Our garden grows brighter' : 'Thank you, dear friend'}</h2>
                     <p className="lr-rsvp__done-text">
                         {attending
-                            ? `We are overjoyed, ${guestName}. We cannot wait to share the day our two lives bloom into one — with you beside us.`
+                            ? `We are overjoyed, ${guestName}. We cannot wait to share the day our two lives bloom into one, with you beside us.`
                             : `We understand, ${guestName}. You will be in our hearts as we say our vows, and a petal of this day belongs to you.`}
                     </p>
                 </div>

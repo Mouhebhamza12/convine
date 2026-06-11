@@ -120,7 +120,7 @@ export default function RSVP({ guestName, initialStatus, onSubmit, isDemo }) {
                         <p className="rsvp-confirmation-text">
                             {isAttending
                                 ? `Your presence means the world to us, ${guestName}. We look forward to celebrating together.`
-                                : `We understand, ${guestName}. Thank you for letting us know — you will be in our hearts on our special day.`}
+                                : `We understand, ${guestName}. Thank you for letting us know, you will be in our hearts on our special day.`}
                         </p>
                     </div>
                 </div>

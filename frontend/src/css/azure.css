@@ -339,3 +339,364 @@
 .azure-invitation .rsvp-confirmation-title { font-family: 'Playfair Display', serif; font-weight: 900; color: var(--azure-blue); }
 .azure-invitation .rsvp-confirmation-text { font-family: 'Playfair Display', serif; color: var(--azure-blue); }
 .azure-invitation .rsvp-confirmation-icon { color: var(--azure-blue); }
+
+/* ===================================================================
+   AZURE SECTION MEDIUMS — boarding pass / departures board /
+   vintage postcard / passport stamp page / scrapbook
+   =================================================================== */
+
+.azure-eyebrow-sans {
+    font-family: 'Jost', sans-serif;
+    font-weight: 500;
+    font-size: clamp(0.66rem, 2vw, 0.84rem);
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    margin: 0 0 clamp(1rem, 3vw, 1.6rem);
+}
+
+.az-under-note {
+    font-family: 'Jost', sans-serif;
+    font-size: clamp(0.62rem, 1.8vw, 0.78rem);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    opacity: 0.8;
+    margin: clamp(1rem, 3vw, 1.6rem) 0 0;
+}
+
+/* ── Boarding pass ── */
+.az-ticket {
+    display: flex;
+    width: min(92vw, 560px);
+    background: #fffdf6;
+    border-radius: 14px;
+    box-shadow: 0 18px 44px rgba(36, 76, 130, 0.16);
+    overflow: hidden;
+    text-align: left;
+}
+
+.az-ticket__main { flex: 1 1 auto; padding: clamp(1rem, 3.5vw, 1.6rem); }
+
+.az-ticket__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.6rem;
+    font-family: 'Jost', sans-serif;
+    font-size: clamp(0.52rem, 1.6vw, 0.66rem);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    opacity: 0.85;
+}
+
+.az-ticket__plane { width: clamp(16px, 4vw, 22px); }
+
+.az-ticket__route {
+    display: flex;
+    align-items: center;
+    gap: clamp(0.5rem, 2vw, 1rem);
+    margin: clamp(0.8rem, 2.5vw, 1.2rem) 0;
+}
+
+.az-ticket__route small,
+.az-ticket__row small {
+    display: block;
+    font-family: 'Jost', sans-serif;
+    font-size: clamp(0.48rem, 1.4vw, 0.6rem);
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    opacity: 0.6;
+    margin-bottom: 0.25rem;
+}
+
+.az-ticket__route strong {
+    font-family: 'Playfair Display', serif;
+    font-weight: 800;
+    font-size: clamp(0.95rem, 3vw, 1.3rem);
+    line-height: 1.05;
+}
+
+.az-ticket__dots { flex: 1 1 60px; height: 12px; color: var(--azure-blue); }
+
+.az-ticket__row { display: flex; gap: clamp(1rem, 4vw, 2rem); align-items: flex-end; }
+.az-ticket__row b { font-family: 'Playfair Display', serif; font-weight: 700; font-size: clamp(0.85rem, 2.6vw, 1.05rem); }
+.az-ticket__time { font-size: clamp(1.4rem, 5vw, 2rem) !important; font-weight: 900 !important; }
+
+.az-ticket__perf { width: 6px; align-self: stretch; color: var(--azure-blue); }
+
+.az-ticket__stub {
+    flex: 0 0 clamp(86px, 22vw, 120px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: clamp(0.8rem, 2.5vw, 1.2rem) clamp(0.5rem, 2vw, 0.9rem);
+    background: rgba(46, 94, 158, 0.07);
+    text-align: center;
+}
+
+.az-ticket__stub small {
+    font-family: 'Jost', sans-serif;
+    font-size: clamp(0.48rem, 1.4vw, 0.6rem);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    opacity: 0.7;
+}
+
+.az-ticket__stub b { font-family: 'Playfair Display', serif; font-weight: 800; font-size: clamp(0.95rem, 3vw, 1.25rem); }
+.az-ticket__barcode { width: 80%; color: var(--azure-blue); }
+
+/* ── Departures board ── */
+.az-board {
+    width: min(92vw, 520px);
+    background: var(--azure-blue-deep);
+    color: var(--azure-cream);
+    border-radius: 16px;
+    padding: clamp(1.2rem, 4vw, 2rem);
+    box-shadow: 0 22px 50px rgba(36, 76, 130, 0.3);
+}
+
+.az-board__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.7rem;
+    font-family: 'Jost', sans-serif;
+    font-size: clamp(0.6rem, 1.9vw, 0.78rem);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+}
+
+.az-board__plane { width: clamp(16px, 4.5vw, 22px); }
+.az-board__status { color: #9fd0a8; letter-spacing: 0.18em; }
+
+.az-board__dest {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: clamp(0.9rem, 2.8vw, 1.15rem);
+    margin: clamp(0.7rem, 2.5vw, 1.1rem) 0 clamp(1rem, 3vw, 1.5rem);
+    opacity: 0.9;
+}
+
+.az-board__rows { display: flex; justify-content: center; gap: clamp(0.7rem, 3vw, 1.4rem); flex-wrap: wrap; }
+.az-board__unit small {
+    display: block;
+    margin-top: 0.45rem;
+    font-family: 'Jost', sans-serif;
+    font-size: clamp(0.5rem, 1.5vw, 0.62rem);
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    opacity: 0.7;
+}
+
+.az-board__cells { display: flex; gap: 3px; justify-content: center; }
+
+.az-board__cell {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: clamp(26px, 7vw, 36px);
+    height: clamp(36px, 10vw, 50px);
+    background: #182f4e;
+    border-radius: 5px;
+    font-family: 'Jost', sans-serif;
+    font-weight: 500;
+    font-size: clamp(1.2rem, 4.5vw, 1.8rem);
+    color: var(--azure-cream);
+}
+
+.az-board__cell svg { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+
+/* ── Vintage postcard ── */
+.az-postcard {
+    display: flex;
+    width: min(94vw, 620px);
+    background: #fffdf6;
+    border-radius: 8px;
+    box-shadow: 0 20px 48px rgba(36, 76, 130, 0.16);
+    transform: rotate(-1.2deg);
+    text-align: left;
+    overflow: hidden;
+}
+
+.az-postcard__left { flex: 1 1 52%; padding: clamp(1rem, 3.5vw, 1.5rem); }
+
+.az-postcard__greet {
+    font-family: 'Jost', sans-serif;
+    font-size: clamp(0.56rem, 1.7vw, 0.7rem);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    margin: 0;
+    opacity: 0.8;
+}
+
+.az-postcard__venue {
+    font-family: 'Playfair Display', serif;
+    font-weight: 900;
+    font-size: clamp(1.3rem, 4.5vw, 1.9rem);
+    line-height: 1;
+    margin: 0.25rem 0 0.7rem;
+}
+
+.az-postcard__img { overflow: hidden; border-radius: 4px; }
+.az-postcard__img img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1.15 / 1;
+    object-fit: cover;
+    object-position: center 44%;
+    mix-blend-mode: multiply;
+    -webkit-mask-image: radial-gradient(ellipse 94% 92% at 50% 50%, #000 70%, transparent 100%);
+    mask-image: radial-gradient(ellipse 94% 92% at 50% 50%, #000 70%, transparent 100%);
+}
+
+.az-postcard__split { width: 6px; align-self: stretch; color: var(--azure-blue); }
+
+.az-postcard__right {
+    flex: 1 1 48%;
+    display: flex;
+    flex-direction: column;
+    padding: clamp(1rem, 3.5vw, 1.5rem);
+    gap: clamp(0.6rem, 2vw, 1rem);
+}
+
+.az-postcard__franking { display: flex; align-items: flex-start; justify-content: space-between; gap: 0.5rem; }
+.az-postcard__postmark { width: clamp(70px, 18vw, 96px); color: var(--azure-blue); opacity: 0.85; }
+.az-postcard__stamp { width: clamp(46px, 12vw, 62px); color: var(--azure-blue); }
+
+.az-postcard__addr { display: flex; flex-direction: column; gap: 0.55rem; }
+.az-postcard__addr p { margin: 0; }
+.az-postcard__addr span {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: clamp(0.82rem, 2.4vw, 1rem);
+}
+.az-postcard__addr svg { display: block; width: 100%; height: 4px; color: var(--azure-blue); }
+
+.az-postcard__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    align-self: flex-start;
+    margin-top: auto;
+    padding: 0.6rem 1.2rem;
+    border: 2px solid var(--azure-blue);
+    border-radius: 6px;
+    transform: rotate(-2deg);
+    font-family: 'Jost', sans-serif;
+    font-size: clamp(0.58rem, 1.8vw, 0.72rem);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--azure-blue);
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.az-postcard__btn:hover { background: var(--azure-blue); color: var(--azure-cream); }
+.az-postcard__pin { width: 14px; }
+
+@media (max-width: 560px) {
+    .az-postcard { flex-direction: column; }
+    .az-postcard__split { display: none; }
+}
+
+/* ── Passport page ── */
+.az-passport {
+    position: relative;
+    width: min(92vw, 500px);
+    padding: clamp(1.8rem, 6vw, 2.8rem) clamp(1.4rem, 5vw, 2.2rem);
+    background: #fffdf6;
+    border-radius: 12px;
+    box-shadow: 0 20px 48px rgba(36, 76, 130, 0.14);
+}
+
+.az-passport__corners { position: absolute; inset: 10px; width: calc(100% - 20px); height: calc(100% - 20px); color: var(--azure-blue); opacity: 0.7; pointer-events: none; }
+
+.az-passport__head {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+    font-family: 'Jost', sans-serif;
+    font-size: clamp(0.56rem, 1.7vw, 0.7rem);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+}
+
+.az-passport__star { width: 14px; color: var(--azure-blue); }
+
+.az-passport__bearer {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: clamp(1rem, 3vw, 1.25rem);
+    margin: clamp(0.8rem, 2.5vw, 1.2rem) 0 0;
+}
+
+.az-passport__bearer strong { font-style: normal; font-weight: 800; }
+
+.az-passport__note {
+    font-family: 'Jost', sans-serif;
+    font-size: clamp(0.56rem, 1.7vw, 0.7rem);
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    opacity: 0.7;
+    margin: 0.8rem 0 0;
+}
+
+.az-passport__stamps {
+    display: flex;
+    justify-content: center;
+    gap: clamp(1rem, 4vw, 2rem);
+    margin-top: clamp(1rem, 3vw, 1.6rem);
+}
+
+.az-stampbtn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--azure-blue);
+    transform: rotate(-5deg);
+    transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+.az-stampbtn--decline { color: #8c6f4d; transform: rotate(4deg); }
+.az-stampbtn:hover:not(:disabled) { transform: rotate(0deg) scale(1.06); }
+.az-stampbtn:disabled { opacity: 0.45; cursor: default; }
+.az-stampbtn svg { width: clamp(86px, 24vw, 120px); height: auto; }
+
+.az-stampbtn span {
+    font-family: 'Jost', sans-serif;
+    font-size: clamp(0.58rem, 1.8vw, 0.72rem);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    line-height: 1.5;
+}
+
+.az-passport__verdict { margin-top: clamp(1rem, 3vw, 1.6rem); }
+.az-passport__bigstamp { width: min(80%, 300px); color: var(--azure-blue); }
+
+.az-passport__msg {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: clamp(0.95rem, 2.8vw, 1.15rem);
+    line-height: 1.7;
+    margin: 1rem 0 0;
+}
+
+.az-passport__div { display: block; width: 180px; margin: clamp(1.2rem, 3.5vw, 1.8rem) auto 0; color: var(--azure-blue); }
+
+/* ── Scrapbook photos ── */
+.az-scrap { position: relative; }
+.az-scrap__tape { position: absolute; top: -12px; left: 50%; transform: translateX(-50%) rotate(-3deg); width: clamp(54px, 14vw, 76px); color: var(--azure-blue); opacity: 0.85; z-index: 2; }
+.az-scrap__caption {
+    margin: 0.5rem 0 0;
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: clamp(0.72rem, 2vw, 0.9rem);
+    color: var(--azure-blue);
+}

@@ -1,11 +1,8 @@
 import { useState } from 'react';
 import { useInvitationScroll } from '../../hooks/useInvitationScroll';
-import WeddingTime from '../../components/invitation/WeddingTime';
-import Countdown from '../../components/invitation/Countdown';
-import Location from '../../components/invitation/Location';
-import RSVP from '../../components/invitation/RSVP';
 import SageOpening from './SageOpening';
 import { SageDetails, SageLetter, SagePhotos } from './SageScenes';
+import { SageTime, SageCountdown, SageLocation, SageRsvp } from './SageSections';
 import '../../css/invitation.css';
 import '../../css/sage.css';
 
@@ -37,12 +34,12 @@ export default function SageInvitation({ data, isDemo, onRsvp }) {
                     venue={wedding.venue}
                     venueAddress={wedding.venue_address}
                 />
-                <WeddingTime eventTime={wedding.event_time} />
+                <SageTime eventTime={wedding.event_time} />
                 <SageLetter guestName={guest.name} bride={bride} groom={groom} message={wedding.message} />
                 <SagePhotos photos={wedding.photos} />
-                <Countdown eventDate={wedding.event_date} eventTime={wedding.event_time} />
-                <Location venue={wedding.venue} venueAddress={wedding.venue_address} googleMapsUrl={wedding.google_maps_url} />
-                <RSVP guestName={guest.name} initialStatus={guest.rsvp_status} onSubmit={onRsvp} isDemo={isDemo} />
+                <SageCountdown eventDate={wedding.event_date} eventTime={wedding.event_time} />
+                <SageLocation venue={wedding.venue} venueAddress={wedding.venue_address} googleMapsUrl={wedding.google_maps_url} />
+                <SageRsvp guestName={guest.name} initialStatus={guest.rsvp_status} onSubmit={onRsvp} isDemo={isDemo} />
             </main>
         </div>
     );

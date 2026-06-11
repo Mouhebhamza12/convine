@@ -1,9 +1,6 @@
 import { useInvitationScroll } from '../../hooks/useInvitationScroll';
-import WeddingTime from '../../components/invitation/WeddingTime';
-import Countdown from '../../components/invitation/Countdown';
-import Location from '../../components/invitation/Location';
-import RSVP from '../../components/invitation/RSVP';
 import { AzureHero, AzureLetter, AzurePhotos } from './AzureScenes';
+import { AzureTime, AzureCountdown, AzureLocation, AzureRsvp } from './AzureSections';
 import '../../css/invitation.css';
 import '../../css/azure.css';
 
@@ -27,12 +24,12 @@ export default function AzureInvitation({ data, isDemo, onRsvp }) {
                     venue={wedding.venue}
                     rsvpPhone={wedding.rsvp_phone}
                 />
-                <RSVP guestName={guest.name} initialStatus={guest.rsvp_status} onSubmit={onRsvp} isDemo={isDemo} />
-                <WeddingTime eventTime={wedding.event_time} />
+                <AzureTime eventTime={wedding.event_time} eventDate={wedding.event_date} bride={bride} groom={groom} />
                 <AzureLetter guestName={guest.name} bride={bride} groom={groom} message={wedding.message} />
-                <Countdown eventDate={wedding.event_date} eventTime={wedding.event_time} />
-                <Location venue={wedding.venue} venueAddress={wedding.venue_address} googleMapsUrl={wedding.google_maps_url} />
+                <AzureCountdown eventDate={wedding.event_date} eventTime={wedding.event_time} />
+                <AzureLocation venue={wedding.venue} venueAddress={wedding.venue_address} googleMapsUrl={wedding.google_maps_url} />
                 <AzurePhotos photos={wedding.photos} />
+                <AzureRsvp guestName={guest.name} initialStatus={guest.rsvp_status} onSubmit={onRsvp} isDemo={isDemo} />
             </main>
         </div>
     );

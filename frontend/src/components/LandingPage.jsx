@@ -41,7 +41,7 @@ const products = [
     },
     {
         title: 'Greeting cards',
-        copy: 'Personal notes for holidays, thank-yous, birthdays, and announcements — send directly or by link.',
+        copy: 'Personal notes for holidays, thank-yous, birthdays, and announcements, send directly or by link.',
     },
 ];
 
@@ -287,7 +287,7 @@ export default function LandingPage() {
                             Invitations, event pages, and greeting cards
                         </h2>
                         <p className="products-subheading">
-                            Design, send, and track guest responses in one place — from the
+                            Design, send, and track guest responses in one place, from the
                             save-the-date through the final RSVP.
                         </p>
                     </header>

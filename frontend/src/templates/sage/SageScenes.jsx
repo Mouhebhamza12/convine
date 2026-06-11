@@ -106,14 +106,22 @@ export function SagePhotos({ photos = [] }) {
         return () => ctx.revert();
     }, []);
 
+    const figures = ['fig. i: how we met', 'fig. ii: the proposal', 'fig. iii: us, lately'];
+
     return (
         <section className="sage-scene">
-            <p className="sage-eyebrow">Our Moments</p>
+            <p className="sage-eyebrow">Herbarium of moments</p>
             <SageRule className="sage-eyebrow-rule" />
             <div ref={stageRef} className="sage-photo-stage">
                 {items.slice(0, 3).map((src, i) => (
-                    <div key={i} className={`sage-photo sage-photo--${i + 1}`}>
+                    <div key={i} className={`sage-photo sage-photo--${i + 1} sg-spec`}>
+                        {/* entomology pin holding the specimen */}
+                        <svg className="sg-spec__pin" viewBox="0 0 18 26" fill="none" stroke="var(--sage-green-deep)" strokeLinecap="round" aria-hidden="true">
+                            <circle cx="9" cy="5" r="3.4" strokeWidth="1.4" fill="var(--sage-green)" fillOpacity="0.5" />
+                            <line x1="9" y1="8.5" x2="9" y2="24" strokeWidth="1.4" />
+                        </svg>
                         {src ? <img src={src} alt="" loading="lazy" /> : <div className="sage-photo__fill" style={{ background: fills[i] }} />}
+                        <p className="sg-spec__label">{figures[i]}</p>
                     </div>
                 ))}
             </div>

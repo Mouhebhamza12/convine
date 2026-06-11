@@ -272,7 +272,7 @@ export function FiligreeLetter({ guestName, message, bride, groom }) {
                 <p className="filigree-letter__body filigree-letter__reveal">
                     {message || 'We would be honoured to have you beside us as we tie our lives together. Your presence would make our day complete.'}
                 </p>
-                <p className="filigree-letter__sign filigree-letter__reveal">— {bride} &amp; {groom}</p>
+                <p className="filigree-letter__sign filigree-letter__reveal">{bride} &amp; {groom}</p>
             </div>
         </section>
     );
@@ -582,7 +582,7 @@ export function FiligreeRSVP({ guestName, initialStatus, onSubmit, isDemo }) {
                     </h2>
                     <p className="filigree-rsvp__done-text">
                         {attending
-                            ? `We cannot wait to celebrate with you, ${guestName}. Until then — every stitch of this day is woven with your name in it.`
+                            ? `We cannot wait to celebrate with you, ${guestName}. Until then, every stitch of this day is woven with your name in it.`
                             : `We understand, ${guestName}. You will be held close in our hearts on the day, thread and all.`}
                     </p>
                 </div>

@@ -40,7 +40,7 @@ export default function FiligreeInvitation({ data, isDemo, onRsvp }) {
             <main className={`invitation-story filigree-story${opened ? ' is-visible' : ''}`}>
                 <FiligreeNames bride={bride} groom={groom} />
                 <ThreadStitch />
-                <FiligreeWords text="Every great love is woven slowly — one quiet thread at a time." />
+                <FiligreeWords text="Every great love is woven slowly, one quiet thread at a time." />
                 <ThreadStitch />
                 <FiligreeDate eventDate={wedding.event_date} />
                 <ThreadStitch />

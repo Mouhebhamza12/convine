@@ -498,3 +498,277 @@ html:has(.sage-invitation) {
 .sage-invitation .rsvp-confirmation-title { font-family: 'Dancing Script', cursive; color: var(--sage-green); }
 .sage-invitation .rsvp-confirmation-text { font-family: 'Cormorant Garamond', serif; color: var(--sage-ink); }
 .sage-invitation .rsvp-confirmation-icon { color: var(--sage-green); }
+
+/* ===================================================================
+   SAGE SECTION MEDIUMS — pocket watch / field journal /
+   survey plate / stationery reply card / herbarium
+   =================================================================== */
+
+/* ── Pocket watch ── */
+.sg-watch { width: clamp(150px, 38vw, 210px); height: auto; margin: clamp(0.8rem, 2.5vw, 1.4rem) 0 0; }
+
+.sg-watch__words {
+    font-family: 'Dancing Script', cursive;
+    font-weight: 600;
+    font-size: clamp(1.8rem, 6.5vw, 2.8rem);
+    color: var(--sage-green);
+    margin: clamp(0.8rem, 2.5vw, 1.2rem) 0 0;
+}
+
+.sg-watch__note {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(0.95rem, 2.7vw, 1.15rem);
+    color: var(--sage-ink);
+    max-width: 34ch;
+    margin: 0.5rem 0 0;
+}
+
+/* ── Field journal ── */
+.sg-journal {
+    position: relative;
+    width: min(92vw, 440px);
+    padding: clamp(1.8rem, 6vw, 2.6rem) clamp(1.6rem, 5vw, 2.4rem);
+    background: #fffdf8;
+    box-shadow: 0 18px 44px rgba(111, 125, 80, 0.14);
+    text-align: left;
+    overflow: hidden;
+}
+
+.sg-journal__rules { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+
+.sg-journal__head {
+    position: relative;
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    font-family: 'Cormorant Garamond', serif;
+}
+
+.sg-journal__head span {
+    font-weight: 600;
+    font-size: clamp(1.1rem, 3.4vw, 1.45rem);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--sage-green-deep);
+}
+
+.sg-journal__head em { font-style: italic; color: var(--sage-ink); font-size: clamp(0.9rem, 2.6vw, 1.1rem); }
+
+.sg-journal__rows { position: relative; margin-top: clamp(1rem, 3vw, 1.5rem); display: flex; flex-direction: column; gap: clamp(0.75rem, 2.4vw, 1.05rem); }
+
+.sg-journal__row { display: flex; align-items: baseline; gap: 0.7rem; }
+
+.sg-journal__row span {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(0.95rem, 2.8vw, 1.15rem);
+    color: var(--sage-ink);
+    white-space: nowrap;
+}
+
+.sg-journal__leader { flex: 1 1 30px; height: 4px; min-width: 20px; }
+
+.sg-journal__row strong {
+    font-family: 'Dancing Script', cursive;
+    font-weight: 700;
+    font-size: clamp(1.7rem, 5.5vw, 2.3rem);
+    line-height: 1;
+    color: var(--sage-green);
+    min-width: 2.2ch;
+    text-align: right;
+}
+
+.sg-journal__obs {
+    position: relative;
+    margin: clamp(1.1rem, 3.4vw, 1.7rem) 0 0;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(0.88rem, 2.5vw, 1.05rem);
+    color: var(--sage-ink);
+    opacity: 0.85;
+}
+
+/* ── Survey plate ── */
+.sg-plate__no {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(0.8rem, 2.3vw, 1rem);
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--sage-green-deep);
+    margin: 0;
+}
+
+.sg-plate__title {
+    font-family: 'Dancing Script', cursive;
+    font-weight: 600;
+    font-size: clamp(2.4rem, 9vw, 3.8rem);
+    line-height: 1;
+    color: var(--sage-green);
+    margin: clamp(0.3rem, 1.2vw, 0.6rem) 0 0;
+}
+
+.sg-plate {
+    position: relative;
+    width: min(92vw, 460px);
+    margin-top: clamp(0.4rem, 1.5vw, 0.8rem);
+}
+
+.sg-plate__img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1.12 / 1;
+    object-fit: cover;
+    object-position: center 44%;
+    mix-blend-mode: multiply;
+    -webkit-mask-image: radial-gradient(ellipse 94% 92% at 50% 50%, #000 70%, transparent 100%);
+    mask-image: radial-gradient(ellipse 94% 92% at 50% 50%, #000 70%, transparent 100%);
+}
+
+.sg-plate__leaders { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+
+.sg-plate__label {
+    position: absolute;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(0.78rem, 2.2vw, 0.95rem);
+    color: var(--sage-green-deep);
+    background: rgba(248, 244, 236, 0.7);
+    padding: 0 0.3rem;
+}
+
+.sg-plate__label--1 { top: 22%; left: 0; }
+.sg-plate__label--2 { top: 14%; right: 0; }
+.sg-plate__label--3 { bottom: 18%; right: 0; }
+
+.sg-plate__caption {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(0.9rem, 2.6vw, 1.1rem);
+    color: var(--sage-ink);
+    margin: clamp(0.5rem, 1.8vw, 0.9rem) 0 0;
+}
+
+.sg-plate__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+    margin-top: clamp(0.9rem, 2.8vw, 1.4rem);
+    padding: 0.65rem 1.5rem 0.65rem 0.8rem;
+    border: 1px solid rgba(140, 154, 108, 0.6);
+    border-radius: 999px;
+    background: rgba(255, 253, 248, 0.6);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(0.78rem, 2.2vw, 0.95rem);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--sage-green-deep);
+    text-decoration: none;
+    transition: all 0.35s ease;
+}
+
+.sg-plate__btn:hover { background: var(--sage-green); color: #fff; }
+.sg-plate__btn:hover .sg-plate__compass { color: #fff; }
+.sg-plate__compass { width: clamp(26px, 7vw, 34px); color: var(--sage-green-deep); transition: color 0.35s ease; }
+
+/* ── Reply card ── */
+.sg-reply {
+    width: min(92vw, 420px);
+    padding: clamp(1.6rem, 5vw, 2.4rem) clamp(1.4rem, 4.5vw, 2.2rem);
+    background: #fffdf8;
+    box-shadow: 0 18px 44px rgba(111, 125, 80, 0.14);
+}
+
+.sg-reply__rule { display: block; width: 100%; height: 8px; margin-bottom: clamp(1rem, 3vw, 1.5rem); }
+.sg-reply__rule--btm { margin: clamp(1rem, 3vw, 1.5rem) 0 0; }
+
+.sg-reply__head {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.05rem, 3.2vw, 1.35rem);
+    letter-spacing: 0.1em;
+    color: var(--sage-green-deep);
+    margin: 0;
+}
+
+.sg-reply__guest {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(0.92rem, 2.7vw, 1.1rem);
+    color: var(--sage-ink);
+    margin: 0.4rem 0 0;
+}
+
+.sg-reply__guest strong { color: var(--sage-green); font-weight: 600; }
+
+.sg-reply__options {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(0.7rem, 2.2vw, 1rem);
+    margin-top: clamp(1.1rem, 3.4vw, 1.7rem);
+    align-items: flex-start;
+    text-align: left;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.sg-reply__opt {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    color: var(--sage-ink);
+    transition: transform 0.25s ease;
+}
+
+.sg-reply__opt:hover:not(:disabled):not(.is-final) { transform: translateX(4px); color: var(--sage-green-deep); }
+.sg-reply__opt:disabled { opacity: 0.5; cursor: default; }
+.sg-reply__opt.is-dim { opacity: 0.35; }
+
+.sg-reply__opt span {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.05rem, 3.2vw, 1.3rem);
+    font-style: italic;
+}
+
+.sg-reply__box { width: clamp(22px, 6vw, 28px); flex: 0 0 auto; }
+
+.sg-reply__tick {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    transition: stroke-dashoffset 0.7s ease 0.15s;
+}
+
+.sg-reply__tick.is-on { stroke-dashoffset: 0; }
+
+.sg-reply__seal { width: clamp(58px, 15vw, 76px); margin: clamp(0.9rem, 2.8vw, 1.4rem) auto 0; display: block; filter: drop-shadow(0 6px 14px rgba(111, 125, 80, 0.3)); }
+
+.sg-reply__msg {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(0.95rem, 2.8vw, 1.15rem);
+    color: var(--sage-ink);
+    margin: 0.8rem 0 0;
+}
+
+/* ── Herbarium photos ── */
+.sg-spec { position: relative; }
+
+.sg-spec__pin {
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 18px;
+    z-index: 2;
+}
+
+.sg-spec__label {
+    margin: 0.45rem 0 0;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(0.74rem, 2vw, 0.9rem);
+    color: var(--sage-green-deep);
+}
