@@ -1,125 +1,190 @@
 /**
- * AzureArt — blue line-art illustrations for the Azure template.
- * Couple drawing, ornate cartouche frame, hand-drawn doodles, phone icon.
- * All use currentColor so the blue is set in CSS.
+ * AzureArt — blue line-art SVG asset pack for the Azure template.
+ * Each asset is a separate, reusable component. All vector, all currentColor.
+ *
+ *   <CoupleIllustration/>  bride + groom line drawing
+ *   <OrnateFrame/>         scalloped double-line cartouche (wraps children)
+ *   <StarsCluster/>        small four-point sparkle cluster
+ *   <Flourish/>            curved calligraphic divider / accent
+ *   <HeartDivider/>        line · heart · line divider
+ *   <ClockIcon/> <PinIcon/> <PhoneBadge/> <HeartGlyph/>   line icons
  */
 
-/* ─── Ornate double-outline cartouche frame ─── */
+/* ── scalloped wavy-circle path generator ── */
+function wavyCircle(cx, cy, baseR, lobes, amp) {
+    const total = 160;
+    const pts = [];
+    for (let i = 0; i <= total; i++) {
+        const a = (i / total) * Math.PI * 2;
+        const r = baseR + amp * Math.cos(lobes * a);
+        pts.push(`${(cx + r * Math.cos(a)).toFixed(1)} ${(cy + r * Math.sin(a)).toFixed(1)}`);
+    }
+    return `M${pts[0]} L ${pts.slice(1).join(' L ')} Z`;
+}
+
+/* ─── Ornate scalloped frame (wraps the couple) ─── */
 export function OrnateFrame({ className, children }) {
-    // A wavy "label" outline, drawn twice (outer + inner) for the double line.
-    const shape =
-        'M40 18 ' +
-        'C 90 8 170 8 220 18 ' +
-        'C 232 40 232 60 224 78 ' +
-        'C 236 110 236 150 224 182 ' +
-        'C 232 200 232 220 220 242 ' +
-        'C 170 252 90 252 40 242 ' +
-        'C 28 220 28 200 36 182 ' +
-        'C 24 150 24 110 36 78 ' +
-        'C 28 60 28 40 40 18 Z';
+    const outer = wavyCircle(130, 130, 118, 9, 7);
+    const inner = wavyCircle(130, 130, 104, 9, 6);
     return (
         <div className={className}>
             <svg className="azure-frame__svg" viewBox="0 0 260 260" fill="none" stroke="currentColor" strokeLinejoin="round" strokeLinecap="round" aria-hidden="true">
-                <path d={shape} strokeWidth="2.4" />
-                <path d={shape} strokeWidth="1" transform="translate(130 130) scale(0.93) translate(-130 -130)" opacity="0.9" />
-                {/* little center points top & bottom */}
-                <path d="M130 6 l5 8 -5 6 -5 -6 z" strokeWidth="1.6" />
-                <path d="M130 254 l5 -8 -5 -6 -5 6 z" strokeWidth="1.6" />
+                <path d={outer} strokeWidth="3" />
+                <path d={inner} strokeWidth="1.4" opacity="0.9" />
             </svg>
             <div className="azure-frame__content">{children}</div>
         </div>
     );
 }
 
-/* ─── Line-art couple (bride + groom, arm in arm) ─── */
+/* ─── Line-art couple: bride (left) leaning to groom (right) ─── */
 export function CoupleIllustration({ className }) {
     return (
-        <svg className={className} viewBox="0 0 200 280" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-            {/* ===== BRIDE (left) ===== */}
-            {/* veil flowing behind */}
-            <path d="M72 60 C50 90 46 160 56 250" strokeWidth="1.4" opacity="0.8" />
-            <path d="M80 58 C96 78 98 120 96 150" strokeWidth="1.2" opacity="0.5" />
-            {/* head + hair */}
-            <circle cx="84" cy="60" r="14" />
-            <path d="M71 56 C72 44 96 44 97 56 C99 50 94 42 84 42 C74 42 69 50 71 56 Z" strokeWidth="1.6" />
-            {/* neck + shoulders */}
-            <path d="M84 74 L84 84" strokeWidth="1.6" />
-            {/* gown: bodice to flaring A-line skirt */}
-            <path d="M84 84 C72 90 68 110 70 132 L66 150" />
-            <path d="M84 84 C96 90 100 110 100 132 L106 150" />
-            <path d="M66 150 C52 185 50 225 54 262" />
-            <path d="M106 150 C112 190 110 230 104 262" />
-            <path d="M54 262 C70 270 90 270 104 262" />
-            {/* skirt fold lines */}
-            <path d="M82 156 C80 200 80 230 80 258" strokeWidth="1.1" opacity="0.6" />
-            <path d="M92 156 C94 196 94 228 94 258" strokeWidth="1.1" opacity="0.6" />
-            {/* bouquet at waist */}
-            <g strokeWidth="1.4">
-                <circle cx="104" cy="150" r="5" />
-                <circle cx="112" cy="146" r="5" />
-                <circle cx="110" cy="156" r="5" />
-                <circle cx="118" cy="152" r="4.5" />
-                <path d="M108 160 L106 176 M114 159 L116 176" strokeWidth="1.1" />
+        <svg className={className} viewBox="0 0 240 320" fill="none" stroke="currentColor" strokeWidth="2.1" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            {/* ===================== BRIDE ===================== */}
+            {/* hair updo + head (tilted toward groom) */}
+            <path d="M86 52 C82 40 104 36 110 48 C116 44 112 30 98 30 C84 30 80 44 86 52 Z" strokeWidth="1.7" />
+            <circle cx="98" cy="58" r="13" />
+            <path d="M85 52 C78 50 74 56 78 62 C80 58 83 56 86 56" strokeWidth="1.5" />
+            {/* neckline + bare shoulders */}
+            <path d="M90 70 C92 76 104 76 106 70" strokeWidth="1.6" />
+            <path d="M88 74 C80 78 76 86 76 96" />
+            <path d="M108 74 C116 78 120 88 121 104" />
+            {/* sweetheart bodice to waist */}
+            <path d="M76 96 C78 112 80 124 84 138" />
+            <path d="M121 104 C120 120 116 128 112 140" />
+            <path d="M84 138 C92 144 104 144 112 140" strokeWidth="1.5" />
+            {/* flowing gown + train sweeping left */}
+            <path d="M84 138 C66 170 50 230 40 300" />
+            <path d="M112 140 C124 180 126 250 118 300" />
+            <path d="M40 300 C40 308 56 310 74 306 C92 310 110 308 118 300" />
+            {/* train pool extra sweep */}
+            <path d="M52 280 C44 292 36 300 26 304 C36 300 46 302 56 296" strokeWidth="1.5" opacity="0.85" />
+            {/* gown fold lines */}
+            <path d="M90 150 C82 200 74 250 66 296" strokeWidth="1.1" opacity="0.55" />
+            <path d="M100 150 C100 205 100 252 98 300" strokeWidth="1.1" opacity="0.55" />
+            <path d="M108 152 C114 205 116 255 112 298" strokeWidth="1.1" opacity="0.55" />
+            {/* bride near-arm linking groom */}
+            <path d="M112 112 C124 118 134 128 138 142" strokeWidth="1.7" />
+            {/* bouquet held low at her left side */}
+            <g strokeWidth="1.5">
+                <circle cx="70" cy="150" r="6" />
+                <circle cx="80" cy="146" r="6" />
+                <circle cx="78" cy="158" r="6" />
+                <circle cx="88" cy="153" r="5.5" />
+                <circle cx="68" cy="161" r="5" />
+                <path d="M74 168 C73 186 71 206 69 224 M84 166 C86 186 86 206 84 224" strokeWidth="1.2" opacity="0.8" />
             </g>
-            {/* bride arm linking */}
-            <path d="M98 96 C108 104 116 116 120 132" strokeWidth="1.6" />
 
-            {/* ===== GROOM (right) ===== */}
-            {/* head + hair */}
-            <circle cx="138" cy="58" r="14" />
-            <path d="M125 54 C126 42 151 42 151 55 C153 47 147 40 138 40 C129 40 123 47 125 54 Z" strokeWidth="1.6" />
-            {/* neck */}
-            <path d="M138 72 L138 82" strokeWidth="1.6" />
-            {/* shoulders + jacket */}
-            <path d="M138 82 C126 86 120 96 118 110 L116 170" />
-            <path d="M138 82 C150 86 156 96 158 110 L160 172" />
-            {/* lapels + shirt V */}
-            <path d="M138 84 L131 104 L138 116 L145 104 L138 84" strokeWidth="1.5" />
-            <path d="M138 116 L138 150" strokeWidth="1.1" opacity="0.7" />
+            {/* ===================== GROOM ===================== */}
+            {/* hair + head (turned slightly to bride) */}
+            <path d="M150 40 C140 40 134 50 138 60 C140 52 146 48 154 48 C162 48 167 52 168 60 C170 50 162 40 150 40 Z" strokeWidth="1.7" />
+            <circle cx="153" cy="58" r="13" />
+            {/* collar + bow tie */}
+            <path d="M147 70 L150 80 L153 70" strokeWidth="1.6" />
+            <path d="M144 82 C148 78 152 78 156 82 C152 86 148 86 144 82 Z" strokeWidth="1.6" />
+            {/* jacket shoulders + sides */}
+            <path d="M150 80 C138 84 132 96 131 112 L130 210" />
+            <path d="M150 80 C164 84 172 96 174 112 L176 210" />
+            {/* lapels */}
+            <path d="M150 84 L140 110 L150 124 M150 84 L162 110 L150 124" strokeWidth="1.5" />
+            <path d="M150 124 L150 188" strokeWidth="1.1" opacity="0.6" />
+            {/* jacket pocket + hand-in-pocket arm */}
+            <path d="M162 150 L172 150" strokeWidth="1.4" />
+            <path d="M174 130 C180 142 180 152 170 152" strokeWidth="1.6" />
             {/* trousers */}
-            <path d="M118 170 C120 200 122 235 122 264 L132 264 L138 176" />
-            <path d="M160 172 C160 205 156 238 154 264 L144 264 L138 176" />
+            <path d="M131 210 C132 244 134 280 134 304 L148 304 L153 214" />
+            <path d="M176 210 C176 246 172 282 170 304 L156 304 L153 214" />
             {/* shoes */}
-            <path d="M120 264 L134 264 M142 264 L156 264" strokeWidth="2.4" />
-            {/* groom arm linking bride */}
-            <path d="M120 110 C112 118 110 126 116 134" strokeWidth="1.6" />
+            <path d="M132 304 L150 304 M154 304 L172 304" strokeWidth="2.6" />
         </svg>
     );
 }
 
-/* ─── Hand-drawn doodle accents ─── */
-export function Doodle({ type = 'sparkle', className }) {
-    const common = { className, fill: 'none', stroke: 'currentColor', strokeWidth: 2, strokeLinecap: 'round', strokeLinejoin: 'round', 'aria-hidden': true };
-    if (type === 'sparkle') {
-        return (
-            <svg viewBox="0 0 24 24" {...common}>
-                <path d="M12 2 C13 9 15 11 22 12 C15 13 13 15 12 22 C11 15 9 13 2 12 C9 11 11 9 12 2 Z" />
-            </svg>
-        );
-    }
-    if (type === 'spiral') {
-        return (
-            <svg viewBox="0 0 24 24" {...common}>
-                <path d="M12 12 C12 9 16 9 16 12 C16 16 9 16 9 11 C9 5 18 5 18 13" />
-            </svg>
-        );
-    }
-    if (type === 'swirl') {
-        return (
-            <svg viewBox="0 0 28 16" {...common}>
-                <path d="M2 8 C8 0 12 0 12 6 C12 10 8 10 9 6 C10 2 18 2 20 8 C22 13 26 12 26 9" />
-            </svg>
-        );
-    }
-    // 'curl'
+/* ─── Small four-point star sparkle cluster ─── */
+function star(cx, cy, r) {
+    return `M${cx} ${cy - r} C ${cx + r * 0.22} ${cy - r * 0.22} ${cx + r * 0.22} ${cy - r * 0.22} ${cx + r} ${cy} C ${cx + r * 0.22} ${cy + r * 0.22} ${cx + r * 0.22} ${cy + r * 0.22} ${cx} ${cy + r} C ${cx - r * 0.22} ${cy + r * 0.22} ${cx - r * 0.22} ${cy + r * 0.22} ${cx - r} ${cy} C ${cx - r * 0.22} ${cy - r * 0.22} ${cx - r * 0.22} ${cy - r * 0.22} ${cx} ${cy - r} Z`;
+}
+
+export function StarsCluster({ className }) {
     return (
-        <svg viewBox="0 0 24 24" {...common}>
-            <path d="M4 18 C4 8 14 8 14 14 C14 18 9 18 10 13 C11 8 20 8 20 16" />
+        <svg className={className} viewBox="0 0 80 70" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round" aria-hidden="true">
+            <path d={star(22, 24, 11)} />
+            <path d={star(44, 16, 7)} />
+            <path d={star(58, 30, 9)} />
+            <path d={star(34, 44, 8)} />
+            <circle cx="30" cy="34" r="1.1" fill="currentColor" stroke="none" />
+            <circle cx="52" cy="48" r="1.1" fill="currentColor" stroke="none" />
         </svg>
     );
 }
 
-/* ─── Phone in a circle (RSVP line) ─── */
+/* ─── Single four-point star (for scattering) ─── */
+export function Star({ className }) {
+    return (
+        <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" aria-hidden="true">
+            <path d={star(12, 12, 10)} />
+        </svg>
+    );
+}
+
+/* ─── Curved calligraphic flourish (scatter accent) ─── */
+export function Flourish({ className, variant = 'a' }) {
+    return (
+        <svg className={className} viewBox="0 0 40 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            {variant === 'a' ? (
+                <path d="M4 12 C10 4 16 4 16 10 C16 15 10 15 12 9 C14 4 24 4 28 12 C31 18 37 17 37 12" />
+            ) : (
+                <path d="M6 6 C6 16 18 16 18 9 C18 4 12 4 13 10 C14 18 30 18 34 8" />
+            )}
+        </svg>
+    );
+}
+
+/* ─── Heart · line divider ─── */
+function heartPath(cx, cy, s) {
+    return `M${cx} ${cy + s * 0.7} C ${cx - s} ${cy - s * 0.2} ${cx - s * 0.55} ${cy - s} ${cx} ${cy - s * 0.35} C ${cx + s * 0.55} ${cy - s} ${cx + s} ${cy - s * 0.2} ${cx} ${cy + s * 0.7} Z`;
+}
+
+export function HeartDivider({ className }) {
+    return (
+        <svg className={className} viewBox="0 0 220 18" fill="none" stroke="currentColor" strokeLinecap="round" aria-hidden="true">
+            <line x1="20" y1="9" x2="86" y2="9" strokeWidth="1.2" />
+            <line x1="134" y1="9" x2="200" y2="9" strokeWidth="1.2" />
+            <circle cx="96" cy="9" r="1.5" fill="currentColor" stroke="none" />
+            <circle cx="124" cy="9" r="1.5" fill="currentColor" stroke="none" />
+            <path d={heartPath(110, 8, 5)} strokeWidth="1.3" fill="currentColor" />
+        </svg>
+    );
+}
+
+export function HeartGlyph({ className }) {
+    return (
+        <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" aria-hidden="true">
+            <path d={heartPath(12, 10, 7)} />
+        </svg>
+    );
+}
+
+/* ─── Line icons for the meta row ─── */
+export function ClockIcon({ className }) {
+    return (
+        <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="9" />
+            <path d="M12 7v5l3.5 2.2" />
+        </svg>
+    );
+}
+
+export function PinIcon({ className }) {
+    return (
+        <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <path d="M12 22s7-7.6 7-13a7 7 0 1 0-14 0c0 5.4 7 13 7 13z" />
+            <circle cx="12" cy="9" r="2.6" />
+        </svg>
+    );
+}
+
 export function PhoneBadge({ className }) {
     return (
         <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden="true">

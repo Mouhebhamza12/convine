@@ -1,5 +1,6 @@
 /* ===================================================================
-   AZURE TEMPLATE — bold blue type + hand-drawn couple on warm cream
+   AZURE TEMPLATE — bold blue type + hand-drawn couple on warm cream.
+   Decoration is SVG-only (see AzureArt.jsx); CSS handles layout + type.
    =================================================================== */
 
 .azure-invitation {
@@ -14,121 +15,7 @@
     font-family: 'Playfair Display', Georgia, serif;
 }
 
-/* ─────────────── COVER (identical reference screen) ─────────────── */
-.azure-cover {
-    position: fixed;
-    inset: 0;
-    z-index: 100;
-    background: var(--azure-cream);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    overflow-y: auto;
-    padding: clamp(1.5rem, 5vw, 3rem) 1.5rem;
-    color: var(--azure-blue);
-    text-align: center;
-}
-
-.azure-cover__inner {
-    width: min(92vw, 600px);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.azure-cover__invite {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(0.85rem, 2.6vw, 1.05rem);
-    margin: 0 0 clamp(0.5rem, 2vw, 0.9rem);
-}
-
-.azure-cover__names {
-    font-family: 'Playfair Display', serif;
-    font-weight: 900;
-    font-size: clamp(3.2rem, 15vw, 6.5rem);
-    line-height: 0.86;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-}
-
-.azure-cover__together {
-    font-family: 'Playfair Display', serif;
-    font-weight: 700;
-    font-size: clamp(1rem, 3.4vw, 1.4rem);
-    margin: clamp(0.7rem, 2.5vw, 1.1rem) 0 0;
-}
-
-.azure-cover__art {
-    position: relative;
-    width: min(78vw, 350px);
-    margin: clamp(0.8rem, 3vw, 1.6rem) 0;
-}
-
-.azure-frame {
-    position: relative;
-    width: 100%;
-    color: var(--azure-blue);
-}
-
-.azure-frame__svg { width: 100%; height: auto; display: block; }
-
-.azure-frame__content {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.azure-couple { width: 56%; height: auto; color: var(--azure-blue); }
-
-.azure-doodle {
-    position: absolute;
-    color: var(--azure-blue);
-    width: clamp(18px, 5vw, 28px);
-    height: auto;
-}
-
-.azure-doodle--1 { top: -3%; left: 6%; }
-.azure-doodle--2 { top: 6%; right: -3%; }
-.azure-doodle--3 { bottom: 4%; right: 4%; width: clamp(22px, 6vw, 34px); }
-.azure-doodle--4 { top: 42%; left: -5%; }
-.azure-doodle--5 { bottom: -2%; left: 16%; }
-
-.azure-cover__meta {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    justify-content: center;
-    gap: clamp(0.5rem, 3vw, 1.6rem);
-    margin-top: clamp(0.6rem, 3vw, 1.2rem);
-    font-family: 'Playfair Display', serif;
-}
-
-.azure-cover__meta > span { font-size: clamp(0.85rem, 2.6vw, 1.05rem); }
-
-.azure-cover__date {
-    font-weight: 700;
-    font-size: clamp(1.05rem, 3.2vw, 1.4rem) !important;
-}
-
-.azure-cover__date sup { font-size: 0.55em; }
-
-.azure-cover__rsvp {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(0.8rem, 2.4vw, 1rem);
-    margin: clamp(0.7rem, 2.5vw, 1.1rem) 0 0;
-}
-
-.azure-phone { width: clamp(18px, 5vw, 24px); height: auto; color: var(--azure-blue); }
-
-/* ─────────────── SECTIONS ─────────────── */
+/* ─────────────── SECTION SHELL ─────────────── */
 .azure-scene {
     position: relative;
     min-height: auto;
@@ -148,23 +35,130 @@
     margin: 0;
 }
 
-/* Letter */
+/* ─────────────── HERO ─────────────── */
+.azure-hero { padding-top: clamp(2.5rem, 7vh, 4rem); width: 100%; }
+
+.azure-hero__invite {
+    font-family: 'Jost', sans-serif;
+    font-weight: 500;
+    font-size: clamp(0.66rem, 2vw, 0.84rem);
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    line-height: 1.7;
+    margin: 0;
+}
+
+.azure-hero__names {
+    font-family: 'Playfair Display', serif;
+    font-weight: 800;
+    font-size: clamp(3.4rem, 16vw, 6.4rem);
+    line-height: 0.92;
+    margin: clamp(0.3rem, 1.5vw, 0.7rem) 0 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.azure-hero__hdiv {
+    display: block;
+    width: min(70%, 250px);
+    height: auto;
+    color: var(--azure-blue);
+    margin: clamp(0.7rem, 2.5vw, 1.1rem) auto;
+}
+
+.azure-hero__together {
+    font-family: 'Jost', sans-serif;
+    font-weight: 500;
+    font-size: clamp(0.72rem, 2.2vw, 0.92rem);
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    margin: 0;
+}
+
+.azure-hero__art {
+    position: relative;
+    width: min(82vw, 360px);
+    margin: clamp(1rem, 4vw, 2rem) auto;
+}
+
+.azure-frame { position: relative; width: 100%; color: var(--azure-blue); }
+.azure-frame__svg { width: 100%; height: auto; display: block; }
+.azure-frame__content { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+.azure-couple { width: 64%; height: auto; color: var(--azure-blue); }
+
+.azure-acc { position: absolute; color: var(--azure-blue); pointer-events: none; }
+.azure-acc--stars { top: 0%; left: -7%; width: clamp(40px, 12vw, 66px); }
+.azure-acc--f1 { top: 12%; right: -6%; width: clamp(28px, 8vw, 44px); }
+.azure-acc--f2 { top: 54%; left: -9%; width: clamp(28px, 8vw, 44px); }
+.azure-acc--s1 { bottom: 10%; right: -3%; width: clamp(16px, 4.5vw, 26px); }
+.azure-acc--s2 { bottom: -2%; left: 20%; width: clamp(14px, 4vw, 22px); }
+
+.azure-hero__meta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(0.7rem, 3vw, 1.5rem);
+    margin-top: clamp(0.4rem, 2vw, 0.9rem);
+}
+
+.azure-meta__col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35rem;
+    font-family: 'Jost', sans-serif;
+    font-size: clamp(0.58rem, 1.8vw, 0.74rem);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    line-height: 1.4;
+}
+
+.azure-meta__icon { width: clamp(18px, 5vw, 24px); height: auto; color: var(--azure-blue); }
+.azure-meta__sep { width: 1px; align-self: stretch; background: rgba(46, 94, 158, 0.4); }
+
+.azure-meta__date { font-family: 'Playfair Display', serif; gap: 0; }
+.azure-meta__date strong { font-weight: 700; font-size: clamp(1.05rem, 3.4vw, 1.5rem); letter-spacing: 0.02em; }
+.azure-meta__date sup { font-size: 0.55em; }
+
+.azure-hero__rsvp {
+    font-family: 'Jost', sans-serif;
+    font-weight: 500;
+    font-size: clamp(0.64rem, 2vw, 0.82rem);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    margin: clamp(1rem, 3vw, 1.6rem) 0 0;
+}
+
+.azure-hero__phone {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-family: 'Playfair Display', serif;
+    font-weight: 600;
+    font-size: clamp(1rem, 3vw, 1.3rem);
+    margin: 0.5rem 0 0;
+}
+
+.azure-phone { width: clamp(20px, 5.5vw, 26px); height: auto; color: var(--azure-blue); }
+
+/* ─────────────── LETTER ─────────────── */
 .azure-letter {
     position: relative;
     width: min(92vw, 460px);
     padding: clamp(2.8rem, 7vw, 3.6rem) clamp(2rem, 6vw, 2.8rem);
     border: 2px solid var(--azure-blue);
+    border-radius: 16px;
     background: transparent;
 }
 
-.azure-letter__doodle--tl { position: absolute; top: -16px; left: -16px; width: 30px; background: var(--azure-cream); padding: 4px; }
-.azure-letter__doodle--br { position: absolute; bottom: -16px; right: -16px; width: 30px; background: var(--azure-cream); padding: 4px; }
+.azure-letter__star--tl { position: absolute; top: -16px; left: -16px; width: 30px; background: var(--azure-cream); padding: 4px; }
+.azure-letter__star--br { position: absolute; bottom: -16px; right: -16px; width: 30px; background: var(--azure-cream); padding: 4px; }
 
 .azure-letter__greeting {
     font-family: 'Playfair Display', serif;
     font-weight: 700;
     font-size: clamp(1.2rem, 3.6vw, 1.6rem);
-    color: var(--azure-blue);
     margin: 0 0 1rem;
 }
 
@@ -172,19 +166,19 @@
     font-family: 'Playfair Display', serif;
     font-size: clamp(1.05rem, 3vw, 1.25rem);
     line-height: 1.8;
-    color: var(--azure-blue);
     margin: 0;
 }
+
+.azure-letter__div { display: block; width: 170px; height: auto; color: var(--azure-blue); margin: 1.4rem auto; }
 
 .azure-letter__sign {
     font-family: 'Playfair Display', serif;
     font-weight: 900;
     font-size: clamp(1.8rem, 6vw, 2.6rem);
-    color: var(--azure-blue);
-    margin: 1.4rem 0 0;
+    margin: 0;
 }
 
-/* Photos */
+/* ─────────────── PHOTOS ─────────────── */
 .azure-photo-stage {
     display: flex;
     justify-content: center;
@@ -199,6 +193,7 @@
     background: #fff;
     padding: 8px;
     border: 2px solid var(--azure-blue);
+    border-radius: 6px;
 }
 
 .azure-photo img,
@@ -213,8 +208,8 @@
 
 .azure-invitation .time-label,
 .azure-invitation .location-title {
-    font-family: 'Playfair Display', serif;
-    letter-spacing: 0.2em;
+    font-family: 'Jost', sans-serif;
+    letter-spacing: 0.22em;
     text-transform: uppercase;
     color: var(--azure-blue);
 }
@@ -232,18 +227,9 @@
     color: var(--azure-blue) !important;
 }
 
-.azure-invitation .time-thanks {
-    font-family: 'Playfair Display', serif;
-    color: var(--azure-blue);
-}
+.azure-invitation .time-thanks { font-family: 'Jost', sans-serif; letter-spacing: 0.14em; color: var(--azure-blue); }
 
-.azure-invitation .location-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: min(90vw, 500px);
-    margin: 0 auto;
-}
+.azure-invitation .location-content { display: flex; flex-direction: column; align-items: center; width: min(90vw, 500px); margin: 0 auto; }
 
 .azure-invitation .location-venue {
     font-family: 'Playfair Display', serif !important;
@@ -262,11 +248,7 @@
 }
 
 .azure-invitation .location-building-img { width: 100%; height: 100%; object-fit: cover; display: block; }
-
-.azure-invitation .location-address {
-    font-family: 'Playfair Display', serif;
-    color: var(--azure-blue);
-}
+.azure-invitation .location-address { font-family: 'Jost', sans-serif; letter-spacing: 0.1em; color: var(--azure-blue); }
 
 .azure-invitation .location-map-btn {
     display: inline-flex;
@@ -276,8 +258,9 @@
     border-radius: 999px;
     background: transparent;
     color: var(--azure-blue);
-    font-family: 'Playfair Display', serif;
-    letter-spacing: 0.1em;
+    font-family: 'Jost', sans-serif;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
     padding: 0.8rem 2rem;
     text-decoration: none;
     transition: all 0.35s ease;
@@ -286,41 +269,54 @@
 .azure-invitation .location-map-btn:hover { background: var(--azure-blue); color: var(--azure-cream); }
 
 .azure-invitation .countdown-title,
-.azure-invitation .countdown-label { color: var(--azure-blue); }
+.azure-invitation .countdown-label { color: var(--azure-blue); font-family: 'Jost', sans-serif; }
 .azure-invitation .countdown-value,
-.azure-invitation .countdown-number { color: var(--azure-blue); }
+.azure-invitation .countdown-number { color: var(--azure-blue); font-family: 'Playfair Display', serif; }
 
+/* ── RSVP styled as the "Kindly Respond" card ── */
 .azure-invitation .rsvp-scene { text-align: center; }
-.azure-invitation .rsvp-envelope-icon { display: flex; justify-content: center; margin: 0 auto clamp(1.2rem, 4vw, 1.8rem); }
+
+.azure-invitation .rsvp-scene > div {
+    width: min(92vw, 540px);
+    margin: 0 auto;
+    padding: clamp(1.8rem, 5vw, 2.6rem);
+    border: 1.5px solid var(--azure-blue);
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.35);
+}
+
+.azure-invitation .rsvp-envelope-icon { display: none; }
 
 .azure-invitation .rsvp-title {
     font-family: 'Playfair Display', serif !important;
-    font-weight: 900;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
     background: none;
     -webkit-text-fill-color: var(--azure-blue);
     color: var(--azure-blue) !important;
+    font-size: clamp(1.4rem, 4.5vw, 2rem) !important;
 }
 
-.azure-invitation .rsvp-subtitle {
-    font-family: 'Playfair Display', serif;
-    color: var(--azure-blue);
-}
+.azure-invitation .rsvp-subtitle { font-family: 'Playfair Display', serif; font-style: italic; color: var(--azure-blue); }
 
 .azure-invitation .rsvp-buttons {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    flex-wrap: wrap;
     gap: 0.9rem;
-    width: min(86vw, 400px);
-    margin: 0 auto;
+    width: 100%;
+    margin: 1.4rem auto 0;
 }
 
 .azure-invitation .rsvp-btn {
-    width: 100%;
-    padding: 1rem 1.5rem;
+    flex: 1 1 180px;
+    padding: 1rem 1.2rem;
     border-radius: 999px !important;
-    font-family: 'Playfair Display', serif;
-    letter-spacing: 0.08em;
-    font-size: clamp(0.85rem, 2.2vw, 1rem);
+    font-family: 'Jost', sans-serif;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-size: clamp(0.78rem, 2vw, 0.92rem);
     transition: all 0.35s ease;
 }
 
