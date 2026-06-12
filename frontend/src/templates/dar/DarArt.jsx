@@ -659,3 +659,122 @@ export function DiamondRule({ className }) {
         </svg>
     );
 }
+
+/* ── Reference-style entrance scene: carved arch, dark door, lanterns, vines.
+   Built as a reusable SVG asset so the hero does not fake decoration in CSS. */
+export function DarEntranceBackdrop({ className }) {
+    const vineLeaves = [
+        [42, 72, -28], [58, 104, 22], [36, 138, -18], [64, 176, 26], [44, 214, -20], [72, 258, 18],
+        [303, 82, 26], [288, 118, -18], [312, 158, 22], [282, 204, -26], [306, 246, 16],
+    ];
+    const blossoms = [[52, 92], [34, 160], [70, 236], [298, 110], [315, 182], [286, 270]];
+    const tiles = [];
+    for (let y = 52; y < 296; y += 44) {
+        tiles.push(<path key={`l${y}`} d={`M102 ${y}h46v34h-46zM212 ${y}h46v34h-46z`} fill="none" stroke="#b89461" strokeWidth="1" opacity="0.38" />);
+    }
+
+    return (
+        <svg className={className} viewBox="0 0 360 520" aria-hidden="true">
+            <DarDefs />
+            <rect width="360" height="520" fill="#efe2cc" />
+            <path d="M0 0h360v520H0z" fill="#f8f0df" opacity="0.42" />
+            <path d="M12 14h336v330H12z" fill="#efe1c9" stroke="#cdb58f" strokeWidth="1.2" />
+            <g opacity="0.32" stroke="#b89461" strokeWidth="1">
+                <path d="M18 34c48 28 78 28 126 0M216 34c48 28 78 28 126 0" fill="none" />
+                <path d="M20 74h72M268 74h72M22 118h60M278 118h60M22 162h54M284 162h54" />
+                <path d="M34 28 50 44 34 60 18 44zM326 28l16 16-16 16-16-16z" fill="none" />
+            </g>
+
+            <path
+                d="M68 508V205C39 181 38 116 76 73 119 25 241 25 284 73c38 43 37 108 8 132v303"
+                fill="none"
+                stroke="#d9c6a6"
+                strokeWidth="34"
+            />
+            <path
+                d="M86 508V210C62 188 61 123 92 89c36-40 140-40 176 0 31 34 30 99 6 121v298"
+                fill="none"
+                stroke="#f8f0df"
+                strokeWidth="19"
+            />
+            <path
+                d="M98 508V214C77 193 76 130 104 99c31-34 121-34 152 0 28 31 27 94 6 115v294Z"
+                fill="#211b14"
+            />
+            <path
+                d="M106 508V220C88 201 88 138 112 111c28-30 108-30 136 0 24 27 24 90 6 109v288Z"
+                fill="#1a2b22"
+                stroke="#3b2a18"
+                strokeWidth="2"
+            />
+            <path d="M180 86v422" stroke="#0d160f" strokeWidth="2" opacity="0.8" />
+            {tiles}
+            <g stroke="#8d6a37" opacity="0.45" fill="none">
+                <path d="M126 132c24-20 84-20 108 0M124 184c28-18 84-18 112 0M124 236c28-18 84-18 112 0" />
+                <path d="M132 142 150 160l-18 18-18-18zM228 142l18 18-18 18-18-18z" />
+                <path d="M132 238 150 256l-18 18-18-18zM228 238l18 18-18 18-18-18z" />
+            </g>
+
+            <g transform="translate(72 180)">
+                <ellipse cx="0" cy="28" rx="28" ry="40" fill="url(#dar-glow)" opacity="0.62" />
+                <path d="M0-28v14M-14-7 0-18 14-7 10 36h-20z" fill="#3a2512" stroke="#c8a35f" strokeWidth="2" />
+                <rect x="-7" y="0" width="14" height="24" fill="#e9c48a" opacity="0.86" />
+                <path d="M-18 36h36M-8 45h16" stroke="#3a2512" strokeWidth="2" />
+            </g>
+            <g transform="translate(288 180)">
+                <ellipse cx="0" cy="28" rx="28" ry="40" fill="url(#dar-glow)" opacity="0.62" />
+                <path d="M0-28v14M-14-7 0-18 14-7 10 36h-20z" fill="#3a2512" stroke="#c8a35f" strokeWidth="2" />
+                <rect x="-7" y="0" width="14" height="24" fill="#e9c48a" opacity="0.86" />
+                <path d="M-18 36h36M-8 45h16" stroke="#3a2512" strokeWidth="2" />
+            </g>
+
+            <path d="M34 44c23 58 30 122 18 191M320 46c-27 62-34 128-22 196" stroke="#596b42" strokeWidth="3" fill="none" strokeLinecap="round" />
+            {vineLeaves.map(([x, y, r]) => (
+                <ellipse key={`${x}${y}`} cx={x} cy={y} rx="7" ry="14" fill={DAR.leaf} transform={`rotate(${r} ${x} ${y})`} />
+            ))}
+            {blossoms.map(([x, y]) => (
+                <g key={`${x}${y}`} transform={`translate(${x} ${y})`}>
+                    {[0, 72, 144, 216, 288].map((a) => <ellipse key={a} cx="0" cy="-6" rx="3.5" ry="6" fill="#fffaf0" stroke="#d8cba8" strokeWidth=".7" transform={`rotate(${a})`} />)}
+                    <circle r="1.7" fill={DAR.brass} />
+                </g>
+            ))}
+
+            <path d="M0 344h360v176H0z" fill="#e9d8bd" />
+            <path d="M72 344h216v18H72zM56 362h248v20H56z" fill="#d3bd96" />
+            <path d="M26 468c10-31 39-50 76-52-17 47-43 66-76 52Z" fill={DAR.leafDeep} />
+            <path d="M317 468c-10-31-39-50-76-52 17 47 43 66 76 52Z" fill={DAR.leafDeep} />
+            <g transform="translate(70 420)">
+                <path d="M-21 62c4 21 38 21 42 0l-5-34h-32z" fill="#b57946" stroke="#69401f" />
+                <path d="M-14 28c0-24 11-42 30-54M0 28c-8-29-3-53 15-74M12 28c2-24 13-40 33-48" stroke="#596b42" strokeWidth="2.4" fill="none" />
+            </g>
+            <g transform="translate(290 424)">
+                <path d="M-18 58c4 18 32 18 36 0l-4-30h-28z" fill="#b57946" stroke="#69401f" />
+                <path d="M-10 28c-3-24 5-41 24-52M5 28c-4-22 2-38 18-50M12 28c5-18 16-30 32-35" stroke="#596b42" strokeWidth="2.2" fill="none" />
+            </g>
+        </svg>
+    );
+}
+
+export function BrassMedallionFloral({ className }) {
+    return (
+        <svg className={className} viewBox="0 0 260 160" aria-hidden="true">
+            <DarDefs />
+            <g transform="translate(172 96)">
+                <circle r="48" fill="#8a5a21" stroke="#d6ae62" strokeWidth="4" />
+                <circle r="37" fill="none" stroke="#d6ae62" strokeWidth="1.6" />
+                <circle r="24" fill="none" stroke="#d6ae62" strokeWidth="1.2" strokeDasharray="3 5" />
+                {[0, 45, 90, 135, 180, 225, 270, 315].map((a) => (
+                    <path key={a} d="M0-31 5-18 0-11-5-18Z" fill="#d6ae62" opacity=".75" transform={`rotate(${a})`} />
+                ))}
+            </g>
+            <path d="M30 115c42-42 84-58 132-48" stroke={DAR.leafDeep} strokeWidth="3" fill="none" strokeLinecap="round" />
+            {[54, 84, 114].map((x, i) => (
+                <g key={x} transform={`translate(${x} ${86 - i * 14})`}>
+                    {[0, 72, 144, 216, 288].map((a) => <ellipse key={a} cx="0" cy="-12" rx="7" ry="12" fill="#fff8ec" stroke="#d8cba8" transform={`rotate(${a})`} />)}
+                    <circle r="4" fill={DAR.brass} />
+                </g>
+            ))}
+            {[70, 104, 134].map((x, i) => <ellipse key={x} cx={x} cy={112 - i * 20} rx="9" ry="18" fill={DAR.leaf} transform={`rotate(${i % 2 ? 45 : -40} ${x} ${112 - i * 20})`} />)}
+        </svg>
+    );
+}

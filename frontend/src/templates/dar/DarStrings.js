@@ -47,12 +47,15 @@ export function formatTime(eventTime, lang) {
 export const DAR_STRINGS = {
     fr: {
         dir: 'ltr',
+        nav: ['Accueil', 'Bienvenue', 'La date', "L'heure", 'Compte à rebours', 'La dar', 'Souvenirs', 'RSVP'],
         opening: {
             eyebrow: 'Bienvenue chez nous',
             title: 'La famille vous ouvre ses portes',
             hint: 'Toquez pour entrer',
         },
         hero: {
+            blessing: "Avec la bénédiction d'Allah",
+            familyLine: 'Les familles',
             invite: (bride, groom) =>
                 `Les familles de ${bride} et de ${groom} ont l'honneur de vous convier au mariage de leurs enfants`,
             and: '&',
@@ -89,6 +92,7 @@ export const DAR_STRINGS = {
             captions: ['la rencontre', 'la promesse', 'aujourd’hui'],
         },
         rsvp: {
+            cta: 'Répondre',
             label: 'Votre place est déjà prête',
             ask: (name) => `${name}, nous ferez-vous l'honneur de votre présence ?`,
             hint: 'Choisissez votre zellige',
@@ -103,12 +107,15 @@ export const DAR_STRINGS = {
 
     ar: {
         dir: 'rtl',
+        nav: ['الواجهة', 'الترحيب', 'التاريخ', 'الساعة', 'العدّ التنازلي', 'الدار', 'الذكريات', 'الحضور'],
         opening: {
             eyebrow: 'مرحبا بكم',
             title: 'الدار داركم والفرح فرحكم',
             hint: 'اطرقوا الباب للدخول',
         },
         hero: {
+            blessing: 'بسم الله الرحمن الرحيم',
+            familyLine: 'تتشرف عائلتا',
             invite: (bride, groom) =>
                 `عائلتا ${bride} و${groom} تتشرفان بدعوتكم لحضور حفل زفاف ابنيهما`,
             and: 'و',
@@ -145,6 +152,7 @@ export const DAR_STRINGS = {
             captions: ['اللقاء', 'الوعد', 'اليوم'],
         },
         rsvp: {
+            cta: 'تأكيد الحضور',
             label: 'مكانكم محجوز في دارنا',
             ask: (name) => `${name}، هل تشرفوننا بحضوركم؟`,
             hint: 'اختاروا زليجتكم',

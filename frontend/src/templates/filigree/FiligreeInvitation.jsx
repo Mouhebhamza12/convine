@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useInvitationScroll } from '../../hooks/useInvitationScroll';
+import SnapJourney from '../../components/shared/SnapJourney';
 import GoldDust from './GoldDust';
 import ThreadSpine from './ThreadSpine';
 import FiligreeOpening from './FiligreeOpening';
@@ -37,7 +38,7 @@ export default function FiligreeInvitation({ data, isDemo, onRsvp }) {
                 <FiligreeOpening bride={bride} groom={groom} onComplete={() => setOpened(true)} />
             )}
 
-            <main className={`invitation-story filigree-story${opened ? ' is-visible' : ''}`}>
+            <SnapJourney enabled={opened} extraClass="filigree-story" className={opened ? 'is-visible' : ''} accent="#caa157" rsvpIndex={8}>
                 <FiligreeNames bride={bride} groom={groom} />
                 <ThreadStitch />
                 <FiligreeWords text="Every great love is woven slowly, one quiet thread at a time." />
@@ -69,7 +70,7 @@ export default function FiligreeInvitation({ data, isDemo, onRsvp }) {
                     isDemo={isDemo}
                 />
                 <FiligreeClosing bride={bride} groom={groom} />
-            </main>
+            </SnapJourney>
         </div>
     );
 }

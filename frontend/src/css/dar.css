@@ -558,3 +558,42 @@
 }
 
 .dar-rsvp__jasmine { width: clamp(110px, 30vw, 150px); height: auto; margin-top: clamp(0.9rem, 2.8vw, 1.4rem); }
+
+/* ===================================================================
+   DAR × FullPageScroller — make each section a self-contained 100svh
+   slide and keep the paper background behind the fixed pager.
+   =================================================================== */
+.dar-fp {
+    --fp-accent: var(--dar-blue);
+    background-color: var(--dar-plaster);
+    background-image: url('/textures/paper-color.jpg');
+    background-size: 560px 560px;
+    background-blend-mode: multiply;
+    color: var(--dar-ink);
+}
+
+.dar-fp .fp-section { align-items: center; }
+
+.dar-fp .dar-scene {
+    width: 100%;
+    min-height: 100%;
+    justify-content: center;
+    padding-top: clamp(2.2rem, 6vh, 4rem);
+    padding-bottom: clamp(2.2rem, 6vh, 4rem);
+}
+
+.dar-fp .dar-rsvp-scene { padding-bottom: clamp(2.2rem, 6vh, 4rem); }
+
+/* keep the dot rail clear of the right-hand jasmine on wide screens */
+.dar-fp .fp-dot { border-color: var(--dar-blue); }
+
+/* fit the taller illustrations on short viewports */
+@media (max-height: 760px) {
+    .dar-fp .dar-arch { width: min(64vw, 250px); }
+    .dar-fp .dar-hero__invite { margin-bottom: clamp(0.6rem, 2vw, 1rem); }
+    .dar-fp .dar-date__star { width: min(56vw, 224px); }
+    .dar-fp .dar-window { width: min(62vw, 260px); }
+    .dar-fp .dar-alley { width: min(78vw, 320px); }
+    .dar-fp .dar-marhba { padding-top: clamp(2rem, 5vw, 2.6rem); padding-bottom: clamp(1.4rem, 4vw, 2rem); }
+    .dar-fp .dar-marhba__jasmine { display: none; }
+}

@@ -115,23 +115,23 @@ export default function CurtainReveal({ onStart, onComplete, data }) {
     // ---- Full physics animation ----
     const tl = gsap.timeline({
       onComplete: () => {
-        // After settle, fade out the overlay
+        // The settle/fade is a non-blocking visual tail (pointer-events already
+        // disabled below), so just fade the overlay out and remove it.
         gsap.to(sceneRef.current, {
           opacity: 0,
-          duration: 0.8,
-          delay: 0.1,
+          duration: 0.45,
           onComplete: () => {
             setIsDone(true);
-            onComplete?.();
           },
         });
       },
     });
 
-    // Phase 1: Open the curtain (3.5s with power2.out — starts moving IMMEDIATELY)
+    // Phase 1: Open the curtain — as soon as it is open the guest can scroll;
+    // we unlock interaction here and let the settle/fade play on top, inert.
     tl.to(curtainState, {
       openProgress: 1,
-      duration: 3.5,
+      duration: 2.1,
       ease: 'power2.out',
       onUpdate: () => {
         const p = curtainState.openProgress;
@@ -139,19 +139,24 @@ export default function CurtainReveal({ onStart, onComplete, data }) {
         rightSimRef.current?.setOpenProgress(p);
         setOpenProgress(p);
       },
+      onComplete: () => {
+        if (sceneRef.current) sceneRef.current.style.pointerEvents = 'none';
+        onComplete?.();
+      },
     });
 
-    // Phase 2: Settle oscillation (gentle elastic decay, overlapping)
+    // Phase 2: Settle oscillation (gentle elastic decay, overlapping) — purely
+    // decorative now that interaction is already unlocked.
     tl.to(curtainState, {
       settleAmplitude: 0,
-      duration: 1.2,
+      duration: 0.7,
       ease: 'elastic.out(1, 0.6)',
       onUpdate: () => {
         const a = curtainState.settleAmplitude;
         leftSimRef.current?.setSettleAmplitude(a);
         rightSimRef.current?.setSettleAmplitude(a);
       },
-    }, '-=0.4');
+    }, '-=0.3');
   }, [isOpening, isDone, curtainState, onStart, onComplete, reducedMotion, playCurtainSound]);
 
   if (isDone) return null;

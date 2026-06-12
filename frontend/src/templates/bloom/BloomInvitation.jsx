@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useInvitationScroll } from '../../hooks/useInvitationScroll';
+import SnapJourney from '../../components/shared/SnapJourney';
 import BloomOpening from './BloomOpening';
 import { BloomNames, BloomDate, BloomLetter, BloomPhotos } from './BloomScenes';
 import { BloomTime, BloomCountdown, BloomLocation, BloomRsvp } from './BloomSections';
@@ -21,7 +22,7 @@ export default function BloomInvitation({ data, isDemo, onRsvp }) {
         <div className="invitation-root bloom-invitation">
             <FallingPetals count={25} />
             {!opened && <BloomOpening onComplete={() => setOpened(true)} />}
-            <main className={`invitation-story${opened ? ' is-visible' : ''}`}>
+            <SnapJourney enabled={opened} className={opened ? 'is-visible' : ''} accent="#c47b84" rsvpIndex={7}>
                 <BloomNames bride={bride} groom={groom} visible={opened} />
                 <LeafDivider className="bloom-section-divider" />
                 <BloomDate eventDate={wedding.event_date} />
@@ -37,7 +38,7 @@ export default function BloomInvitation({ data, isDemo, onRsvp }) {
                 <BloomLocation venue={wedding.venue} venueAddress={wedding.venue_address} googleMapsUrl={wedding.google_maps_url} />
                 <LeafDivider className="bloom-section-divider" />
                 <BloomRsvp guestName={guest.name} initialStatus={guest.rsvp_status} onSubmit={onRsvp} isDemo={isDemo} />
-            </main>
+            </SnapJourney>
         </div>
     );
 }

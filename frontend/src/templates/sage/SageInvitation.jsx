@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useInvitationScroll } from '../../hooks/useInvitationScroll';
+import SnapJourney from '../../components/shared/SnapJourney';
 import SageOpening from './SageOpening';
 import { SageDetails, SageLetter, SagePhotos } from './SageScenes';
 import { SageTime, SageCountdown, SageLocation, SageRsvp } from './SageSections';
@@ -25,7 +26,7 @@ export default function SageInvitation({ data, isDemo, onRsvp }) {
                     guestName={guest.name}
                 />
             )}
-            <main className={`invitation-story${opened ? ' is-visible' : ''}`}>
+            <SnapJourney enabled={opened} className={opened ? 'is-visible' : ''} accent="#6f7d50" rsvpIndex={6}>
                 <SageDetails
                     bride={bride}
                     groom={groom}
@@ -40,7 +41,7 @@ export default function SageInvitation({ data, isDemo, onRsvp }) {
                 <SageCountdown eventDate={wedding.event_date} eventTime={wedding.event_time} />
                 <SageLocation venue={wedding.venue} venueAddress={wedding.venue_address} googleMapsUrl={wedding.google_maps_url} />
                 <SageRsvp guestName={guest.name} initialStatus={guest.rsvp_status} onSubmit={onRsvp} isDemo={isDemo} />
-            </main>
+            </SnapJourney>
         </div>
     );
 }

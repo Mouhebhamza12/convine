@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useInvitationScroll } from '../../hooks/useInvitationScroll';
+import FullPageScroller from '../../components/shared/FullPageScroller';
 import DarOpening from './DarOpening';
 import { DarHero, DarMarhba, DarDate, DarPhotos } from './DarScenes';
 import { DarTime, DarCountdown, DarVenue, DarRsvp } from './DarSections';
@@ -34,16 +35,18 @@ function DarInvitation({ data, isDemo, onRsvp, lang }) {
     return (
         <div className="invitation-root dar-invitation" dir={strings.dir} lang={lang} data-lang={lang}>
             {!opened && <DarOpening onComplete={() => setOpened(true)} strings={strings} />}
-            <main className={`invitation-story${opened ? ' is-visible' : ''}`}>
-                <DarHero bride={bride} groom={groom} eventDate={wedding.event_date} strings={strings} lang={lang} />
-                <DarMarhba guestName={guestName} message={message} strings={strings} />
-                <DarDate eventDate={wedding.event_date} strings={strings} lang={lang} />
-                <DarTime eventTime={wedding.event_time} strings={strings} lang={lang} />
-                <DarCountdown eventDate={wedding.event_date} eventTime={wedding.event_time} strings={strings} />
-                <DarVenue venue={wedding.venue} venueAddress={wedding.venue_address} googleMapsUrl={wedding.google_maps_url} strings={strings} />
-                <DarPhotos photos={wedding.photos} strings={strings} />
-                <DarRsvp guestName={guestName} initialStatus={guest.rsvp_status} onSubmit={onRsvp} isDemo={isDemo} strings={strings} />
-            </main>
+            {opened && (
+                <FullPageScroller className="dar-fp" labels={strings.nav} rtl={strings.dir === 'rtl'} rsvpIndex={7} rsvpLabel={strings.rsvp.cta}>
+                    <DarHero bride={bride} groom={groom} eventDate={wedding.event_date} strings={strings} lang={lang} />
+                    <DarMarhba guestName={guestName} message={message} strings={strings} />
+                    <DarDate eventDate={wedding.event_date} strings={strings} lang={lang} />
+                    <DarTime eventTime={wedding.event_time} strings={strings} lang={lang} />
+                    <DarCountdown eventDate={wedding.event_date} eventTime={wedding.event_time} strings={strings} />
+                    <DarVenue venue={wedding.venue} venueAddress={wedding.venue_address} googleMapsUrl={wedding.google_maps_url} strings={strings} />
+                    <DarPhotos photos={wedding.photos} strings={strings} />
+                    <DarRsvp guestName={guestName} initialStatus={guest.rsvp_status} onSubmit={onRsvp} isDemo={isDemo} strings={strings} />
+                </FullPageScroller>
+            )}
         </div>
     );
 }

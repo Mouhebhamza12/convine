@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useInvitationScroll } from '../../hooks/useInvitationScroll';
+import SnapJourney from '../../components/shared/SnapJourney';
 import { BotanicalDefs, FloralDivider } from './Botanicals';
 import PetalDrift from './PetalDrift';
 import GrowingStem from './GrowingStem';
@@ -38,7 +39,7 @@ export default function LilyRoseInvitation({ data, isDemo, onRsvp }) {
                 <LilyRoseOpening bride={bride} groom={groom} onComplete={() => setOpened(true)} />
             )}
 
-            <main className={`invitation-story lr-story${opened ? ' is-visible' : ''}`}>
+            <SnapJourney enabled={opened} extraClass="lr-story" className={opened ? 'is-visible' : ''} accent="#c98f86" rsvpIndex={7}>
                 <LilyRoseNames bride={bride} groom={groom} visible={opened} />
                 <FloralDivider />
                 <LilyRoseIntention bride={bride} groom={groom} />
@@ -65,7 +66,7 @@ export default function LilyRoseInvitation({ data, isDemo, onRsvp }) {
                     isDemo={isDemo}
                 />
                 <LilyRoseClosing bride={bride} groom={groom} eventDate={wedding.event_date} />
-            </main>
+            </SnapJourney>
         </div>
     );
 }

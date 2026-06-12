@@ -1,4 +1,5 @@
 import { useInvitationScroll } from '../../hooks/useInvitationScroll';
+import SnapJourney from '../../components/shared/SnapJourney';
 import { AzureHero, AzureLetter, AzurePhotos } from './AzureScenes';
 import { AzureTime, AzureCountdown, AzureLocation, AzureRsvp } from './AzureSections';
 import '../../css/invitation.css';
@@ -15,7 +16,7 @@ export default function AzureInvitation({ data, isDemo, onRsvp }) {
 
     return (
         <div className="invitation-root azure-invitation">
-            <main className="invitation-story is-visible">
+            <SnapJourney enabled className="is-visible" accent="#2e5e9e" rsvpIndex={6}>
                 <AzureHero
                     bride={bride}
                     groom={groom}
@@ -30,7 +31,7 @@ export default function AzureInvitation({ data, isDemo, onRsvp }) {
                 <AzureLocation venue={wedding.venue} venueAddress={wedding.venue_address} googleMapsUrl={wedding.google_maps_url} />
                 <AzurePhotos photos={wedding.photos} />
                 <AzureRsvp guestName={guest.name} initialStatus={guest.rsvp_status} onSubmit={onRsvp} isDemo={isDemo} />
-            </main>
+            </SnapJourney>
         </div>
     );
 }

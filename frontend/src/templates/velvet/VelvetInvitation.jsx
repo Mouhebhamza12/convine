@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useInvitationScroll } from '../../hooks/useInvitationScroll';
+import SnapJourney from '../../components/shared/SnapJourney';
 import DrapeOpening from '../../components/invitation/DrapeOpening';
 import CoupleNames from '../../components/invitation/CoupleNames';
 import DateReveal from '../../components/invitation/DateReveal';
@@ -63,7 +64,7 @@ export default function VelvetInvitation({ data, isDemo, onRsvp }) {
                 />
             )}
 
-            <main className={`invitation-story${startedOpening ? ' is-visible' : ''}`}>
+            <SnapJourney enabled={drapeOpen} className={startedOpening ? 'is-visible' : ''} accent="#c9a227" rsvpIndex={8}>
                 {/* ── Section 1: Couple Names ── */}
                 <CoupleNames
                     brideName={bride}
@@ -131,7 +132,7 @@ export default function VelvetInvitation({ data, isDemo, onRsvp }) {
 
                 {/* ── Elegant Footer ── */}
                 <InvitationFooter brideName={bride} groomName={groom} />
-            </main>
+            </SnapJourney>
         </div>
     );
 }

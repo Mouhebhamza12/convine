@@ -63,7 +63,6 @@ export default function CoupleNames({
     const brideRef = useRef(null);
     const ampRef = useRef(null);
     const groomRef = useRef(null);
-    const scrollRef = useRef(null);
 
     useEffect(() => {
         if (!visible || !sceneRef.current) {
@@ -86,8 +85,7 @@ export default function CoupleNames({
                 .fromTo(groomRef.current, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 1.2 }, 1.6)
                 .fromTo('.hero-fleuron', { opacity: 0, scaleX: 0.6 }, { opacity: 1, scaleX: 1, duration: 0.9 }, 2.1)
                 .fromTo('.hero-tagline', { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 1 }, 2.3)
-                .fromTo('.hero-heart', { opacity: 0 }, { opacity: 1, duration: 0.8 }, 2.6)
-                .fromTo(scrollRef.current, { opacity: 0 }, { opacity: 0.85, duration: 0.9 }, 2.9);
+                .fromTo('.hero-heart', { opacity: 0 }, { opacity: 1, duration: 0.8 }, 2.6);
 
             /* Subtle parallax on scroll */
             ScrollTrigger.create({
@@ -139,12 +137,6 @@ export default function CoupleNames({
 
                     <HeartFlourish />
                 </div>
-            </div>
-
-            <div ref={scrollRef} className="scroll-cue">
-                <span className="scroll-cue__label">Scroll</span>
-                <span className="scroll-cue__line" />
-                <span className="scroll-cue__tip" />
             </div>
         </section>
     );
