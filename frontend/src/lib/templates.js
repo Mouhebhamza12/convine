@@ -58,6 +58,26 @@ export const LILYROSE_TEMPLATE = {
     features: ['Morning-garden bloom opening', 'Hand-painted lilies & roses', 'Names emerge from the bouquet', 'RSVP'],
 };
 
-export const WEDDING_TEMPLATES = [LILYROSE_TEMPLATE, FILIGREE_TEMPLATE, VELVET_TEMPLATE, BLOOM_TEMPLATE, SAGE_TEMPLATE, AZURE_TEMPLATE];
+export const DAR_FR_TEMPLATE = {
+    slug: 'dar-fr',
+    name: 'Dar',
+    tagline: "L'invitation algérienne, élégante et chaleureuse",
+    demoPath: '/invite/demo-dar',
+    preview: 'dar-fr',
+    couple: { bride: 'Amina', groom: 'Yacine' },
+    features: ['Porte de la Casbah à toquer', 'Zellige & jasmin', 'Accueil des deux familles', 'RSVP en zellige'],
+};
+
+export const DAR_AR_TEMPLATE = {
+    slug: 'dar-ar',
+    name: 'دار',
+    tagline: 'دعوة جزائرية أصيلة، دفء العائلة وأناقة الدار',
+    demoPath: '/invite/demo-dar-ar',
+    preview: 'dar-ar',
+    couple: { bride: 'أمينة', groom: 'ياسين' },
+    features: ['باب القصبة يُطرق', 'زليج وياسمين', 'ترحيب العائلتين', 'تأكيد الحضور بالزليج'],
+};
+
+export const WEDDING_TEMPLATES = [DAR_FR_TEMPLATE, DAR_AR_TEMPLATE, LILYROSE_TEMPLATE, FILIGREE_TEMPLATE, VELVET_TEMPLATE, BLOOM_TEMPLATE, SAGE_TEMPLATE, AZURE_TEMPLATE];
 
 export const TEMPLATE_BY_SLUG = Object.fromEntries(WEDDING_TEMPLATES.map((t) => [t.slug, t]));

@@ -1,0 +1,560 @@
+/* ===================================================================
+   DAR — the flagship Algerian template.
+   Casbah whitewash, Mediterranean blue, restrained zellige, jasmine.
+   All ornament is SVG (DarArt.jsx); CSS does layout and typography.
+   FR voice: Prata + Jost + EB Garamond.
+   AR voice: Amiri + Reem Kufi, RTL, no letter-spacing.
+   =================================================================== */
+
+.dar-invitation {
+    --dar-blue: #2f6c8c;
+    --dar-blue-deep: #23556f;
+    --dar-clay: #bf6b4a;
+    --dar-white: #fbf8f1;
+    --dar-plaster: #f4eee2;
+    --dar-ink: #3c4a52;
+
+    --dar-display: 'Prata', Georgia, serif;
+    --dar-label-font: 'Jost', sans-serif;
+    --dar-body: 'EB Garamond', Georgia, serif;
+    --dar-label-tracking: 0.28em;
+
+    /* real paper grain under the plaster tone */
+    background-color: var(--dar-plaster);
+    background-image: url('/textures/paper-color.jpg');
+    background-size: 560px 560px;
+    background-blend-mode: multiply;
+    color: var(--dar-ink);
+    font-family: var(--dar-body);
+}
+
+/* Arabic voice: warm faces, no tracking, generous line-height */
+.dar-invitation[data-lang='ar'] {
+    --dar-display: 'Amiri', serif;
+    --dar-label-font: 'Reem Kufi', sans-serif;
+    --dar-body: 'Amiri', serif;
+    --dar-label-tracking: 0;
+}
+
+/* ─────────────── OPENING: the door ─────────────── */
+.dar-open {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    background-color: var(--dar-plaster);
+    background-image: url('/textures/paper-color.jpg');
+    background-size: 560px 560px;
+    background-blend-mode: multiply;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    overflow: hidden;
+    padding: 1.5rem;
+    text-align: center;
+}
+
+.dar-open__band { width: min(78vw, 380px); height: auto; margin-bottom: clamp(1rem, 3.5vw, 1.8rem); }
+
+.dar-open__eyebrow {
+    font-family: var(--dar-label-font);
+    font-size: clamp(0.68rem, 2.1vw, 0.86rem);
+    letter-spacing: var(--dar-label-tracking);
+    text-transform: uppercase;
+    color: var(--dar-clay);
+    margin: 0;
+}
+
+.dar-open__title {
+    font-family: var(--dar-display);
+    font-weight: 400;
+    font-size: clamp(1.5rem, 5.6vw, 2.4rem);
+    line-height: 1.35;
+    color: var(--dar-blue-deep);
+    max-width: 17ch;
+    margin: clamp(0.5rem, 1.6vw, 0.9rem) 0 0;
+}
+
+.dar-open__scene {
+    position: relative;
+    width: min(70vw, 300px);
+    margin: clamp(1.2rem, 4vw, 2.2rem) 0;
+    filter: drop-shadow(0 18px 36px rgba(29, 74, 99, 0.18));
+}
+
+.dar-open__portal { display: block; width: 100%; height: auto; }
+
+.dar-open__jasmine { position: absolute; width: clamp(95px, 26vw, 140px); height: auto; z-index: 3; }
+.dar-open__jasmine--l { left: -16%; top: 2%; }
+.dar-open__jasmine--r { right: -16%; top: 12%; }
+
+/* lantern light revealed when the doors open (SVG inside) */
+.dar-open__light {
+    position: absolute;
+    left: 26.9%;
+    right: 26.9%;
+    top: 12.3%;
+    bottom: 6%;
+    opacity: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.dar-open__doors {
+    position: absolute;
+    left: 26.9%;
+    right: 26.9%;
+    top: 12.3%;
+    bottom: 6%;
+    display: flex;
+    perspective: 900px;
+}
+
+.dar-open__leaf { flex: 1 1 50%; }
+.dar-open__leaf--l { transform-origin: left center; }
+.dar-open__leaf--r { transform-origin: right center; }
+.dar-open__leafsvg { display: block; width: 100%; height: 100%; }
+
+.dar-open__hint {
+    font-family: var(--dar-label-font);
+    font-size: clamp(0.66rem, 2vw, 0.82rem);
+    letter-spacing: var(--dar-label-tracking);
+    text-transform: uppercase;
+    color: var(--dar-blue);
+    margin: 0;
+    animation: dar-hint 2.4s ease-in-out infinite;
+}
+
+@keyframes dar-hint {
+    0%, 100% { opacity: 0.55; }
+    50% { opacity: 1; }
+}
+
+/* ─────────────── SECTION SHELL ─────────────── */
+.dar-scene {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: clamp(3.2rem, 9vh, 5.5rem) clamp(1.2rem, 5vw, 2.5rem);
+    text-align: center;
+}
+
+.dar-label {
+    font-family: var(--dar-label-font);
+    font-size: clamp(0.68rem, 2.1vw, 0.88rem);
+    letter-spacing: var(--dar-label-tracking);
+    text-transform: uppercase;
+    color: var(--dar-clay);
+    margin: 0 0 clamp(0.9rem, 3vw, 1.5rem);
+}
+
+.dar-invitation[data-lang='ar'] .dar-label { font-size: clamp(0.95rem, 3vw, 1.2rem); }
+
+/* ─────────────── HERO: the courtyard ─────────────── */
+.dar-hero__invite {
+    font-family: var(--dar-body);
+    font-size: clamp(1rem, 3.1vw, 1.3rem);
+    line-height: 1.8;
+    color: var(--dar-ink);
+    max-width: 34ch;
+    margin: 0 0 clamp(1.2rem, 4vw, 2rem);
+}
+
+.dar-arch { width: min(86vw, 360px); }
+
+.dar-arch__name {
+    font-family: var(--dar-display);
+    font-size: clamp(2rem, 8.5vw, 3.1rem);
+    line-height: 1.18;
+    color: var(--dar-blue-deep);
+}
+
+.dar-invitation[data-lang='ar'] .dar-arch__name { font-weight: 700; }
+
+.dar-arch__amp {
+    font-family: var(--dar-display);
+    font-size: clamp(1.1rem, 4vw, 1.6rem);
+    color: var(--dar-clay);
+    margin: 0.15em 0;
+}
+
+.dar-arch__rule { width: 60%; height: auto; margin: clamp(0.6rem, 2vw, 1rem) 0; }
+
+.dar-arch__date {
+    font-family: var(--dar-body);
+    font-style: italic;
+    font-size: clamp(0.92rem, 2.8vw, 1.15rem);
+    color: var(--dar-ink);
+}
+
+.dar-invitation[data-lang='ar'] .dar-arch__date { font-style: normal; }
+
+.dar-hero__seeyou {
+    font-family: var(--dar-body);
+    font-style: italic;
+    font-size: clamp(0.95rem, 2.9vw, 1.2rem);
+    color: var(--dar-blue);
+    margin: clamp(1.2rem, 4vw, 2rem) 0 0;
+}
+
+.dar-invitation[data-lang='ar'] .dar-hero__seeyou { font-style: normal; }
+
+/* ─────────────── MARHBA: the family welcome ─────────────── */
+.dar-marhba {
+    position: relative;
+    width: min(92vw, 460px);
+    background: var(--dar-white);
+    padding: clamp(2.6rem, 7vw, 3.6rem) clamp(1.8rem, 5.5vw, 2.8rem) clamp(2rem, 6vw, 2.8rem);
+    box-shadow: 0 22px 54px rgba(47, 108, 140, 0.14);
+}
+
+.dar-marhba__jasmine {
+    position: absolute;
+    top: -26px;
+    inset-inline-end: -14px;
+    width: clamp(110px, 30vw, 150px);
+    height: auto;
+}
+
+.dar-marhba__title {
+    font-family: var(--dar-display);
+    font-weight: 400;
+    font-size: clamp(2rem, 7.5vw, 3rem);
+    color: var(--dar-blue-deep);
+    margin: 0;
+}
+
+.dar-invitation[data-lang='ar'] .dar-marhba__title { font-weight: 700; }
+
+.dar-marhba__sub {
+    font-family: var(--dar-label-font);
+    font-size: clamp(0.66rem, 2vw, 0.84rem);
+    letter-spacing: var(--dar-label-tracking);
+    text-transform: uppercase;
+    color: var(--dar-clay);
+    margin: 0.5rem 0 0;
+}
+
+.dar-invitation[data-lang='ar'] .dar-marhba__sub { font-size: clamp(0.9rem, 2.8vw, 1.1rem); }
+
+.dar-marhba__rule { width: 170px; height: auto; margin: clamp(1rem, 3vw, 1.5rem) auto; display: block; }
+
+.dar-marhba__greeting {
+    font-family: var(--dar-body);
+    font-style: italic;
+    font-size: clamp(1rem, 3vw, 1.2rem);
+    color: var(--dar-blue);
+    margin: 0 0 0.9rem;
+}
+
+.dar-invitation[data-lang='ar'] .dar-marhba__greeting { font-style: normal; }
+
+.dar-marhba__body {
+    font-family: var(--dar-body);
+    font-size: clamp(1.05rem, 3.1vw, 1.3rem);
+    line-height: 1.9;
+    color: var(--dar-ink);
+    margin: 0;
+}
+
+.dar-invitation[data-lang='ar'] .dar-marhba__body { line-height: 2.05; }
+
+.dar-marhba__khamsa { width: clamp(34px, 9vw, 44px); height: auto; margin: clamp(1.1rem, 3.4vw, 1.7rem) auto 0; display: block; }
+
+.dar-marhba__sign {
+    font-family: var(--dar-display);
+    font-size: clamp(1.15rem, 3.6vw, 1.5rem);
+    color: var(--dar-blue-deep);
+    margin: 0.6rem 0 0;
+}
+
+/* ─────────────── DATE: the khatem star ─────────────── */
+.dar-date__star { position: relative; width: min(72vw, 300px); }
+.dar-date__starsvg { display: block; width: 100%; height: auto; opacity: 0.95; }
+
+.dar-date__inside {
+    position: absolute;
+    inset: 26%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--dar-white);
+}
+
+.dar-date__weekday {
+    font-family: var(--dar-label-font);
+    font-size: clamp(0.6rem, 1.9vw, 0.78rem);
+    letter-spacing: calc(var(--dar-label-tracking) * 0.6);
+    text-transform: uppercase;
+}
+
+.dar-invitation[data-lang='ar'] .dar-date__weekday { font-size: clamp(0.85rem, 2.6vw, 1.05rem); }
+
+.dar-date__day {
+    font-family: var(--dar-display);
+    font-size: clamp(2.6rem, 10vw, 4rem);
+    line-height: 1.05;
+}
+
+.dar-date__month {
+    font-family: var(--dar-display);
+    font-size: clamp(1rem, 3.2vw, 1.35rem);
+}
+
+.dar-date__year {
+    font-family: var(--dar-label-font);
+    font-size: clamp(0.7rem, 2.2vw, 0.9rem);
+    letter-spacing: calc(var(--dar-label-tracking) * 0.5);
+    margin-top: 0.25rem;
+    opacity: 0.9;
+}
+
+.dar-date__note {
+    font-family: var(--dar-body);
+    font-style: italic;
+    font-size: clamp(0.92rem, 2.8vw, 1.12rem);
+    color: var(--dar-ink);
+    opacity: 0.85;
+    margin: clamp(1rem, 3vw, 1.6rem) 0 0;
+}
+
+.dar-invitation[data-lang='ar'] .dar-date__note { font-style: normal; }
+
+/* ─────────────── TIME: the window ─────────────── */
+.dar-window { width: min(78vw, 330px); }
+
+.dar-window__from {
+    font-family: var(--dar-label-font);
+    font-size: clamp(0.58rem, 1.8vw, 0.74rem);
+    letter-spacing: calc(var(--dar-label-tracking) * 0.55);
+    text-transform: uppercase;
+    color: #e9c48a;
+}
+
+.dar-invitation[data-lang='ar'] .dar-window__from { font-size: clamp(0.8rem, 2.4vw, 0.98rem); }
+
+.dar-window__time {
+    font-family: var(--dar-display);
+    font-size: clamp(1.9rem, 7.5vw, 3rem);
+    color: #f7f2e6;
+    line-height: 1.1;
+    text-shadow: 0 2px 12px rgba(22, 56, 76, 0.6);
+}
+
+.dar-window__note {
+    font-family: var(--dar-body);
+    font-style: italic;
+    font-size: clamp(0.95rem, 2.9vw, 1.18rem);
+    color: var(--dar-ink);
+    opacity: 0.85;
+    margin: clamp(0.9rem, 2.8vw, 1.4rem) 0 0;
+}
+
+.dar-invitation[data-lang='ar'] .dar-window__note { font-style: normal; }
+
+/* ─────────────── COUNTDOWN: the arcade ─────────────── */
+.dar-arcade {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: clamp(0.5rem, 2.4vw, 1.2rem);
+    flex-wrap: wrap;
+}
+
+.dar-arcade__bay { display: flex; flex-direction: column; align-items: center; gap: 0.55rem; }
+.dar-arcade__arch { width: clamp(72px, 20vw, 104px); }
+
+.dar-arcade__num {
+    font-family: var(--dar-display);
+    font-size: clamp(1.5rem, 5.5vw, 2.2rem);
+    color: var(--dar-blue-deep);
+    font-variant-numeric: tabular-nums;
+}
+
+.dar-arcade__unit {
+    font-family: var(--dar-label-font);
+    font-size: clamp(0.56rem, 1.8vw, 0.72rem);
+    letter-spacing: calc(var(--dar-label-tracking) * 0.55);
+    text-transform: uppercase;
+    color: var(--dar-clay);
+}
+
+.dar-invitation[data-lang='ar'] .dar-arcade__unit { font-size: clamp(0.78rem, 2.4vw, 0.95rem); }
+
+/* ─────────────── VENUE: the alley + the plaque ─────────────── */
+.dar-venue__intro {
+    font-family: var(--dar-body);
+    font-style: italic;
+    font-size: clamp(0.95rem, 2.9vw, 1.18rem);
+    color: var(--dar-ink);
+    opacity: 0.85;
+    margin: -0.4rem 0 clamp(1rem, 3vw, 1.6rem);
+}
+
+.dar-invitation[data-lang='ar'] .dar-venue__intro { font-style: normal; }
+
+.dar-alley { width: min(90vw, 420px); height: auto; }
+
+.dar-plaque { width: min(86vw, 360px); margin-top: clamp(1.1rem, 3.4vw, 1.8rem); }
+
+.dar-plaque__venue {
+    font-family: var(--dar-display);
+    font-size: clamp(1.15rem, 3.8vw, 1.55rem);
+    color: var(--dar-blue-deep);
+    line-height: 1.25;
+}
+
+.dar-plaque__addr {
+    font-family: var(--dar-body);
+    font-size: clamp(0.85rem, 2.6vw, 1.05rem);
+    color: var(--dar-ink);
+    margin-top: 0.35rem;
+}
+
+.dar-venue__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    margin-top: clamp(1rem, 3vw, 1.6rem);
+    padding: 0.75rem 1.7rem;
+    background: var(--dar-blue);
+    color: var(--dar-white);
+    border-radius: 4px;
+    font-family: var(--dar-label-font);
+    font-size: clamp(0.68rem, 2.1vw, 0.85rem);
+    letter-spacing: calc(var(--dar-label-tracking) * 0.5);
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.dar-venue__btn:hover { background: var(--dar-blue-deep); transform: translateY(-2px); }
+.dar-venue__btn svg { width: 16px; height: 16px; }
+.dar-invitation[data-lang='ar'] .dar-venue__btn { font-size: clamp(0.85rem, 2.6vw, 1.05rem); }
+
+/* ─────────────── PHOTOS: courtyard niches ─────────────── */
+.dar-photos__band { width: min(64vw, 290px); height: auto; margin: -0.3rem 0 clamp(1.4rem, 4vw, 2.2rem); }
+
+.dar-photos {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: clamp(0.7rem, 2.6vw, 1.4rem);
+    flex-wrap: wrap;
+}
+
+.dar-niche { position: relative; width: clamp(120px, 27vw, 180px); margin: 0; }
+
+.dar-niche__art {
+    display: block;
+    width: 100%;
+    height: auto;
+    filter: drop-shadow(0 10px 22px rgba(29, 74, 99, 0.16));
+}
+
+.dar-niche__caption {
+    font-family: var(--dar-body);
+    font-style: italic;
+    font-size: clamp(0.8rem, 2.4vw, 0.98rem);
+    color: var(--dar-blue);
+    margin-top: 0.5rem;
+}
+
+.dar-invitation[data-lang='ar'] .dar-niche__caption { font-style: normal; }
+
+/* ─────────────── RSVP: choose your zellige ─────────────── */
+.dar-rsvp-scene { padding-bottom: clamp(4rem, 11vh, 6.5rem); }
+
+.dar-rsvp__ask {
+    font-family: var(--dar-display);
+    font-size: clamp(1.25rem, 4.2vw, 1.8rem);
+    line-height: 1.5;
+    color: var(--dar-blue-deep);
+    max-width: 24ch;
+    margin: 0;
+}
+
+.dar-rsvp__hint {
+    font-family: var(--dar-body);
+    font-style: italic;
+    font-size: clamp(0.9rem, 2.7vw, 1.1rem);
+    color: var(--dar-clay);
+    margin: clamp(0.8rem, 2.5vw, 1.3rem) 0 0;
+}
+
+.dar-invitation[data-lang='ar'] .dar-rsvp__hint { font-style: normal; }
+
+.dar-rsvp__tiles {
+    display: flex;
+    justify-content: center;
+    gap: clamp(1.2rem, 5vw, 2.6rem);
+    margin-top: clamp(1.2rem, 4vw, 2rem);
+}
+
+.dar-tilebtn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.3rem;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    color: var(--dar-ink);
+    transition: transform 0.3s ease;
+}
+
+.dar-tilebtn:hover:not(:disabled) { transform: translateY(-5px); }
+.dar-tilebtn:disabled { opacity: 0.5; cursor: default; }
+
+.dar-tilebtn__tile {
+    width: clamp(96px, 26vw, 136px);
+    height: auto;
+    filter: drop-shadow(0 10px 22px rgba(47, 108, 140, 0.22));
+    margin-bottom: 0.6rem;
+}
+
+.dar-tilebtn strong {
+    font-family: var(--dar-display);
+    font-weight: 400;
+    font-size: clamp(0.95rem, 3vw, 1.2rem);
+    color: var(--dar-blue-deep);
+}
+
+.dar-invitation[data-lang='ar'] .dar-tilebtn strong { font-weight: 700; }
+.dar-tilebtn--decline strong { color: var(--dar-clay); }
+
+.dar-tilebtn em {
+    font-family: var(--dar-body);
+    font-style: italic;
+    font-size: clamp(0.78rem, 2.3vw, 0.95rem);
+    color: var(--dar-ink);
+    opacity: 0.75;
+}
+
+.dar-invitation[data-lang='ar'] .dar-tilebtn em { font-style: normal; }
+
+.dar-rsvp__done {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: clamp(1.2rem, 4vw, 2rem);
+}
+
+.dar-rsvp__donetile { width: clamp(110px, 30vw, 150px); height: auto; filter: drop-shadow(0 12px 26px rgba(47, 108, 140, 0.25)); }
+.dar-rsvp__rule { width: 180px; height: auto; margin: clamp(1rem, 3vw, 1.5rem) 0; }
+
+.dar-rsvp__msg {
+    font-family: var(--dar-body);
+    font-size: clamp(1.05rem, 3.2vw, 1.3rem);
+    line-height: 1.85;
+    color: var(--dar-ink);
+    max-width: 30ch;
+    margin: 0;
+}
+
+.dar-rsvp__jasmine { width: clamp(110px, 30vw, 150px); height: auto; margin-top: clamp(0.9rem, 2.8vw, 1.4rem); }
