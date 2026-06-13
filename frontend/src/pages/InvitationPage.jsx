@@ -17,8 +17,8 @@ const TEMPLATE_VIEWS = {
     azure: AzureInvitation,
     filigree: FiligreeInvitation,
     lilyrose: LilyRoseInvitation,
-    'dar-fr': DarInvitationFr,
-    'dar-ar': DarInvitationAr,
+    'andalus-fr': DarInvitationFr,
+    'andalus-ar': DarInvitationAr,
 };
 
 export default function InvitationPage() {

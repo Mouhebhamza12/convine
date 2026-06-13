@@ -44,6 +44,21 @@ export function formatTime(eventTime, lang) {
     return `${h}h${mm}`;
 }
 
+/** "15 . 12 . 2030" for the engraved card. */
+export function formatDots(eventDate) {
+    const d = parseDate(eventDate);
+    if (!d) return '';
+    return `${String(d.getDate()).padStart(2, '0')} . ${String(d.getMonth() + 1).padStart(2, '0')} . ${d.getFullYear()}`;
+}
+
+/** "6:00 pm" for the engraved card. */
+export function formatTime12(eventTime) {
+    const [h, m] = String(eventTime || '18:00').split(':').map(Number);
+    const ap = h < 12 ? 'am' : 'pm';
+    const hh = ((h + 11) % 12) + 1;
+    return `${hh}:${String(m || 0).padStart(2, '0')} ${ap}`;
+}
+
 export const DAR_STRINGS = {
     fr: {
         dir: 'ltr',
@@ -51,14 +66,17 @@ export const DAR_STRINGS = {
         opening: {
             eyebrow: 'Bienvenue chez nous',
             title: 'La famille vous ouvre ses portes',
-            hint: 'Toquez pour entrer',
+            hint: 'Touchez pour écarter le rideau',
         },
         hero: {
-            blessing: "Avec la bénédiction d'Allah",
+            blessing: 'بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ',
             familyLine: 'Les familles',
             invite: (bride, groom) =>
                 `Les familles de ${bride} et de ${groom} ont l'honneur de vous convier au mariage de leurs enfants`,
             and: '&',
+            nikkahLine: 'vous convient à la célébration de leur Nikkah',
+            inshaa: 'In Shaa Allah',
+            duaLine: 'Gardez-nous dans vos prières',
             seeYou: 'Sous le ciel de la dar, entourés des nôtres',
         },
         marhba: {
@@ -111,14 +129,17 @@ export const DAR_STRINGS = {
         opening: {
             eyebrow: 'مرحبا بكم',
             title: 'الدار داركم والفرح فرحكم',
-            hint: 'اطرقوا الباب للدخول',
+            hint: 'المسوا الستار للدخول',
         },
         hero: {
-            blessing: 'بسم الله الرحمن الرحيم',
+            blessing: 'بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ',
             familyLine: 'تتشرف عائلتا',
             invite: (bride, groom) =>
                 `عائلتا ${bride} و${groom} تتشرفان بدعوتكم لحضور حفل زفاف ابنيهما`,
             and: 'و',
+            nikkahLine: 'يتشرفان بدعوتكم لحضور حفل عقد قرانهما',
+            inshaa: 'إن شاء الله',
+            duaLine: 'لا تنسونا من صالح دعائكم',
             seeYou: 'تحت سماء الدار، وبين أهلنا وأحبابنا',
         },
         marhba: {

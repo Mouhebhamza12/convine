@@ -16,8 +16,8 @@ const ACCENT_MAP = {
     azure: { primary: '#2e5e9e', hover: '#244c82', text: '#fff' },
     filigree: { primary: '#caa157', hover: '#d8b26e', text: '#1c1408' },
     lilyrose: { primary: '#c98f86', hover: '#d99a96', text: '#fff' },
-    'dar-fr': { primary: '#2f6c8c', hover: '#23556f', text: '#fff' },
-    'dar-ar': { primary: '#2f6c8c', hover: '#23556f', text: '#fff' },
+    'andalus-fr': { primary: '#7a2236', hover: '#5a162a', text: '#fff' },
+    'andalus-ar': { primary: '#7a2236', hover: '#5a162a', text: '#fff' },
 };
 
 const DESC_MAP = {
@@ -27,8 +27,8 @@ const DESC_MAP = {
     azure: 'Bold blue type and a hand-drawn couple on warm cream. Perfect for the playful, characterful couple.',
     filigree: 'A living golden thread stitches your story on midnight ink and ties the knot at the emotional peak. For the couple who want guests to gasp.',
     lilyrose: 'Hand-painted lilies and roses bloom open on ivory and champagne as your love story unfolds. Editorial, fine-art floral luxury at its most romantic.',
-    'dar-fr': "Toquez à la porte de la Casbah et entrez dans la dar: zellige, jasmin et l'accueil des deux familles. L'invitation algérienne par excellence, en français.",
-    'dar-ar': 'اطرقوا باب القصبة وادخلوا الدار: زليج وياسمين وترحيب العائلتين. الدعوة الجزائرية الأصيلة، بالعربية.',
+    'andalus-fr': "Un rideau de velours royal s'écarte sur une carte Nikkah gravée à l'or, fleurs et Bismillah. L'élégance algérienne et andalouse, en français.",
+    'andalus-ar': 'ستار مخملي ملكي ينكشف عن بطاقة عقد قران محفورة بالذهب والزهور والبسملة. أناقة أندلسية أصيلة، بالعربية.',
 };
 
 // Custom elegant drape/curtain icon SVG
@@ -125,34 +125,22 @@ function TemplatePreview({ template }) {
         );
     }
 
-    if (template.preview === 'dar-fr' || template.preview === 'dar-ar') {
-        const ar = template.preview === 'dar-ar';
+    if (template.preview === 'andalus-fr' || template.preview === 'andalus-ar') {
+        const ar = template.preview === 'andalus-ar';
         return (
             <div
                 className="td2-phone-screen"
                 dir={ar ? 'rtl' : 'ltr'}
-                style={{ background: '#f4eee2', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '0.45rem', textAlign: 'center', padding: '0.9rem' }}
+                style={{ background: 'linear-gradient(160deg, #f3e8cf 0%, #e7d6b0 100%)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '0.4rem', textAlign: 'center', padding: '1rem 0.9rem' }}
             >
-                <svg width="86" height="104" viewBox="0 0 130 158" fill="none" aria-hidden="true">
-                    <path d="M20 154 L20 64 C10 56 9 36 21 23 C35 8 95 8 109 23 C121 36 120 56 110 64 L110 154" stroke="#2f6c8c" strokeWidth="2.6" />
-                    <line x1="10" y1="154" x2="120" y2="154" stroke="#2f6c8c" strokeWidth="2.6" />
-                    <g transform="translate(65 88)">
-                        <rect x="-15" y="-15" width="30" height="30" fill="#2f6c8c" opacity="0.9" />
-                        <rect x="-15" y="-15" width="30" height="30" fill="#2f6c8c" transform="rotate(45)" opacity="0.9" />
-                        <circle r="4" fill="#fbf8f1" />
-                    </g>
-                    <g transform="translate(28 16)">
-                        <rect x="-5" y="-5" width="10" height="10" fill="#bf6b4a" opacity="0.85" transform="rotate(45)" />
-                    </g>
-                    <g transform="translate(102 16)">
-                        <rect x="-5" y="-5" width="10" height="10" fill="#bf6b4a" opacity="0.85" transform="rotate(45)" />
-                    </g>
-                </svg>
-                <p style={{ fontFamily: ar ? "'Reem Kufi', sans-serif" : "'Jost', sans-serif", fontSize: ar ? '0.6rem' : '0.5rem', letterSpacing: ar ? 0 : '0.3em', textTransform: 'uppercase', color: '#bf6b4a', margin: 0 }}>
-                    {ar ? 'مرحبا بكم' : 'Marhba bikom'}
+                <p style={{ fontFamily: "'Amiri', serif", fontSize: '0.62rem', color: '#9c7b34', margin: 0 }}>
+                    بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
                 </p>
-                <p style={{ fontFamily: ar ? "'Amiri', serif" : "'Prata', serif", fontWeight: ar ? 700 : 400, fontSize: '1.05rem', lineHeight: 1.25, color: '#23556f', margin: 0 }}>
-                    {template.couple.bride} {ar ? 'و' : '&'} {template.couple.groom}
+                <p style={{ fontFamily: ar ? "'Amiri', serif" : "'Pinyon Script', cursive", fontWeight: ar ? 700 : 400, fontSize: ar ? '1.2rem' : '1.55rem', lineHeight: 1, color: '#7a2236', margin: '0.1rem 0' }}>
+                    {template.couple.bride} <span style={{ color: '#5e6b3a' }}>{ar ? 'و' : '&'}</span> {template.couple.groom}
+                </p>
+                <p style={{ fontFamily: ar ? "'Amiri', serif" : "'EB Garamond', serif", fontSize: '0.5rem', letterSpacing: ar ? 0 : '0.18em', textTransform: ar ? 'none' : 'uppercase', color: '#5b4423', margin: 0 }}>
+                    {ar ? 'حفل عقد القران' : 'Nikkah celebration'}
                 </p>
             </div>
         );

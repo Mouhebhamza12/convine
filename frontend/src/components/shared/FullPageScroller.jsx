@@ -25,6 +25,7 @@ export default function FullPageScroller({
     onIndexChange,
     rsvpIndex,
     rsvpLabel = 'RSVP',
+    enabled = true,
 }) {
     const slides = Children.toArray(children);
     const count = slides.length;
@@ -64,9 +65,11 @@ export default function FullPageScroller({
     }, [count]);
 
     // Input handling: wheel, keyboard, touch.
+    // Gated by `enabled` so a scroller mounted behind an opening curtain can't
+    // be advanced by stray wheel/key/touch input before it is actually shown.
     useEffect(() => {
         const root = rootRef.current;
-        if (!root) return undefined;
+        if (!root || !enabled) return undefined;
 
         const onWheel = (e) => {
             if (Math.abs(e.deltaY) < 6) return;
@@ -131,7 +134,7 @@ export default function FullPageScroller({
             root.removeEventListener('touchmove', onTouchMove);
             root.removeEventListener('touchend', onTouchEnd);
         };
-    }, [go, count]);
+    }, [go, count, enabled]);
 
     return (
         <div ref={rootRef} className={`fp-root ${className}`.trim()}>

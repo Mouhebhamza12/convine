@@ -1,27 +1,31 @@
-import { DarEntranceBackdrop, JasmineSprig, Khamsa, KhatemStar, DiamondRule, ZelligeBand, PhotoNiche } from './DarArt';
-import { formatLongDate, formatDateParts } from './DarStrings';
+import { JasmineSprig, Khamsa, KhatemStar, DiamondRule, ZelligeBand, PhotoNiche } from './DarArt';
+import { RingMotif, GoldFlourish } from './AndalusArt';
+import { formatDateParts, formatDots, formatTime12 } from './DarStrings';
 
 /* Entrance is driven by FullPageScroller: any `.fp-reveal` inside the active
    section fades + lifts in, staggered in DOM order; `--slow` pieces parallax. */
 
-/* ─── THE COURTYARD: names under the horseshoe arch ─── */
-export function DarHero({ bride, groom, eventDate, strings, lang }) {
+/* ─── THE CARD: the engraved vintage Nikkah invitation ─── */
+export function DarHero({ bride, groom, eventDate, eventTime, venue, venueAddress, strings }) {
+    const place = venueAddress || venue;
     return (
-        <section className="dar-scene dar-hero dar-hero--entrance">
-            <DarEntranceBackdrop className="dar-hero__backdrop" />
-            <div className="dar-hero__overlay">
-                <span className="fp-reveal dar-hero__lang">{lang.toUpperCase()}</span>
-                <p className="fp-reveal dar-hero__blessing">{strings.hero.blessing}</p>
-                <p className="fp-reveal dar-hero__families">{strings.hero.familyLine}</p>
-                <p className="fp-reveal dar-hero__invite">{strings.hero.invite(bride, groom)}</p>
-                <h1 className="fp-reveal dar-hero__names">
-                    <span>{bride}</span>
-                    <em>{strings.hero.and}</em>
-                    <span>{groom}</span>
-                </h1>
-                <p className="fp-reveal dar-hero__date">{formatLongDate(eventDate, lang)}</p>
-                <DiamondRule className="fp-reveal dar-hero__rule" />
-                <p className="fp-reveal dar-hero__seeyou">{strings.hero.seeYou}</p>
+        <section className="dar-scene andalus-card-scene">
+            <div className="andalus-card">
+                <div className="andalus-card__content">
+                    <p className="fp-reveal andalus-card__bismillah" lang="ar" dir="rtl">{strings.hero.blessing}</p>
+                    <h1 className="fp-reveal andalus-card__names">
+                        <span>{bride}</span>
+                        <em>{strings.hero.and}</em>
+                        <span>{groom}</span>
+                    </h1>
+                    <p className="fp-reveal andalus-card__nikkah">{strings.hero.nikkahLine}</p>
+                    <p className="fp-reveal andalus-card__inshaa">{strings.hero.inshaa}</p>
+                    <p className="fp-reveal andalus-card__date">{formatDots(eventDate)}</p>
+                    <p className="fp-reveal andalus-card__time">{formatTime12(eventTime)}</p>
+                    <GoldFlourish className="fp-reveal andalus-card__flourish" />
+                    {place && <p className="fp-reveal andalus-card__addr">{place}</p>}
+                    <p className="fp-reveal andalus-card__dua">{strings.hero.duaLine}</p>
+                </div>
             </div>
         </section>
     );

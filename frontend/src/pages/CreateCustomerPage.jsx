@@ -110,8 +110,8 @@ export default function CreateCustomerPage() {
                             <option value="bloom">Bloom: Blush botanical</option>
                             <option value="sage">Sage: Botanical sage &amp; ivory</option>
                             <option value="azure">Azure: Blue &amp; cream illustrated</option>
-                            <option value="dar-fr">Dar (Français): Algérien, Casbah &amp; jasmin</option>
-                            <option value="dar-ar">Dar (العربية): Algérien, version arabe</option>
+                            <option value="andalus-fr">Andalus (Français): Velours royal &amp; Nikkah</option>
+                            <option value="andalus-ar">Andalus (العربية): مخمل ملكي وعقد قران</option>
                         </select>
                     </label>
 

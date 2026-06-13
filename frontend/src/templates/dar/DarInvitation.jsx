@@ -1,12 +1,14 @@
 import { useState } from 'react';
 import { useInvitationScroll } from '../../hooks/useInvitationScroll';
 import FullPageScroller from '../../components/shared/FullPageScroller';
+import GoldenParticles from '../../components/invitation/GoldenParticles';
 import DarOpening from './DarOpening';
 import { DarHero, DarMarhba, DarDate, DarPhotos } from './DarScenes';
 import { DarTime, DarCountdown, DarVenue, DarRsvp } from './DarSections';
 import { DAR_STRINGS, AR_DEMO_NAMES } from './DarStrings';
 import '../../css/invitation.css';
 import '../../css/dar.css';
+import '../../css/andalus.css';
 
 /**
  * Dar — the flagship Algerian template. One layout, two voices:
@@ -14,11 +16,14 @@ import '../../css/dar.css';
  * Never both at once.
  */
 function DarInvitation({ data, isDemo, onRsvp, lang }) {
-    const [opened, setOpened] = useState(false);
+    // The invitation is always mounted behind the curtain so the parting drapes
+    // reveal it directly (no blank background flash). `done` flips once the
+    // curtain has finished and unmounted, which unlocks scrolling + scroller input.
+    const [done, setDone] = useState(false);
     const { guest, wedding } = data;
     const strings = DAR_STRINGS[lang];
 
-    useInvitationScroll(opened);
+    useInvitationScroll(done);
 
     let bride = wedding.bride_name || 'Amina';
     let groom = wedding.groom_name || 'Yacine';
@@ -34,19 +39,18 @@ function DarInvitation({ data, isDemo, onRsvp, lang }) {
 
     return (
         <div className="invitation-root dar-invitation" dir={strings.dir} lang={lang} data-lang={lang}>
-            {!opened && <DarOpening onComplete={() => setOpened(true)} strings={strings} />}
-            {opened && (
-                <FullPageScroller className="dar-fp" labels={strings.nav} rtl={strings.dir === 'rtl'} rsvpIndex={7} rsvpLabel={strings.rsvp.cta}>
-                    <DarHero bride={bride} groom={groom} eventDate={wedding.event_date} strings={strings} lang={lang} />
-                    <DarMarhba guestName={guestName} message={message} strings={strings} />
-                    <DarDate eventDate={wedding.event_date} strings={strings} lang={lang} />
-                    <DarTime eventTime={wedding.event_time} strings={strings} lang={lang} />
-                    <DarCountdown eventDate={wedding.event_date} eventTime={wedding.event_time} strings={strings} />
-                    <DarVenue venue={wedding.venue} venueAddress={wedding.venue_address} googleMapsUrl={wedding.google_maps_url} strings={strings} />
-                    <DarPhotos photos={wedding.photos} strings={strings} />
-                    <DarRsvp guestName={guestName} initialStatus={guest.rsvp_status} onSubmit={onRsvp} isDemo={isDemo} strings={strings} />
-                </FullPageScroller>
-            )}
+            <GoldenParticles count={35} />
+            <FullPageScroller enabled={done} className="dar-fp" labels={strings.nav} rtl={strings.dir === 'rtl'} rsvpIndex={7} rsvpLabel={strings.rsvp.cta}>
+                <DarHero bride={bride} groom={groom} eventDate={wedding.event_date} eventTime={wedding.event_time} venue={wedding.venue} venueAddress={wedding.venue_address} strings={strings} lang={lang} />
+                <DarMarhba guestName={guestName} message={message} strings={strings} />
+                <DarDate eventDate={wedding.event_date} strings={strings} lang={lang} />
+                <DarTime eventTime={wedding.event_time} strings={strings} lang={lang} />
+                <DarCountdown eventDate={wedding.event_date} eventTime={wedding.event_time} strings={strings} />
+                <DarVenue venue={wedding.venue} venueAddress={wedding.venue_address} googleMapsUrl={wedding.google_maps_url} strings={strings} />
+                <DarPhotos photos={wedding.photos} strings={strings} />
+                <DarRsvp guestName={guestName} initialStatus={guest.rsvp_status} onSubmit={onRsvp} isDemo={isDemo} strings={strings} />
+            </FullPageScroller>
+            {!done && <DarOpening onComplete={() => setDone(true)} strings={strings} />}
         </div>
     );
 }

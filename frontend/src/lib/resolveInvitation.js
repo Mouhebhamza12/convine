@@ -7,9 +7,11 @@ const DEMO_TOKENS = {
     'demo-azure': 'azure',
     'demo-filigree': 'filigree',
     'demo-lilyrose': 'lilyrose',
-    'demo-dar': 'dar-fr',
-    'demo-dar-fr': 'dar-fr',
-    'demo-dar-ar': 'dar-ar',
+    'demo-andalus': 'andalus-fr',
+    'demo-andalus-fr': 'andalus-fr',
+    'demo-andalus-ar': 'andalus-ar',
+    'demo-dar': 'andalus-fr',
+    'demo-dar-ar': 'andalus-ar',
 };
 
 export function resolveInvitationToken(token) {

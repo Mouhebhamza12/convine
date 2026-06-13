@@ -59,23 +59,23 @@ export const LILYROSE_TEMPLATE = {
 };
 
 export const DAR_FR_TEMPLATE = {
-    slug: 'dar-fr',
-    name: 'Dar',
-    tagline: "L'invitation algérienne, élégante et chaleureuse",
-    demoPath: '/invite/demo-dar',
-    preview: 'dar-fr',
-    couple: { bride: 'Amina', groom: 'Yacine' },
-    features: ['Porte de la Casbah à toquer', 'Zellige & jasmin', 'Accueil des deux familles', 'RSVP en zellige'],
+    slug: 'andalus-fr',
+    name: 'Andalus',
+    tagline: 'Velours, or et fleurs — une invitation Nikkah royale',
+    demoPath: '/invite/demo-andalus',
+    preview: 'andalus-fr',
+    couple: { bride: 'Maryam', groom: 'Mustafa' },
+    features: ['Rideau de velours royal', 'Cadre gravé doré', 'Bismillah & Nikkah', 'RSVP élégant'],
 };
 
 export const DAR_AR_TEMPLATE = {
-    slug: 'dar-ar',
-    name: 'دار',
-    tagline: 'دعوة جزائرية أصيلة، دفء العائلة وأناقة الدار',
-    demoPath: '/invite/demo-dar-ar',
-    preview: 'dar-ar',
-    couple: { bride: 'أمينة', groom: 'ياسين' },
-    features: ['باب القصبة يُطرق', 'زليج وياسمين', 'ترحيب العائلتين', 'تأكيد الحضور بالزليج'],
+    slug: 'andalus-ar',
+    name: 'الأندلس',
+    tagline: 'مخمل وذهب وزهور — دعوة عقد قران أصيلة',
+    demoPath: '/invite/demo-andalus-ar',
+    preview: 'andalus-ar',
+    couple: { bride: 'مريم', groom: 'مصطفى' },
+    features: ['ستار مخملي ملكي', 'إطار ذهبي محفور', 'بسم الله وعقد القران', 'تأكيد الحضور'],
 };
 
 export const WEDDING_TEMPLATES = [DAR_FR_TEMPLATE, DAR_AR_TEMPLATE, LILYROSE_TEMPLATE, FILIGREE_TEMPLATE, VELVET_TEMPLATE, BLOOM_TEMPLATE, SAGE_TEMPLATE, AZURE_TEMPLATE];
