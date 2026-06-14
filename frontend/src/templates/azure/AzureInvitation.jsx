@@ -1,22 +1,31 @@
+import { useState } from 'react';
 import { useInvitationScroll } from '../../hooks/useInvitationScroll';
 import SnapJourney from '../../components/shared/SnapJourney';
+import AzureEnvelope from './AzureEnvelope';
 import { AzureHero, AzureLetter, AzurePhotos } from './AzureScenes';
 import { AzureTime, AzureCountdown, AzureLocation, AzureRsvp } from './AzureSections';
 import '../../css/invitation.css';
 import '../../css/azure.css';
 
 export default function AzureInvitation({ data, isDemo, onRsvp }) {
+    const [opened, setOpened] = useState(false);
+    const [revealing, setRevealing] = useState(false);
     const { guest, wedding } = data;
 
-    // No tap-to-open cover for Azure — the invitation is shown immediately.
-    useInvitationScroll(true);
+    useInvitationScroll(opened);
 
     const bride = wedding.bride_name || 'Amina';
     const groom = wedding.groom_name || 'Yacine';
 
     return (
         <div className="invitation-root azure-invitation">
-            <SnapJourney enabled className="is-visible" accent="#2e5e9e" rsvpIndex={6}>
+            {!opened && (
+                <AzureEnvelope
+                    onStart={() => setRevealing(true)}
+                    onComplete={() => setOpened(true)}
+                />
+            )}
+            <SnapJourney enabled={opened} className={revealing ? 'is-visible' : ''} accent="#2e5e9e" rsvpIndex={6}>
                 <AzureHero
                     bride={bride}
                     groom={groom}

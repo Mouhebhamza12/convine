@@ -2,10 +2,8 @@ import { DEMO_INVITATION } from './invitationDemo';
 
 const DEMO_TOKENS = {
     demo: 'velvet',
-    'demo-bloom': 'bloom',
     'demo-sage': 'sage',
     'demo-azure': 'azure',
-    'demo-filigree': 'filigree',
     'demo-lilyrose': 'lilyrose',
     'demo-andalus': 'andalus-fr',
     'demo-andalus-fr': 'andalus-fr',
@@ -34,7 +32,6 @@ export function resolveInvitationToken(token) {
 
 const LEGACY_TEMPLATE_MAP = {
     classic: 'velvet',
-    berry: 'bloom',
     minimal: 'sage',
 };
 

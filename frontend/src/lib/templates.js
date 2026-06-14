@@ -8,16 +8,6 @@ export const VELVET_TEMPLATE = {
     features: ['Red drape opening', 'Scratch date reveal', 'Guest letter', 'RSVP'],
 };
 
-export const BLOOM_TEMPLATE = {
-    slug: 'bloom',
-    name: 'Bloom',
-    tagline: 'Blush botanical watercolor romance',
-    demoPath: '/invite/demo-bloom',
-    preview: 'bloom',
-    couple: { bride: 'Amina', groom: 'Yacine' },
-    features: ['Petal bloom opening', 'Scratch date reveal', 'Deckled letter', 'RSVP'],
-};
-
 export const SAGE_TEMPLATE = {
     slug: 'sage',
     name: 'Sage',
@@ -36,16 +26,6 @@ export const AZURE_TEMPLATE = {
     preview: 'azure',
     couple: { bride: 'Amina', groom: 'Yacine' },
     features: ['Illustrated couple', 'Hand-drawn accents', 'Guest letter', 'RSVP'],
-};
-
-export const FILIGREE_TEMPLATE = {
-    slug: 'filigree',
-    name: 'Filigree',
-    tagline: 'A single golden thread that ties the knot',
-    demoPath: '/invite/demo-filigree',
-    preview: 'filigree',
-    couple: { bride: 'Amina', groom: 'Yacine' },
-    features: ['Stitched monogram opening', 'Living golden thread', 'Tie-the-knot climax', 'RSVP'],
 };
 
 export const LILYROSE_TEMPLATE = {
@@ -78,6 +58,6 @@ export const DAR_AR_TEMPLATE = {
     features: ['ستار مخملي ملكي', 'إطار ذهبي محفور', 'بسم الله وعقد القران', 'تأكيد الحضور'],
 };
 
-export const WEDDING_TEMPLATES = [DAR_FR_TEMPLATE, DAR_AR_TEMPLATE, LILYROSE_TEMPLATE, FILIGREE_TEMPLATE, VELVET_TEMPLATE, BLOOM_TEMPLATE, SAGE_TEMPLATE, AZURE_TEMPLATE];
+export const WEDDING_TEMPLATES = [DAR_FR_TEMPLATE, DAR_AR_TEMPLATE, LILYROSE_TEMPLATE, VELVET_TEMPLATE, SAGE_TEMPLATE, AZURE_TEMPLATE];
 
 export const TEMPLATE_BY_SLUG = Object.fromEntries(WEDDING_TEMPLATES.map((t) => [t.slug, t]));

@@ -107,7 +107,6 @@ export default function CreateCustomerPage() {
                             onChange={(e) => updateField('template_slug', e.target.value)}
                         >
                             <option value="velvet">Velvet: Red drape cinematic</option>
-                            <option value="bloom">Bloom: Blush botanical</option>
                             <option value="sage">Sage: Botanical sage &amp; ivory</option>
                             <option value="azure">Azure: Blue &amp; cream illustrated</option>
                             <option value="andalus-fr">Andalus (Français): Velours royal &amp; Nikkah</option>

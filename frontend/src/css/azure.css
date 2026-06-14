@@ -15,6 +15,60 @@
     font-family: 'Playfair Display', Georgia, serif;
 }
 
+/* ─────────────── ENVELOPE OPENING (small screen) ─────────────── */
+.azure-env {
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background:
+        radial-gradient(120% 80% at 50% 38%, #ffffff 0%, var(--azure-cream) 55%, #e7ddc6 100%);
+    cursor: pointer;
+    overflow: hidden;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.azure-env__stage {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+}
+
+.azure-env__half {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    margin-inline: auto;
+    height: 100%;
+    width: auto;
+    max-width: none;
+    display: block;
+    will-change: transform;
+}
+
+/* Right half (seal) sits on top; the solid left half fills its transparent gaps */
+.azure-env__half--left { z-index: 1; transform-origin: right center; }
+.azure-env__half--right { z-index: 2; transform-origin: left center; }
+
+.azure-env__hint {
+    position: absolute;
+    bottom: clamp(2rem, 8vh, 4rem);
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-family: 'Jost', sans-serif;
+    font-weight: 500;
+    font-size: 0.78rem;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--azure-blue);
+    margin: 0;
+}
+
 /* ─────────────── SECTION SHELL ─────────────── */
 .azure-scene {
     position: relative;
