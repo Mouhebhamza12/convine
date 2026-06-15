@@ -11,6 +11,7 @@ const DEMO_TOKENS = {
     'demo-dar': 'andalus-fr',
     'demo-dar-ar': 'andalus-ar',
     'demo-roseraie': 'roseraie',
+    'demo-ivoire': 'ivoire',
 };
 
 export function resolveInvitationToken(token) {

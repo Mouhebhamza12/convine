@@ -1,0 +1,84 @@
+/* Ivoire — embossed ivory florals & a gilded blush cameo. Soft greige, pearl
+   white relief, rose-gold foil, dusty-mauve type. Pure data + helpers (no
+   components) so it Fast-Refreshes cleanly. */
+
+const ARABIC = /[؀-ۿݐ-ݿﭐ-﷿ﹰ-﻿]/;
+
+export function isArabicName(str = '') {
+    return ARABIC.test(str);
+}
+
+/* first meaningful glyph of a name — uppercased for Latin, left intact for
+   scripts without case (Arabic) */
+export function initialOf(name = '') {
+    const ch = Array.from(name.trim())[0] || '';
+    return ARABIC.test(ch) ? ch : ch.toUpperCase();
+}
+
+/* Arabic display forms for the romanised demo couple, so the Arabic scenes read
+   naturally in the demo. */
+const AR_DEMO_NAMES = { Amina: 'أمينة', Yacine: 'ياسين', Mohamed: 'محمد' };
+
+/* the name to show in the Arabic calligraphy: an Arabic name as-is, otherwise
+   the demo's Arabic form, otherwise the name unchanged */
+export function arabicDisplayName(name = '') {
+    if (isArabicName(name)) return name;
+    return AR_DEMO_NAMES[name] || name;
+}
+
+export const IVOIRE_STRINGS = {
+    cover: {
+        and: '&',
+        andAr: 'و',
+    },
+    /* the first interior scene: the عقد قِران announcement, set into the
+       plaster relief between the doves above and the florals below */
+    hero: {
+        and: '&',
+        announce: [
+            'بِرضا اللهِ وطاعتِه، وعلى سُنّةِ نبيّهِ المُصطفى ﷺ',
+            'نَزفّ إليكم بُشرى عقدِ قِران',
+        ],
+        dua: [
+            'نسألُ اللهَ أن يجعلَه عقداً تنعقدُ بهِ السعادة',
+            'وتنفتحُ لهُ أبوابُ الخيرِ والمودّة',
+        ],
+    },
+};
+
+/* the names line under the cameo: tracked inscription caps for Latin, set
+   close for Arabic */
+export function joinNames(bride, groom) {
+    const arabic = isArabicName(bride) || isArabicName(groom);
+    return {
+        arabic,
+        bride,
+        groom,
+        and: arabic ? IVOIRE_STRINGS.cover.andAr : IVOIRE_STRINGS.cover.and,
+    };
+}
+
+/* the cameo mark. The seal carries the couple's initials in Arabic calligraphy.
+   Real Arabic names yield their own initials; the demo couple (shown romanised
+   on the names line, as in classic bilingual stationery) is paired with a
+   matching Arabic monogram. A purely-Latin couple falls back to Latin initials. */
+export function monogramLetters(bride, groom, { demo = false } = {}) {
+    if (isArabicName(bride) || isArabicName(groom)) {
+        return { letters: [initialOf(bride), initialOf(groom)], arabic: true };
+    }
+    if (demo) {
+        // آمنة (Amina) · ياسين (Yacine)
+        return { letters: ['آ', 'ي'], arabic: true };
+    }
+    return { letters: [initialOf(bride), initialOf(groom)], arabic: false };
+}
+
+/** "20 . 08 . 26" — engraved date, two-digit year, as on the reference card. */
+export function formatDots(eventDate) {
+    const d = new Date(`${eventDate}T12:00:00`);
+    if (Number.isNaN(d.getTime())) return '';
+    const dd = String(d.getDate()).padStart(2, '0');
+    const mm = String(d.getMonth() + 1).padStart(2, '0');
+    const yy = String(d.getFullYear()).slice(-2);
+    return `${dd} . ${mm} . ${yy}`;
+}

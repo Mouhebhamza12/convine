@@ -112,6 +112,7 @@ export default function CreateCustomerPage() {
                             <option value="andalus-fr">Andalus (Français): Velours royal &amp; Nikkah</option>
                             <option value="andalus-ar">Andalus (العربية): مخمل ملكي وعقد قران</option>
                             <option value="roseraie">Roseraie: Blush &amp; burgundy botanical couture</option>
+                            <option value="ivoire">Ivoire: Embossed ivory &amp; gilded cameo</option>
                         </select>
                     </label>
 

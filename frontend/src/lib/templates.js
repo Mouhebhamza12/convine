@@ -68,6 +68,16 @@ export const ROSERAIE_TEMPLATE = {
     features: ['Wax-seal reveal', 'Watercolour roses', 'Baroque damask', 'Editorial RSVP'],
 };
 
-export const WEDDING_TEMPLATES = [ROSERAIE_TEMPLATE, DAR_FR_TEMPLATE, DAR_AR_TEMPLATE, LILYROSE_TEMPLATE, VELVET_TEMPLATE, SAGE_TEMPLATE, AZURE_TEMPLATE];
+export const IVOIRE_TEMPLATE = {
+    slug: 'ivoire',
+    name: 'Ivoire',
+    tagline: 'Embossed ivory florals & a gilded blush cameo',
+    demoPath: '/invite/demo-ivoire',
+    preview: 'ivoire',
+    couple: { bride: 'Amina', groom: 'Yacine' },
+    features: ['Plaster-relief florals', 'Porcelain cameo seal', 'Foiled monogram', 'Latin & Arabic'],
+};
+
+export const WEDDING_TEMPLATES = [IVOIRE_TEMPLATE, ROSERAIE_TEMPLATE, DAR_FR_TEMPLATE, DAR_AR_TEMPLATE, LILYROSE_TEMPLATE, VELVET_TEMPLATE, SAGE_TEMPLATE, AZURE_TEMPLATE];
 
 export const TEMPLATE_BY_SLUG = Object.fromEntries(WEDDING_TEMPLATES.map((t) => [t.slug, t]));
