@@ -1,4 +1,4 @@
-/* Roseraie — couture editorial copy (English). Sage / ivory / antique gold. */
+/* Roseraie: couture editorial copy (English). Sage / ivory / antique gold. */
 
 export const ROSERAIE_STRINGS = {
     nav: ['Invitation', 'The Letter', 'The Date', 'The Hour', 'Countdown', 'The Place', 'Our Story', 'RSVP'],
@@ -16,7 +16,7 @@ export const ROSERAIE_STRINGS = {
         label: 'A Letter',
         greeting: (name) => `Dear ${name},`,
         defaultMsg:
-            'With hearts full of joy, we invite you to share in the celebration of our marriage — an evening of love, light, and the people who mean the most to us. Your presence would make our happiness complete.',
+            'With hearts full of joy, we invite you to share in the celebration of our marriage, an evening of love, light, and the people who mean the most to us. Your presence would make our happiness complete.',
         sign: 'With all our love,',
         signNames: (bride, groom) => `${bride} & ${groom}`,
     },
@@ -35,9 +35,9 @@ export const ROSERAIE_STRINGS = {
         decline: 'Regretfully declines',
         declineSub: 'with love from afar',
         confirmYes: (name) =>
-            `Thank you, ${name}. Your seal is set — we cannot wait to celebrate this day with you.`,
+            `Thank you, ${name}. Your seal is set, and we cannot wait to celebrate this day with you.`,
         confirmNo: (name) =>
-            `We will miss you dearly, ${name}. Thank you for letting us know — you will be in our hearts.`,
+            `We will miss you dearly, ${name}. Thank you for letting us know. You will be in our hearts.`,
     },
 };
 

@@ -1,4 +1,3 @@
-import bouquet from '../../assets/roseraie/bouquet.svg';
 import roses from '../../assets/roseraie/roses.svg';
 import damask from '../../assets/roseraie/damask.svg';
 import { formatLongDate, formatDateParts } from './RoseraieStrings';
@@ -11,7 +10,6 @@ import { formatLongDate, formatDateParts } from './RoseraieStrings';
 export function RoseraieHero({ bride, groom, eventDate, strings }) {
     return (
         <section className="ro-scene ro-hero">
-            <img src={bouquet} alt="" className="fp-reveal fp-reveal--slow ro-hero__bouquet" />
             <p className="fp-reveal ro-eyebrow">{strings.hero.eyebrow}</p>
             <h1 className="fp-reveal ro-hero__names">
                 <span>{bride}</span>
@@ -42,8 +40,6 @@ export function RoseraieDate({ eventDate, strings }) {
     const { weekday, day, month, year } = formatDateParts(eventDate);
     return (
         <section className="ro-scene ro-date">
-            <img src={bouquet} alt="" className="fp-reveal fp-reveal--slow ro-date__floral ro-date__floral--l" />
-            <img src={bouquet} alt="" className="fp-reveal fp-reveal--slow ro-date__floral ro-date__floral--r" />
             <p className="fp-reveal ro-eyebrow">{strings.date.label}</p>
             <div className="fp-reveal ro-date__block">
                 <img src={damask} alt="" className="ro-date__damask" />

@@ -61,11 +61,11 @@ export const DAR_AR_TEMPLATE = {
 export const ROSERAIE_TEMPLATE = {
     slug: 'roseraie',
     name: 'Roseraie',
-    tagline: 'Sage, ivory & gold — a sealed couture keepsake',
+    tagline: 'Blush, burgundy & ivory — a sealed botanical keepsake',
     demoPath: '/invite/demo-roseraie',
     preview: 'roseraie',
     couple: { bride: 'Amina', groom: 'Yacine' },
-    features: ['Wax-seal reveal', 'Garden-rose editorial', 'Baroque damask frames', 'Sealed RSVP'],
+    features: ['Wax-seal reveal', 'Watercolour roses', 'Baroque damask', 'Editorial RSVP'],
 };
 
 export const WEDDING_TEMPLATES = [ROSERAIE_TEMPLATE, DAR_FR_TEMPLATE, DAR_AR_TEMPLATE, LILYROSE_TEMPLATE, VELVET_TEMPLATE, SAGE_TEMPLATE, AZURE_TEMPLATE];

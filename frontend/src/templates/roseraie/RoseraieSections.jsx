@@ -3,7 +3,7 @@ import gsap from 'gsap';
 import { useRsvp } from '../../components/shared/useRsvp';
 import { useCountdown } from '../../components/shared/useCountdown';
 import { formatTime12 } from './RoseraieStrings';
-import bouquet from '../../assets/roseraie/bouquet.svg';
+import { HeartWhole, HeartBroken } from './RoseraieArt';
 import roses from '../../assets/roseraie/roses.svg';
 import damask from '../../assets/roseraie/damask.svg';
 
@@ -11,7 +11,6 @@ import damask from '../../assets/roseraie/damask.svg';
 export function RoseraieTime({ eventTime, strings }) {
     return (
         <section className="ro-scene ro-time">
-            <img src={bouquet} alt="" className="fp-reveal fp-reveal--slow ro-time__floral" />
             <p className="fp-reveal ro-eyebrow">{strings.time.label}</p>
             <p className="fp-reveal ro-time__from">{strings.time.from}</p>
             <p className="fp-reveal ro-time__value">{formatTime12(eventTime)}</p>
@@ -71,9 +70,6 @@ export function RoseraieRsvp({ guestName, initialStatus, onSubmit, isDemo, strin
 
     return (
         <section className="ro-scene ro-rsvp">
-            <img src={bouquet} alt="" className="fp-reveal fp-reveal--slow ro-rsvp__floral ro-rsvp__floral--l" />
-            <img src={bouquet} alt="" className="fp-reveal fp-reveal--slow ro-rsvp__floral ro-rsvp__floral--r" />
-
             <p className="fp-reveal ro-eyebrow">{strings.rsvp.label}</p>
             <p className="fp-reveal ro-rsvp__ask">{strings.rsvp.ask(guestName)}</p>
 
@@ -82,10 +78,12 @@ export function RoseraieRsvp({ guestName, initialStatus, onSubmit, isDemo, strin
                     <p className="fp-reveal ro-rsvp__hint">{strings.rsvp.hint}</p>
                     <div className="fp-reveal ro-rsvp__choices">
                         <button type="button" disabled={submitting} onClick={() => respond('attending')} className="ro-choice">
+                            <HeartWhole className="ro-choice__heart" />
                             <strong>{strings.rsvp.accept}</strong>
                             <em>{strings.rsvp.acceptSub}</em>
                         </button>
                         <button type="button" disabled={submitting} onClick={() => respond('declined')} className="ro-choice ro-choice--decline">
+                            <HeartBroken className="ro-choice__heart" />
                             <strong>{strings.rsvp.decline}</strong>
                             <em>{strings.rsvp.declineSub}</em>
                         </button>
