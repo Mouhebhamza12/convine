@@ -310,7 +310,29 @@
     margin: clamp(1.4rem, 4vh, 2.2rem) 0 0; /* Align perfectly under the holding hands outline */
 }
 
-.dar-invitation[data-lang='ar'] .andalus-card__dua { 
-    font-style: normal; 
-    font-family: 'Amiri', serif; 
+.dar-invitation[data-lang='ar'] .andalus-card__dua {
+    font-style: normal;
+    font-family: 'Amiri', serif;
+}
+
+/* ─────────────── MARHBA — melt the family letter into the scene ───────────────
+   The base template (dar.css) seats this wording on a hard opaque cream
+   rectangle carrying a cold blue azure-era drop-shadow, so on the warm
+   botanical border it floats like a pasted sticker. Here the panel is
+   dissolved into a soft aged-parchment pool: a warm radial that holds the
+   wording on solid paper at the centre and feathers to nothing before the
+   edges — no rectangle, no shadow. The letter now reads as ink laid onto the
+   same parchment as the surrounding frame, exactly like the engraved hero
+   card whose wording also sits straight on the background. */
+.dar-invitation .dar-marhba {
+    background-color: transparent;
+    background-image:
+        radial-gradient(70% 64% at 50% 47%,
+            rgba(246, 237, 214, 0.97) 0%,
+            rgba(244, 234, 208, 0.95) 46%,
+            rgba(241, 230, 199, 0.78) 66%,
+            rgba(238, 225, 189, 0.34) 85%,
+            rgba(236, 222, 183, 0) 100%);
+    box-shadow: none;
+    padding: clamp(3.2rem, 10vw, 4.8rem) clamp(2.4rem, 8vw, 3.6rem);
 }

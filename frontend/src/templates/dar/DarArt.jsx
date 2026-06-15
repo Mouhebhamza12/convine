@@ -91,18 +91,6 @@ function DarDefs() {
     );
 }
 
-/* ── zellige frieze band ── */
-export function ZelligeBand({ className }) {
-    return (
-        <svg className={className} viewBox="0 0 360 46" aria-hidden="true">
-            <DarDefs />
-            <rect x="3" y="3" width="354" height="40" fill="url(#dar-zl)" />
-            <rect x="3" y="3" width="354" height="40" fill="none" stroke={DAR.blueDeep} strokeWidth="2" />
-            <rect x="7" y="7" width="346" height="32" fill="none" stroke={DAR.white} strokeWidth="1" opacity="0.7" />
-        </svg>
-    );
-}
-
 /* ── glazed khatem star medallion ── */
 export function KhatemStar({ className }) {
     return (
@@ -595,29 +583,6 @@ export function CeramicPlaque({ className, children }) {
                 {children}
             </div>
         </div>
-    );
-}
-
-/* ── glazed zellige tile for the RSVP choice ── */
-export function RsvpTile({ className, variant = 'accept' }) {
-    const glaze = variant === 'accept' ? 'url(#dar-glaze)' : 'url(#dar-glaze-clay)';
-    const alt = variant === 'accept' ? 'url(#dar-glaze-clay)' : 'url(#dar-glaze)';
-    return (
-        <svg className={className} viewBox="0 0 130 130" aria-hidden="true">
-            <DarDefs />
-            <rect x="3" y="3" width="124" height="124" rx="4" fill={DAR.white} stroke={DAR.blueDeep} strokeWidth="2" />
-            <g transform="translate(65 65)">
-                <rect x="-27" y="-27" width="54" height="54" fill={glaze} stroke={DAR.white} strokeWidth="2.2" />
-                <rect x="-27" y="-27" width="54" height="54" fill={glaze} stroke={DAR.white} strokeWidth="2.2" transform="rotate(45)" />
-                <circle r="9" fill={DAR.white} opacity="0.95" />
-                <circle r="3.6" fill={alt} />
-            </g>
-            {[[3, 3], [127, 3], [3, 127], [127, 127]].map(([x, y]) => (
-                <rect key={`${x}${y}`} x={x - 12} y={y - 12} width="24" height="24" fill={alt} stroke={DAR.white} strokeWidth="1.6" transform={`rotate(45 ${x} ${y})`} />
-            ))}
-            {/* glaze sheen */}
-            <path d="M8 38 C40 10 90 4 122 18 C84 12 40 20 8 46 Z" fill="#ffffff" opacity="0.22" />
-        </svg>
     );
 }
 

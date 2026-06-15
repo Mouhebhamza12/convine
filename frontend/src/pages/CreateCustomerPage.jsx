@@ -111,6 +111,7 @@ export default function CreateCustomerPage() {
                             <option value="azure">Azure: Blue &amp; cream illustrated</option>
                             <option value="andalus-fr">Andalus (Français): Velours royal &amp; Nikkah</option>
                             <option value="andalus-ar">Andalus (العربية): مخمل ملكي وعقد قران</option>
+                            <option value="roseraie">Roseraie: Sage, ivory &amp; gold couture</option>
                         </select>
                     </label>
 

@@ -7,6 +7,7 @@ import SageInvitation from '../templates/sage/SageInvitation';
 import AzureInvitation from '../templates/azure/AzureInvitation';
 import LilyRoseInvitation from '../templates/lilyrose/LilyRoseInvitation';
 import { DarInvitationFr, DarInvitationAr } from '../templates/dar/DarInvitation';
+import RoseraieInvitation from '../templates/roseraie/RoseraieInvitation';
 
 const TEMPLATE_VIEWS = {
     velvet: VelvetInvitation,
@@ -15,6 +16,7 @@ const TEMPLATE_VIEWS = {
     lilyrose: LilyRoseInvitation,
     'andalus-fr': DarInvitationFr,
     'andalus-ar': DarInvitationAr,
+    roseraie: RoseraieInvitation,
 };
 
 export default function InvitationPage() {

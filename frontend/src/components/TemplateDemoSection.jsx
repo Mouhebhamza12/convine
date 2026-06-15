@@ -8,6 +8,7 @@ const BG_MAP = {
 };
 
 const ACCENT_MAP = {
+    roseraie: { primary: '#6e7e68', hover: '#3c3a33', text: '#fff' },
     velvet: { primary: '#6b0f1a', hover: '#8b1a2b', text: '#fff' },
     sage: { primary: '#6f7d50', hover: '#8c9a6c', text: '#fff' },
     azure: { primary: '#2e5e9e', hover: '#244c82', text: '#fff' },
@@ -17,6 +18,7 @@ const ACCENT_MAP = {
 };
 
 const DESC_MAP = {
+    roseraie: 'A gold wax seal breaks and two botanical panels part to reveal an editorial spread on sage, ivory and antique gold. Garden roses, baroque damask and couture typography — luxury keepsake, not envelope.',
     velvet: 'A dramatic opening with rich textures and timeless elegance. Perfect for the classic romantic.',
     sage: 'Botanical line art on sage and ivory for understated, garden elegance. Perfect for the refined couple.',
     azure: 'Bold blue type and a hand-drawn couple on warm cream. Perfect for the playful, characterful couple.',
@@ -104,6 +106,29 @@ function TemplatePreview({ template }) {
         );
     }
 
+    if (template.preview === 'roseraie') {
+        return (
+            <div
+                className="td2-phone-screen"
+                style={{ background: 'radial-gradient(120% 90% at 50% 18%, #fbf8f1 0%, #eef0e4 52%, #dfe3d2 100%)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '0.45rem', textAlign: 'center', padding: '1rem' }}
+            >
+                <svg width="46" height="46" viewBox="0 0 120 120" fill="none" aria-hidden="true">
+                    <path d="M60 8 C72 7 78 16 88 19 C100 22 105 33 101 44 C97 55 107 62 104 75 C101 89 88 91 80 99 C72 107 61 105 52 107 C40 109 32 100 23 95 C12 90 11 76 15 65 C19 54 9 47 13 35 C17 24 30 25 39 17 C46 11 47 9 60 8 Z" fill="#c2a24e" />
+                    <circle cx="60" cy="60" r="33" fill="none" stroke="#856828" strokeWidth="1.5" opacity="0.6" />
+                    <text x="60" y="61" textAnchor="middle" dominantBaseline="middle" fontFamily="'Cinzel', serif" fontSize="28" fontWeight="600" fill="#76591f">AY</text>
+                </svg>
+                <p style={{ fontFamily: "'Jost', sans-serif", fontSize: '0.46rem', letterSpacing: '0.34em', textTransform: 'uppercase', color: '#6e7e68', margin: 0 }}>
+                    The Wedding Of
+                </p>
+                <div style={{ display: 'flex', flexDirection: 'column', lineHeight: 0.92 }}>
+                    <span style={{ fontFamily: "'Playfair Display', serif", fontWeight: 500, fontSize: '1.5rem', color: '#3c3a33' }}>{template.couple.bride}</span>
+                    <em style={{ fontFamily: "'Pinyon Script', cursive", fontStyle: 'normal', fontSize: '1.1rem', color: '#c2a24e' }}>&amp;</em>
+                    <span style={{ fontFamily: "'Playfair Display', serif", fontWeight: 500, fontSize: '1.5rem', color: '#3c3a33' }}>{template.couple.groom}</span>
+                </div>
+            </div>
+        );
+    }
+
     if (template.preview === 'sage') {
         return (
             <div
@@ -165,7 +190,7 @@ export default function TemplateDemoSection() {
                     <div className="td2-line-right" />
                 </div>
                 <span className="td2-eyebrow">CHOOSE YOUR EXPERIENCE</span>
-                <h2 className="td2-title">Six Distinct Experiences</h2>
+                <h2 className="td2-title">Seven Distinct Experiences</h2>
                 <p className="td2-subtitle">
                     Each demo showcases a unique style of luxury wedding stationery.
                 </p>

@@ -1,4 +1,4 @@
-import { JasmineSprig, Khamsa, KhatemStar, DiamondRule, ZelligeBand, PhotoNiche } from './DarArt';
+import { JasmineSprig, Khamsa, KhatemStar, DiamondRule, PhotoNiche } from './DarArt';
 import { RingMotif, GoldFlourish } from './AndalusArt';
 import { formatDateParts, formatDots, formatTime12 } from './DarStrings';
 
@@ -79,7 +79,6 @@ export function DarPhotos({ photos = [], strings }) {
     return (
         <section className="dar-scene">
             <p className="fp-reveal dar-label">{strings.photos.label}</p>
-            <ZelligeBand className="fp-reveal fp-reveal--slow dar-photos__band" />
             <div className="dar-photos">
                 {items.slice(0, 3).map((src, i) => (
                     <figure key={i} className="fp-reveal dar-niche">

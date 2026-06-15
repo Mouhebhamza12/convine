@@ -2,8 +2,9 @@ import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { useRsvp } from '../../components/shared/useRsvp';
 import { useCountdown } from '../../components/shared/useCountdown';
-import { WindowScene, ArcadeArch, AlleyScene, CeramicPlaque, RsvpTile, DiamondRule, JasmineSprig, BrassMedallionFloral } from './DarArt';
+import { WindowScene, ArcadeArch, CeramicPlaque, DiamondRule, JasmineSprig, BrassMedallionFloral } from './DarArt';
 import { formatTime } from './DarStrings';
+import houseImg from '../../../assets/house-cut.png';
 
 /* Entrance handled by FullPageScroller (`.fp-reveal`). */
 
@@ -52,7 +53,7 @@ export function DarVenue({ venue, venueAddress, googleMapsUrl, strings }) {
         <section className="dar-scene">
             <p className="fp-reveal dar-label">{strings.venue.label}</p>
             <p className="fp-reveal dar-venue__intro">{strings.venue.intro}</p>
-            <AlleyScene className="fp-reveal fp-reveal--slow dar-alley" />
+            <img src={houseImg} alt="" className="fp-reveal fp-reveal--slow dar-house" />
             <CeramicPlaque className="fp-reveal dar-plaque">
                 <strong className="dar-plaque__venue">{venue || ''}</strong>
                 {venueAddress && <span className="dar-plaque__addr">{venueAddress}</span>}
@@ -70,7 +71,7 @@ export function DarVenue({ venue, venueAddress, googleMapsUrl, strings }) {
     );
 }
 
-/* ─── RSVP: choose your zellige; your answer joins the family wall ─── */
+/* ─── RSVP: accept or decline; your answer joins the family ─── */
 export function DarRsvp({ guestName, initialStatus, onSubmit, isDemo, strings }) {
     const { status, submitting, respond } = useRsvp(initialStatus, onSubmit, isDemo);
     const sealRef = useRef(null);
@@ -94,12 +95,10 @@ export function DarRsvp({ guestName, initialStatus, onSubmit, isDemo, strings })
                     <p className="fp-reveal dar-rsvp__hint">{strings.rsvp.hint}</p>
                     <div className="fp-reveal dar-rsvp__tiles">
                         <button type="button" disabled={submitting} onClick={() => respond('attending')} className="dar-tilebtn">
-                            <RsvpTile variant="accept" className="dar-tilebtn__tile" />
                             <strong>{strings.rsvp.accept}</strong>
                             <em>{strings.rsvp.acceptSub}</em>
                         </button>
                         <button type="button" disabled={submitting} onClick={() => respond('declined')} className="dar-tilebtn dar-tilebtn--decline">
-                            <RsvpTile variant="decline" className="dar-tilebtn__tile" />
                             <strong>{strings.rsvp.decline}</strong>
                             <em>{strings.rsvp.declineSub}</em>
                         </button>
@@ -107,7 +106,6 @@ export function DarRsvp({ guestName, initialStatus, onSubmit, isDemo, strings })
                 </>
             ) : (
                 <div className="dar-rsvp__done" ref={sealRef}>
-                    <RsvpTile variant={attending ? 'accept' : 'decline'} className="dar-rsvp__donetile" />
                     <DiamondRule className="dar-rsvp__rule" />
                     <p className="dar-rsvp__msg">{attending ? strings.rsvp.confirmYes(guestName) : strings.rsvp.confirmNo(guestName)}</p>
                     <JasmineSprig className="dar-rsvp__jasmine" />

@@ -1,0 +1,500 @@
+/* ===================================================================
+   ROSERAIE — couture editorial flagship.
+   Sage & ivory under antique gold; garden roses, baroque damask, a gold
+   wax seal. A sealed botanical keepsake parts to reveal an editorial spread.
+   Layered over invitation.css; uses the FullPageScroller (.fp-*) system.
+   =================================================================== */
+
+.roseraie-invitation {
+    --ro-sage: #8fa088;
+    --ro-sage-deep: #6e7e68;
+    --ro-ink: #3c3a33;
+    --ro-ivory: #f6f1e7;
+    --ro-ivory-deep: #ece4d5;
+    --ro-gold: #c2a24e;
+    --ro-gold-light: #d9c089;
+    --ro-rose: #c9a9a0;
+}
+
+/* ─────────────── THE COVER: the sealed keepsake reveal ─────────────── */
+.ro-cover {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    overflow: hidden;
+    cursor: pointer;
+    background: radial-gradient(120% 92% at 50% 28%, #eef0e6 0%, #e1e4d4 54%, #cdd3bd 100%);
+    -webkit-tap-highlight-color: transparent;
+    touch-action: none;
+}
+
+.ro-cover__case {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 560px;
+}
+
+.ro-cover__panel {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: auto;
+    display: block;
+    pointer-events: none;
+    will-change: transform;
+}
+
+.ro-cover__panel--top { top: 0; }
+.ro-cover__panel--bottom { bottom: 0; }
+
+.ro-cover__glow {
+    position: absolute;
+    left: 50%;
+    top: 57%;
+    width: 64%;
+    aspect-ratio: 1;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(231, 203, 124, 0.95) 0%, rgba(226, 196, 116, 0.4) 38%, rgba(226, 196, 116, 0) 70%);
+    opacity: 0;
+    pointer-events: none;
+}
+
+.ro-cover__content {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 13%;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 0 1.8rem;
+    pointer-events: none;
+}
+
+.ro-cover__eyebrow {
+    font-family: 'Jost', sans-serif;
+    font-weight: 400;
+    letter-spacing: 0.34em;
+    text-transform: uppercase;
+    font-size: clamp(0.6rem, 2vw, 0.78rem);
+    color: var(--ro-sage-deep);
+    margin: 0 0 0.9rem;
+}
+
+.ro-cover__names {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    line-height: 0.9;
+    margin: 0;
+}
+
+.ro-cover__names span {
+    font-family: 'Playfair Display', serif;
+    font-weight: 500;
+    font-size: clamp(2.4rem, 9vw, 3.4rem);
+    color: var(--ro-ink);
+}
+
+.ro-cover__names em {
+    font-family: 'Pinyon Script', cursive;
+    font-style: normal;
+    font-size: clamp(1.9rem, 7vw, 2.7rem);
+    color: var(--ro-gold);
+    margin: -0.08em 0;
+}
+
+.ro-cover__guest {
+    margin: 1.3rem 0 0;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(0.98rem, 3vw, 1.2rem);
+    color: var(--ro-sage-deep);
+}
+
+.ro-cover__guest span {
+    display: block;
+    font-family: 'Jost', sans-serif;
+    font-style: normal;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    font-size: 0.6rem;
+    color: var(--ro-gold);
+    margin-bottom: 0.35rem;
+}
+
+.ro-cover__hint {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 7%;
+    z-index: 3;
+    text-align: center;
+    font-family: 'Jost', sans-serif;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    font-size: clamp(0.62rem, 2vw, 0.78rem);
+    color: var(--ro-sage-deep);
+    pointer-events: none;
+    animation: roHintPulse 2.6s ease-in-out infinite;
+}
+
+@keyframes roHintPulse {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+}
+
+/* ─────────────── THE SCROLLER FIELD ─────────────── */
+.roseraie-fp {
+    --fp-accent: var(--ro-gold);
+    background-color: var(--ro-ivory);
+    background-image:
+        radial-gradient(132% 100% at 50% 0%, #fbf8f1 0%, #f1ece0 46%, #e6e2d3 100%);
+    color: var(--ro-ink);
+}
+
+.roseraie-fp .fp-section { align-items: center; }
+.roseraie-fp .fp-dot { border-color: var(--ro-sage-deep); }
+
+.roseraie-fp .ro-scene {
+    width: 100%;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    padding: clamp(2.8rem, 8vh, 5rem) clamp(1.4rem, 6vw, 3rem);
+}
+
+.ro-eyebrow {
+    font-family: 'Jost', sans-serif;
+    font-weight: 400;
+    letter-spacing: 0.36em;
+    text-transform: uppercase;
+    font-size: clamp(0.62rem, 2vw, 0.82rem);
+    color: var(--ro-gold);
+    margin: 0 0 clamp(1rem, 3vw, 1.6rem);
+}
+
+/* ─────────────── HERO ─────────────── */
+.ro-hero__frame { position: relative; width: min(80vw, 340px); margin: 0 auto; }
+.ro-hero__oval { display: block; width: 100%; height: auto; color: var(--ro-gold); }
+
+.ro-hero__inner {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.05rem;
+}
+
+.ro-hero__name {
+    font-family: 'Playfair Display', serif;
+    font-weight: 500;
+    font-size: clamp(2rem, 8vw, 2.9rem);
+    line-height: 0.96;
+    color: var(--ro-ink);
+}
+
+.ro-hero__amp {
+    font-family: 'Pinyon Script', cursive;
+    font-style: normal;
+    font-size: clamp(1.6rem, 6vw, 2.2rem);
+    color: var(--ro-gold);
+    margin: -0.06em 0;
+}
+
+.ro-hero__rule {
+    width: clamp(150px, 40vw, 220px);
+    height: auto;
+    color: var(--ro-gold);
+    margin: clamp(1.2rem, 3.5vw, 1.8rem) auto clamp(0.7rem, 2.4vw, 1.1rem);
+    display: block;
+}
+
+.ro-hero__date {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1rem, 3.4vw, 1.35rem);
+    letter-spacing: 0.04em;
+    color: var(--ro-sage-deep);
+    margin: 0;
+}
+
+.ro-hero__rose {
+    width: clamp(52px, 14vw, 78px);
+    height: auto;
+    color: var(--ro-sage);
+    opacity: 0.9;
+    margin: clamp(1.1rem, 3.4vw, 1.7rem) auto 0;
+    display: block;
+}
+
+.ro-hero__sprig { position: absolute; width: clamp(78px, 22vw, 128px); height: auto; opacity: 0.7; }
+.ro-hero__sprig--l { left: -14px; top: 7%; color: var(--ro-sage); }
+.ro-hero__sprig--r { right: -8px; bottom: 5%; color: var(--ro-sage-deep); }
+
+/* ─────────────── THE LETTER ─────────────── */
+.ro-letter { max-width: 38rem; }
+.ro-letter__rule { width: clamp(140px, 38vw, 200px); height: auto; color: var(--ro-gold); margin: 0 auto clamp(1.4rem, 4vw, 2rem); display: block; }
+
+.ro-letter__greeting {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(1.2rem, 4vw, 1.6rem);
+    color: var(--ro-sage-deep);
+    margin: 0 0 1rem;
+}
+
+.ro-letter__body {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.1rem, 3.4vw, 1.4rem);
+    line-height: 1.95;
+    color: var(--ro-ink);
+    max-width: 32ch;
+    margin: 0 auto;
+}
+
+.ro-letter__sign {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(1rem, 3vw, 1.2rem);
+    color: var(--ro-sage-deep);
+    margin: clamp(1.4rem, 4vw, 2rem) 0 0.1rem;
+}
+
+.ro-letter__names {
+    font-family: 'Pinyon Script', cursive;
+    font-size: clamp(1.9rem, 6vw, 2.7rem);
+    color: var(--ro-gold);
+    margin: 0;
+    line-height: 1;
+}
+
+/* ─────────────── THE DATE ─────────────── */
+.ro-date__frame { width: min(86vw, 380px); color: var(--ro-gold); margin: 0 auto; }
+
+.ro-date__weekday {
+    font-family: 'Jost', sans-serif;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    font-size: clamp(0.58rem, 2.1vw, 0.76rem);
+    color: var(--ro-sage-deep);
+}
+
+.ro-date__month {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(1.05rem, 3.6vw, 1.45rem);
+    color: var(--ro-sage-deep);
+    margin-top: 0.15rem;
+}
+
+.ro-date__day {
+    font-family: 'Playfair Display', serif;
+    font-weight: 500;
+    font-size: clamp(2.6rem, 11vw, 4rem);
+    line-height: 0.9;
+    color: var(--ro-ink);
+}
+
+.ro-date__year {
+    font-family: 'Jost', sans-serif;
+    letter-spacing: 0.34em;
+    font-size: clamp(0.78rem, 2.8vw, 1rem);
+    color: var(--ro-gold);
+    margin-top: 0.15rem;
+}
+
+.ro-date__note {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(0.95rem, 3vw, 1.2rem);
+    color: var(--ro-sage-deep);
+    margin: clamp(1.2rem, 3.5vw, 1.8rem) 0 0;
+}
+
+/* ─────────────── THE HOUR ─────────────── */
+.ro-time__from {
+    font-family: 'Jost', sans-serif;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    font-size: clamp(0.62rem, 2vw, 0.8rem);
+    color: var(--ro-sage-deep);
+    margin: 0;
+}
+
+.ro-time__value {
+    font-family: 'Playfair Display', serif;
+    font-weight: 500;
+    font-size: clamp(2.6rem, 11vw, 4.2rem);
+    line-height: 1;
+    color: var(--ro-ink);
+    margin: 0.3rem 0 0;
+}
+
+.ro-time__rule { width: clamp(140px, 36vw, 190px); height: auto; color: var(--ro-gold); margin: clamp(1rem, 3vw, 1.5rem) auto; display: block; }
+.ro-time__note { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: clamp(0.95rem, 3vw, 1.2rem); color: var(--ro-sage-deep); margin: 0; }
+.ro-time__sprig { position: absolute; top: 8%; right: 8%; width: clamp(58px, 16vw, 94px); height: auto; color: var(--ro-sage); opacity: 0.55; }
+
+/* ─────────────── COUNTDOWN ─────────────── */
+.ro-count__row { display: flex; gap: clamp(0.5rem, 3vw, 1.6rem); align-items: flex-start; }
+.ro-count__cell { display: flex; flex-direction: column; align-items: center; min-width: clamp(54px, 16vw, 82px); }
+
+.ro-count__num {
+    font-family: 'Playfair Display', serif;
+    font-weight: 400;
+    font-size: clamp(2.3rem, 10vw, 3.8rem);
+    line-height: 1;
+    color: var(--ro-ink);
+}
+
+.ro-count__unit {
+    font-family: 'Jost', sans-serif;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    font-size: clamp(0.54rem, 1.9vw, 0.72rem);
+    color: var(--ro-gold);
+    margin-top: 0.55rem;
+}
+
+/* ─────────────── THE PLACE ─────────────── */
+.ro-venue__intro {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(1rem, 3.2vw, 1.3rem);
+    color: var(--ro-sage-deep);
+    max-width: 26ch;
+    margin: 0 0 clamp(1.2rem, 3.5vw, 1.8rem);
+}
+
+.ro-venue__frame { width: min(86vw, 380px); color: var(--ro-gold); margin: 0 auto; }
+
+.ro-venue__name {
+    font-family: 'Playfair Display', serif;
+    font-weight: 500;
+    font-size: clamp(1.2rem, 4.2vw, 1.7rem);
+    line-height: 1.2;
+    color: var(--ro-ink);
+}
+
+.ro-venue__addr {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(0.92rem, 3vw, 1.12rem);
+    color: var(--ro-sage-deep);
+    margin-top: 0.5rem;
+}
+
+.ro-venue__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: clamp(1.2rem, 3.5vw, 1.8rem);
+    padding: 0.75rem 1.7rem;
+    background: var(--ro-sage-deep);
+    color: var(--ro-ivory);
+    border-radius: 4px;
+    font-family: 'Jost', sans-serif;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-size: clamp(0.62rem, 2vw, 0.76rem);
+    text-decoration: none;
+    transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.ro-venue__btn:hover { background: var(--ro-ink); transform: translateY(-2px); }
+.ro-venue__btn svg { width: 15px; height: 15px; }
+
+.ro-venue__corner { position: absolute; width: clamp(68px, 18vw, 116px); height: auto; color: var(--ro-gold); opacity: 0.45; }
+.ro-venue__corner--tl { top: 18px; left: 18px; }
+.ro-venue__corner--br { bottom: 18px; right: 18px; transform: rotate(180deg); }
+
+/* ─────────────── OUR STORY ─────────────── */
+.ro-photos__rule { width: clamp(140px, 36vw, 190px); height: auto; color: var(--ro-gold); margin: 0 auto clamp(1.4rem, 4vw, 2rem); display: block; }
+.ro-photos__row { display: flex; gap: clamp(0.8rem, 3vw, 1.6rem); align-items: flex-end; justify-content: center; flex-wrap: wrap; }
+.ro-photo { display: flex; flex-direction: column; align-items: center; margin: 0; }
+.ro-photo__svg { width: clamp(90px, 26vw, 138px); height: auto; color: var(--ro-gold); display: block; }
+.ro-photo:nth-child(2) .ro-photo__svg { width: clamp(102px, 30vw, 158px); }
+.ro-photo__cap { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: clamp(0.85rem, 2.6vw, 1.05rem); color: var(--ro-sage-deep); margin-top: 0.7rem; }
+
+/* ─────────────── RSVP ─────────────── */
+.ro-rsvp__ask {
+    font-family: 'Playfair Display', serif;
+    font-weight: 500;
+    font-size: clamp(1.4rem, 5vw, 2.1rem);
+    line-height: 1.3;
+    color: var(--ro-ink);
+    max-width: 18ch;
+    margin: 0;
+}
+
+.ro-rsvp__hint {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(0.95rem, 3vw, 1.2rem);
+    color: var(--ro-sage-deep);
+    margin: clamp(0.8rem, 2.5vw, 1.2rem) 0 0;
+}
+
+.ro-rsvp__choices {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: clamp(1rem, 4vw, 1.8rem);
+    margin-top: clamp(1.4rem, 4vw, 2rem);
+}
+
+.ro-choice {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    min-width: clamp(150px, 42vw, 200px);
+    padding: clamp(0.9rem, 3vw, 1.2rem) clamp(1.2rem, 4vw, 1.8rem);
+    background: var(--ro-sage-deep);
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    color: var(--ro-ivory);
+    box-shadow: 0 12px 28px rgba(60, 58, 51, 0.16);
+    transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.ro-choice:hover:not(:disabled) { transform: translateY(-4px); background: var(--ro-ink); box-shadow: 0 18px 36px rgba(60, 58, 51, 0.22); }
+.ro-choice:disabled { opacity: 0.55; cursor: default; }
+
+.ro-choice--decline { background: transparent; color: var(--ro-ink); box-shadow: inset 0 0 0 1.5px var(--ro-gold); }
+.ro-choice--decline:hover:not(:disabled) { background: transparent; box-shadow: inset 0 0 0 1.5px var(--ro-sage-deep); }
+
+.ro-choice strong { font-family: 'Playfair Display', serif; font-weight: 500; font-size: clamp(0.98rem, 3vw, 1.2rem); }
+.ro-choice em { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: clamp(0.8rem, 2.4vw, 0.98rem); opacity: 0.85; }
+
+.ro-rsvp__done { display: flex; flex-direction: column; align-items: center; margin-top: clamp(1rem, 3vw, 1.6rem); }
+.ro-rsvp__sealwrap { width: clamp(96px, 26vw, 130px); }
+.ro-rsvp__seal { width: 100%; height: auto; display: block; filter: drop-shadow(0 10px 22px rgba(120, 90, 40, 0.3)); }
+.ro-rsvp__rule { width: clamp(140px, 36vw, 190px); height: auto; color: var(--ro-gold); margin: clamp(1rem, 3vw, 1.5rem) 0; display: block; }
+.ro-rsvp__msg { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.05rem, 3.2vw, 1.3rem); line-height: 1.8; color: var(--ro-ink); max-width: 30ch; margin: 0; }
+.ro-rsvp__sprig { position: absolute; bottom: 6%; width: clamp(68px, 18vw, 108px); height: auto; color: var(--ro-sage); opacity: 0.5; }
+.ro-rsvp__sprig--l { left: -10px; }
+.ro-rsvp__sprig--r { right: -10px; transform: scaleX(-1); }
+
+/* ─────────────── short viewports ─────────────── */
+@media (max-height: 760px) {
+    .roseraie-fp .ro-scene { padding-top: clamp(2rem, 5vh, 3rem); padding-bottom: clamp(2rem, 5vh, 3rem); }
+    .ro-hero__sprig, .ro-time__sprig, .ro-rsvp__sprig { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ro-cover__hint { animation: none; opacity: 0.9; }
+}
