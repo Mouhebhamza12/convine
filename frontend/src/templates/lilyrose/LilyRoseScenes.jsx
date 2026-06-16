@@ -16,7 +16,7 @@ function weekdayOf(dateString) {
     return WEEKDAYS[new Date(`${dateString}T12:00:00`).getDay()];
 }
 
-/** A soft fall of petals — used at the emotional peaks. */
+/** A soft fall of petals-used at the emotional peaks. */
 function petalFall(originY = 0.45, power = 1) {
     if (prefersReducedMotion()) return;
     const colors = ['#f3d3cb', '#e3b1a8', '#fbf3e8', '#ecdcc2', '#cd8a82'];
@@ -46,7 +46,7 @@ function petalFall(originY = 0.45, power = 1) {
 }
 
 /* ════════════════════════════════════════════════════════════════════
-   1 · The Names — emerging from the floral composition
+   1 · The Names-emerging from the floral composition
    ════════════════════════════════════════════════════════════════════ */
 export function LilyRoseNames({ bride, groom, visible }) {
     const sceneRef = useRef(null);
@@ -98,7 +98,7 @@ export function LilyRoseNames({ bride, groom, visible }) {
 }
 
 /* ════════════════════════════════════════════════════════════════════
-   2 · The Intention — the symbolism of lily & rose
+   2 · The Intention-the symbolism of lily & rose
    ════════════════════════════════════════════════════════════════════ */
 export function LilyRoseIntention({ bride, groom }) {
     const sceneRef = useRef(null);
@@ -138,7 +138,7 @@ export function LilyRoseIntention({ bride, groom }) {
 }
 
 /* ════════════════════════════════════════════════════════════════════
-   3 · The Date — celebrated, framed in gold, ringed with blooms
+   3 · The Date-celebrated, framed in gold, ringed with blooms
    ════════════════════════════════════════════════════════════════════ */
 export function LilyRoseDate({ eventDate }) {
     const sceneRef = useRef(null);
@@ -189,7 +189,7 @@ export function LilyRoseDate({ eventDate }) {
 }
 
 /* ════════════════════════════════════════════════════════════════════
-   4 · The Love Story — a cinematic floral gallery
+   4 · The Love Story-a cinematic floral gallery
    ════════════════════════════════════════════════════════════════════ */
 export function LilyRosePhotos({ photos }) {
     const sceneRef = useRef(null);
@@ -240,7 +240,7 @@ export function LilyRosePhotos({ photos }) {
 }
 
 /* ════════════════════════════════════════════════════════════════════
-   5 · The Letter — handcrafted on floral stationery
+   5 · The Letter-handcrafted on floral stationery
    ════════════════════════════════════════════════════════════════════ */
 export function LilyRoseLetter({ guestName, message, bride, groom }) {
     const sceneRef = useRef(null);
@@ -277,7 +277,7 @@ export function LilyRoseLetter({ guestName, message, bride, groom }) {
 }
 
 /* ════════════════════════════════════════════════════════════════════
-   6 · Countdown — quietly counting the days
+   6 · Countdown-quietly counting the days
    ════════════════════════════════════════════════════════════════════ */
 function remainingOf(target) {
     const diff = Math.max(0, target.getTime() - Date.now());
@@ -339,7 +339,7 @@ export function LilyRoseCountdown({ eventDate, eventTime }) {
 }
 
 /* ════════════════════════════════════════════════════════════════════
-   7 · Location — the garden gate
+   7 · Location-the garden gate
    ════════════════════════════════════════════════════════════════════ */
 export function LilyRoseLocation({ venue, venueAddress, googleMapsUrl, eventTime }) {
     const sceneRef = useRef(null);
@@ -384,7 +384,7 @@ export function LilyRoseLocation({ venue, venueAddress, googleMapsUrl, eventTime
 }
 
 /* ════════════════════════════════════════════════════════════════════
-   8 · RSVP — the emotional conclusion
+   8 · RSVP-the emotional conclusion
    ════════════════════════════════════════════════════════════════════ */
 export function LilyRoseRSVP({ guestName, initialStatus, onSubmit, isDemo }) {
     const sceneRef = useRef(null);
@@ -456,7 +456,7 @@ export function LilyRoseRSVP({ guestName, initialStatus, onSubmit, isDemo }) {
 }
 
 /* ════════════════════════════════════════════════════════════════════
-   9 · Closing — a warm farewell
+   9 · Closing-a warm farewell
    ════════════════════════════════════════════════════════════════════ */
 export function LilyRoseClosing({ bride, groom, eventDate }) {
     const sceneRef = useRef(null);

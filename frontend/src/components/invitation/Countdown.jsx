@@ -49,7 +49,7 @@ export default function Countdown({ eventDate, eventTime }) {
         prevSecondsRef.current = remaining.seconds;
     }, [remaining.seconds]);
 
-    // Cinematic GSAP entrance — units fly in from below with rotation
+    // Cinematic GSAP entrance-units fly in from below with rotation
     useEffect(() => {
         const ctx = gsap.context(() => {
             gsap.fromTo(

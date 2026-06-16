@@ -5,8 +5,7 @@ import { resolveInvitationToken, resolveTemplateSlug } from '../lib/resolveInvit
 import VelvetInvitation from '../templates/velvet/VelvetInvitation';
 import SageInvitation from '../templates/sage/SageInvitation';
 import AzureInvitation from '../templates/azure/AzureInvitation';
-import LilyRoseInvitation from '../templates/lilyrose/LilyRoseInvitation';
-import { DarInvitationFr, DarInvitationAr } from '../templates/dar/DarInvitation';
+import { DarInvitationFr } from '../templates/dar/DarInvitation';
 import RoseraieInvitation from '../templates/roseraie/RoseraieInvitation';
 import IvoireInvitation from '../templates/ivoire/IvoireInvitation';
 
@@ -14,9 +13,7 @@ const TEMPLATE_VIEWS = {
     velvet: VelvetInvitation,
     sage: SageInvitation,
     azure: AzureInvitation,
-    lilyrose: LilyRoseInvitation,
     'andalus-fr': DarInvitationFr,
-    'andalus-ar': DarInvitationAr,
     roseraie: RoseraieInvitation,
     ivoire: IvoireInvitation,
 };

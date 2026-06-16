@@ -1,10 +1,10 @@
 /**
- * AndalusClothSim — Verlet-integration cloth physics for one curtain panel.
+ * AndalusClothSim-Verlet-integration cloth physics for one curtain panel.
  *
  * Pure JS (no React / three). A grid of particles, top row pinned to the rod.
  * The single most important realism decision here: the folds are IRREGULAR.
  * Real velvet drapes never pleat at a uniform pitch, so the rest-state z is a
- * sum of incommensurate sines plus per-column seeded jitter — giving varying
+ * sum of incommensurate sines plus per-column seeded jitter-giving varying
  * fold widths, asymmetry and compression toward the heavy leading edge. The
  * measured 3D rest-lengths bake those irregular pleats in so the cloth holds
  * them while it sways and gathers.

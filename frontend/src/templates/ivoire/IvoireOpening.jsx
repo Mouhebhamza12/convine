@@ -1,16 +1,16 @@
 import { useRef, useEffect } from 'react';
 import gsap from 'gsap';
-import { IvoireMonogram } from './IvoireArt';
-import { joinNames, monogramLetters } from './IvoireStrings';
+import { IvoireCameo } from './IvoireArt';
+import { joinNames, initialOf, isArabicName } from './IvoireStrings';
 import bg from '../../../assets/ivoire/bg.jpg';
 import seal from '../../../assets/ivoire/seal.png';
 
 /**
- * IvoireOpening — the cover: an embossed ivory-floral field with a gilded
+ * IvoireOpening-the cover: an embossed ivory-floral field with a gilded
  * blush cameo sitting dead-centre. The couple's initials are engraved into the
  * plate in Arabic calligraphy; their names are inscribed beneath like letters
  * cut into stone. Everything is the two provided images plus real vector
- * lettering — the page draws no ornament.
+ * lettering-the page draws no ornament.
  */
 export default function IvoireOpening({ bride = 'Amina', groom = 'Yacine', isDemo = false, onComplete }) {
     const rootRef = useRef(null);
@@ -19,7 +19,10 @@ export default function IvoireOpening({ bride = 'Amina', groom = 'Yacine', isDem
     const openedRef = useRef(false);
 
     const names = joinNames(bride, groom);
-    const mono = monogramLetters(bride, groom, { demo: isDemo });
+    // Match the inside of the invitation: Latin initials in the same cameo.
+    const initA = initialOf(bride);
+    const initB = initialOf(groom);
+    const monoArabic = isArabicName(initA) || isArabicName(initB);
 
     useEffect(() => {
         const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -66,7 +69,7 @@ export default function IvoireOpening({ bride = 'Amina', groom = 'Yacine', isDem
                 <div ref={sealRef} className="iv-seal">
                     <img src={seal} alt="" className="iv-seal__plate" />
                     <div className="iv-seal__mono">
-                        <IvoireMonogram letters={mono.letters} arabic={mono.arabic} className="iv-mono" />
+                        <IvoireCameo a={initA} b={initB} arabic={monoArabic} className="iv-mono" />
                     </div>
                 </div>
 

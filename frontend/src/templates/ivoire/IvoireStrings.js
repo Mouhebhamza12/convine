@@ -1,4 +1,4 @@
-/* Ivoire — embossed ivory florals & a gilded blush cameo. Soft greige, pearl
+/* Ivoire-embossed ivory florals & a gilded blush cameo. Soft greige, pearl
    white relief, rose-gold foil, dusty-mauve type. Pure data + helpers (no
    components) so it Fast-Refreshes cleanly. */
 
@@ -8,7 +8,7 @@ export function isArabicName(str = '') {
     return ARABIC.test(str);
 }
 
-/* first meaningful glyph of a name — uppercased for Latin, left intact for
+/* first meaningful glyph of a name-uppercased for Latin, left intact for
    scripts without case (Arabic) */
 export function initialOf(name = '') {
     const ch = Array.from(name.trim())[0] || '';
@@ -67,7 +67,7 @@ export const IVOIRE_STRINGS = {
         lead: 'يُقامُ الحفلُ في',
         directions: 'الاتجاهات',
     },
-    /* the finale: the guest seals their own presence — press and hold to strike
+    /* the finale: the guest seals their own presence-press and hold to strike
        the couple's monogram into the wax, mirroring the cover's gilded seal */
     rsvp: {
         heading: 'اختمْ حضورك',
@@ -122,7 +122,7 @@ export function arabicDateParts(eventDate) {
     };
 }
 
-/** "7:00 مساءً" — 12-hour Arabic time with صباحاً / مساءً. */
+/** "7:00 مساءً"-12-hour Arabic time with صباحاً / مساءً. */
 export function arabicTime(eventTime) {
     const [h, m] = String(eventTime || '19:00').split(':').map(Number);
     const period = h < 12 ? 'صباحاً' : 'مساءً';
@@ -130,7 +130,7 @@ export function arabicTime(eventTime) {
     return `${hh}:${String(m || 0).padStart(2, '0')} ${period}`;
 }
 
-/** "20 . 08 . 26" — engraved date, two-digit year, as on the reference card. */
+/** "20 . 08 . 26"-engraved date, two-digit year, as on the reference card. */
 export function formatDots(eventDate) {
     const d = new Date(`${eventDate}T12:00:00`);
     if (Number.isNaN(d.getTime())) return '';

@@ -1,5 +1,5 @@
 /* ===================================================================
-   AZURE TEMPLATE — bold blue type + hand-drawn couple on warm cream.
+   AZURE TEMPLATE-bold blue type + hand-drawn couple on warm cream.
    Decoration is SVG-only (see AzureArt.jsx); CSS handles layout + type.
    =================================================================== */
 
@@ -14,59 +14,186 @@
     color: var(--azure-blue);
     font-family: 'Playfair Display', Georgia, serif;
 }
+/* ─────────────── OVERTURE / COVER ─────────────── */
 
-/* ─────────────── ENVELOPE OPENING (small screen) ─────────────── */
-.azure-env {
+/* full-screen container */
+.az-ov {
     position: fixed;
     inset: 0;
     z-index: 60;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     background:
-        radial-gradient(120% 80% at 50% 38%, #ffffff 0%, var(--azure-cream) 55%, #e7ddc6 100%);
+        radial-gradient(125% 78% at 50% 6%, rgba(46, 94, 158, 0.06), transparent 62%),
+        var(--azure-cream, #f6f1e3);
     cursor: pointer;
     overflow: hidden;
     -webkit-tap-highlight-color: transparent;
+    will-change: opacity, transform;
 }
 
-.azure-env__stage {
+/* the whole framed page lifts away on open */
+.az-ov__stage {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    will-change: transform, opacity;
+}
+.az-ov__draw { stroke-dasharray: 1; stroke-dashoffset: 1; }
+
+/* ── arched panel ── */
+.az-ov__arch {
     position: relative;
-    width: 100vw;
-    height: 100vh;
-    height: 100dvh;
+    width: min(80vw, 340px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-.azure-env__half {
+/* the drawn arch border stretches to wrap the column */
+.az-ov__archframe {
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    margin-inline: auto;
+    inset: 0;
+    width: 100%;
     height: 100%;
-    width: auto;
-    max-width: none;
-    display: block;
-    will-change: transform;
+    color: var(--azure-blue);
+    pointer-events: none;
+    -webkit-mask-image: linear-gradient(to bottom, #000 86%, transparent 100%);
+    mask-image: linear-gradient(to bottom, #000 86%, transparent 100%);
 }
 
-/* Right half (seal) sits on top; the solid left half fills its transparent gaps */
-.azure-env__half--left { z-index: 1; transform-origin: right center; }
-.azure-env__half--right { z-index: 2; transform-origin: left center; }
-
-.azure-env__hint {
+/* sparkle resting on the apex of the arch */
+.az-ov__keystone {
     position: absolute;
-    bottom: clamp(2rem, 8vh, 4rem);
-    left: 0;
-    right: 0;
+    top: clamp(-12px, -2vh, -8px);
+    left: 50%;
+    transform: translateX(-50%);
+    width: clamp(18px, 4.5vw, 26px);
+    color: var(--azure-blue);
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* quiet accents in the empty arch shoulders */
+.az-ov__decor {
+    position: absolute;
+    color: var(--azure-blue);
+    pointer-events: none;
+    opacity: 0;
+}
+.az-ov__decor--l { top: 8%; left: -2%; width: clamp(28px, 7vw, 42px); }
+.az-ov__decor--r { top: 10%; right: -1%; width: clamp(26px, 6.5vw, 38px); }
+
+/* centred content column */
+.az-ov__col {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     text-align: center;
+    width: 100%;
+    padding: clamp(3.2rem, 13vh, 5.5rem) clamp(1.6rem, 6vw, 2.4rem) clamp(2.2rem, 7vh, 3.4rem);
+}
+
+.az-ov__eyebrow {
     font-family: 'Jost', sans-serif;
     font-weight: 500;
-    font-size: 0.78rem;
+    font-size: clamp(0.56rem, 1.8vw, 0.72rem);
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--azure-blue);
+    opacity: 0.92;
+    margin: 0;
+}
+
+.az-ov__names {
+    font-family: 'Playfair Display', serif;
+    font-weight: 800;
+    font-size: clamp(2.5rem, 12vw, 4rem);
+    line-height: 0.95;
+    color: var(--azure-blue);
+    margin: clamp(0.5rem, 1.8vh, 1rem) 0 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.az-ov__amp {
+    font-family: 'Pinyon Script', cursive;
+    font-weight: 400;
+    font-size: 0.64em;
+    line-height: 0.7;
+    margin: -0.02em 0;
+}
+
+.az-ov__divider {
+    width: min(62%, 190px);
+    margin: clamp(0.6rem, 1.8vh, 1rem) auto;
+    color: var(--azure-blue);
+}
+
+.az-ov__art {
+    position: relative;
+    width: min(50vw, 196px);
+    margin: clamp(0.4rem, 1.6vh, 1rem) auto clamp(0.8rem, 2.2vh, 1.3rem);
+    opacity: 0;
+}
+
+.az-ov__date {
+    font-family: 'Playfair Display', serif;
+    font-weight: 600;
+    font-size: clamp(0.82rem, 2.4vw, 1.05rem);
+    letter-spacing: 0.16em;
+    color: var(--azure-blue);
+    margin: 0;
+}
+
+.az-ov__venue {
+    font-family: 'Jost', sans-serif;
+    font-weight: 500;
+    font-size: clamp(0.56rem, 1.7vw, 0.72rem);
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--azure-blue);
+    opacity: 0.85;
+    margin: 0.5rem 0 0;
+}
+
+.az-ov__rise { opacity: 0; }
+
+/* tap-to-open cue */
+.az-ov__tap {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: clamp(24px, 5.5vh, 52px);
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.45rem;
+    pointer-events: none;
+}
+
+.az-ov__tap span {
+    font-family: 'Jost', sans-serif;
+    font-weight: 500;
+    font-size: clamp(0.62rem, 1.8vw, 0.76rem);
     letter-spacing: 0.32em;
     text-transform: uppercase;
     color: var(--azure-blue);
-    margin: 0;
+}
+
+.az-ov__chevron {
+    width: clamp(20px, 5vw, 28px);
+    height: auto;
+    color: var(--azure-blue);
+    opacity: 0.85;
 }
 
 /* ─────────────── SECTION SHELL ─────────────── */
@@ -90,24 +217,28 @@
 }
 
 /* ─────────────── HERO ─────────────── */
-.azure-hero { padding-top: clamp(2.5rem, 7vh, 4rem); width: 100%; }
+.azure-hero {
+    padding-top: clamp(1.4rem, 4vh, 3.2rem);
+    padding-bottom: clamp(1.6rem, 4vh, 3rem);
+    width: 100%;
+}
 
 .azure-hero__invite {
     font-family: 'Jost', sans-serif;
     font-weight: 500;
-    font-size: clamp(0.66rem, 2vw, 0.84rem);
+    font-size: clamp(0.64rem, 2vw, 0.84rem);
     letter-spacing: 0.22em;
     text-transform: uppercase;
-    line-height: 1.7;
+    line-height: 1.6;
     margin: 0;
 }
 
 .azure-hero__names {
     font-family: 'Playfair Display', serif;
     font-weight: 800;
-    font-size: clamp(3.4rem, 16vw, 6.4rem);
+    font-size: clamp(2.6rem, 12.5vw, 5.6rem);
     line-height: 0.92;
-    margin: clamp(0.3rem, 1.5vw, 0.7rem) 0 0;
+    margin: clamp(0.2rem, 1vw, 0.6rem) 0 0;
     display: flex;
     flex-direction: column;
 }
@@ -117,7 +248,7 @@
     width: min(70%, 250px);
     height: auto;
     color: var(--azure-blue);
-    margin: clamp(0.7rem, 2.5vw, 1.1rem) auto;
+    margin: clamp(0.5rem, 2vw, 1rem) auto;
 }
 
 .azure-hero__together {
@@ -131,8 +262,8 @@
 
 .azure-hero__art {
     position: relative;
-    width: min(82vw, 360px);
-    margin: clamp(1rem, 4vw, 2rem) auto;
+    width: min(66vw, 34svh, 300px);
+    margin: clamp(0.6rem, 2.5vw, 1.4rem) auto;
 }
 
 .azure-frame { position: relative; width: 100%; color: var(--azure-blue); }
@@ -174,13 +305,28 @@
 .azure-meta__date strong { font-weight: 700; font-size: clamp(1.05rem, 3.4vw, 1.5rem); letter-spacing: 0.02em; }
 .azure-meta__date sup { font-size: 0.55em; }
 
+/* meta columns are tappable shortcuts to their sections */
+button.azure-meta__btn {
+    appearance: none;
+    -webkit-appearance: none;
+    background: none;
+    border: none;
+    padding: 0;
+    color: var(--azure-blue);
+    cursor: pointer;
+    transition: opacity 0.25s ease, transform 0.25s ease;
+}
+button.azure-meta__btn:hover { opacity: 0.6; transform: translateY(-2px); }
+button.azure-meta__btn:active { transform: translateY(0); }
+button.azure-meta__btn:focus-visible { outline: 2px solid var(--azure-blue); outline-offset: 5px; border-radius: 8px; }
+
 .azure-hero__rsvp {
     font-family: 'Jost', sans-serif;
     font-weight: 500;
     font-size: clamp(0.64rem, 2vw, 0.82rem);
     letter-spacing: 0.16em;
     text-transform: uppercase;
-    margin: clamp(1rem, 3vw, 1.6rem) 0 0;
+    margin: clamp(0.6rem, 2vw, 1.2rem) 0 0;
 }
 
 .azure-hero__phone {
@@ -195,6 +341,18 @@
 }
 
 .azure-phone { width: clamp(20px, 5.5vw, 26px); height: auto; color: var(--azure-blue); }
+
+/* On phones, reserve room at the bottom of every section so content never
+   collides with the fixed snap-dots + floating RSVP pill, and tighten the
+   hero so the whole invitation fits one screen on smaller devices. */
+@media (max-width: 640px) {
+    .azure-invitation .snap-journey > section {
+        padding-bottom: calc(92px + env(safe-area-inset-bottom, 0px));
+    }
+    .azure-hero__meta { gap: clamp(0.45rem, 2.4vw, 1rem); }
+    .azure-meta__col { font-size: clamp(0.54rem, 1.7vw, 0.72rem); }
+    .azure-meta__date strong { font-size: clamp(0.98rem, 3.2vw, 1.4rem); }
+}
 
 /* ─────────────── LETTER ─────────────── */
 .azure-letter {
@@ -395,7 +553,7 @@
 .azure-invitation .rsvp-confirmation-icon { color: var(--azure-blue); }
 
 /* ===================================================================
-   AZURE SECTION MEDIUMS — boarding pass / departures board /
+   AZURE SECTION MEDIUMS-boarding pass / departures board /
    vintage postcard / passport stamp page / scrapbook
    =================================================================== */
 
@@ -651,8 +809,15 @@
 .az-postcard__pin { width: 14px; }
 
 @media (max-width: 560px) {
-    .az-postcard { flex-direction: column; }
+    .az-postcard { flex-direction: column; width: min(94vw, 440px); }
     .az-postcard__split { display: none; }
+    /* shorter, tighter postcard so the card clears the fixed dots + RSVP pill */
+    .az-postcard__img img { aspect-ratio: 1.7 / 1; }
+    .az-postcard__left { padding: clamp(0.9rem, 3.2vw, 1.3rem) clamp(0.9rem, 3.2vw, 1.3rem) 0; }
+    .az-postcard__right { padding: clamp(0.8rem, 3vw, 1.2rem); gap: clamp(0.5rem, 1.6vw, 0.8rem); }
+    .az-postcard__addr { gap: 0.4rem; }
+    .az-postcard__venue { font-size: clamp(1.2rem, 4.4vw, 1.7rem); margin-bottom: 0.4rem; }
+    .az-postcard__franking { align-items: center; }
 }
 
 /* ── Passport page ── */

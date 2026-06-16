@@ -4,12 +4,9 @@ const DEMO_TOKENS = {
     demo: 'velvet',
     'demo-sage': 'sage',
     'demo-azure': 'azure',
-    'demo-lilyrose': 'lilyrose',
     'demo-andalus': 'andalus-fr',
     'demo-andalus-fr': 'andalus-fr',
-    'demo-andalus-ar': 'andalus-ar',
     'demo-dar': 'andalus-fr',
-    'demo-dar-ar': 'andalus-ar',
     'demo-roseraie': 'roseraie',
     'demo-ivoire': 'ivoire',
 };

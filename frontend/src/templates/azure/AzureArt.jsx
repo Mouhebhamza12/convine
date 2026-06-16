@@ -1,5 +1,5 @@
 /**
- * AzureArt — blue line-art SVG asset pack for the Azure template.
+ * AzureArt-blue line-art SVG asset pack for the Azure template.
  * Each asset is a separate, reusable component. All vector, all currentColor.
  *
  *   <CoupleIllustration/>  bride + groom line drawing
@@ -193,6 +193,41 @@ export function PhoneBadge({ className }) {
                 d="M9 6.5c.3 0 .6.2.7.5l.7 1.7c.1.3 0 .6-.2.8l-.8.7c.6 1.2 1.5 2.1 2.7 2.7l.7-.8c.2-.2.5-.3.8-.2l1.7.7c.3.1.5.4.5.7v1.8c0 .5-.4.9-.9.9C10.4 16.7 7.3 13.6 8 7.4c0-.5.4-.9.9-.9z"
                 fill="#f6f1e3"
             />
+        </svg>
+    );
+}
+
+/* ════════════════════ OVERTURE (cover) art ════════════════════ */
+
+/* ─── Tall arched panel-clean double rule, stretches to its content ─── */
+export function ArchPanel({ className }) {
+    return (
+        <svg className={className} viewBox="0 0 100 150" preserveAspectRatio="none" fill="none" stroke="currentColor" aria-hidden="true">
+            <path
+                className="az-ov__draw"
+                d="M3,148 L3,42 A47,39 0 0 1 97,42 L97,148"
+                strokeWidth="1.5"
+                pathLength="1"
+                vectorEffect="non-scaling-stroke"
+            />
+            <path
+                className="az-ov__draw az-ov__draw--inner"
+                d="M7,148 L7,43.5 A43,35 0 0 1 93,43.5 L93,148"
+                strokeWidth="0.8"
+                opacity="0.55"
+                pathLength="1"
+                vectorEffect="non-scaling-stroke"
+            />
+        </svg>
+    );
+}
+
+/* ─── Double chevron "tap to open" cue ─── */
+export function ChevronCue({ className }) {
+    return (
+        <svg className={className} viewBox="0 0 28 18" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <path d="M5 5 L14 13 L23 5" />
+            <path d="M9 1.5 L14 6 L19 1.5" opacity="0.5" />
         </svg>
     );
 }

@@ -1,5 +1,5 @@
 /* ════════════════════════════════════════════════════════════════════
-   Lily & Rose — the botanical universe
+   Lily & Rose-the botanical universe
    Original, hand-authored SVG illustrations. Every flower is built from
    layered petals with watercolour gradient depth and gold-foil accents.
    Flowers are characters: the white lily (her) and the rose (him).
@@ -11,7 +11,7 @@ export function BotanicalDefs() {
     return (
         <svg className="lr-defs" width="0" height="0" aria-hidden="true" focusable="false">
             <defs>
-                {/* Petals — light pools at the flower's heart, colour gathers at the tips */}
+                {/* Petals-light pools at the flower's heart, colour gathers at the tips */}
                 <radialGradient id="lr-petal-cream" cx="0.5" cy="0.96" r="0.95">
                     <stop offset="0%" stopColor="#fffdf8" />
                     <stop offset="52%" stopColor="#f5e8cf" />
@@ -44,7 +44,7 @@ export function BotanicalDefs() {
                     <stop offset="100%" stopColor="#9aa86f" />
                 </radialGradient>
 
-                {/* Gold foil — a soft champagne sheen, never garish */}
+                {/* Gold foil-a soft champagne sheen, never garish */}
                 <linearGradient id="lr-foil" x1="0" y1="0" x2="1" y2="1">
                     <stop offset="0%" stopColor="#efdcae" />
                     <stop offset="38%" stopColor="#c9a86a" />

@@ -1,5 +1,5 @@
 /**
- * Cornice — Gold rod + sliding curtain rings
+ * Cornice-Gold rod + sliding curtain rings
  *
  * The rod is a cylinder spanning the scene width.
  * Rings are torus geometries positioned at each top-row particle,

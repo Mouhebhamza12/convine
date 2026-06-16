@@ -1,5 +1,5 @@
 /**
- * AndalusValance — the ornate pelmet that crowns the curtain and hides the
+ * AndalusValance-the ornate pelmet that crowns the curtain and hides the
  * hardware, in the Maghrebi palace idiom.
  *
  * It is real 3D geometry (not a flat strip): a velvet swag whose bottom edge
@@ -102,7 +102,7 @@ function Tassel({ x, y, z, goldMat, normalMap }) {
         <sphereGeometry args={[0.026, 16, 16]} />
         <primitive object={goldMat} attach="material" />
       </mesh>
-      {/* tassel skirt — cone pointing up, flared base down */}
+      {/* tassel skirt-cone pointing up, flared base down */}
       <mesh position={[0, -cordLen - skirtLen / 2 - 0.01, 0]} castShadow>
         <coneGeometry args={[skirtR, skirtLen, 16, 1, true]} />
         <meshStandardMaterial

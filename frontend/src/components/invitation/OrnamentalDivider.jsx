@@ -5,7 +5,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 gsap.registerPlugin(ScrollTrigger);
 
 /**
- * OrnamentalDivider — Elegant SVG ornamental dividers between invitation sections.
+ * OrnamentalDivider-Elegant SVG ornamental dividers between invitation sections.
  * Three variants: 'diamond', 'arabesque', 'dots'
  * All gold-colored, fade-in on scroll.
  */

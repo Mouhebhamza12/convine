@@ -1,7 +1,7 @@
 import AndalusCurtain from './AndalusCurtain/AndalusCurtain';
 
 /**
- * DarOpening — the Andalus reveal.
+ * DarOpening-the Andalus reveal.
  *
  * The old flat-SVG curtain was retired; this now renders the real WebGL
  * cloth-simulated velvet curtain (./AndalusCurtain/). Same contract as before:

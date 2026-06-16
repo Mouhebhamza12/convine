@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 
 /**
- * FallingPetals — Canvas-based animation of falling/fluttering rose/blush petals.
+ * FallingPetals-Canvas-based animation of falling/fluttering rose/blush petals.
  * Oscillates scaleX and rotation to simulate a realistic 3D fluttering motion.
  */
 export default function FallingPetals({ count = 24 }) {

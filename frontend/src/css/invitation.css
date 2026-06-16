@@ -1765,7 +1765,6 @@ html.invitation-active.invitation-locked body {
 /* ────────────────────────────────────────────────────────────────── */
 
 .calendar-scene {
-    min-height: auto !important;
     padding-block: 2rem;
     background: transparent !important;
 }
@@ -2068,7 +2067,7 @@ html.invitation-active.invitation-locked body {
     padding-bottom: 3rem;
 }
 
-/* Smooth section transitions — use transform only for GSAP-animated items */
+/* Smooth section transitions-use transform only for GSAP-animated items */
 .velvet-invitation .invite-scene {
     will-change: transform, opacity;
 }
@@ -2272,7 +2271,7 @@ html.invitation-active.invitation-locked body {
 }
 
 /* ===================================================================
-   VELVET HERO — floral cover matching the reference
+   VELVET HERO-floral cover matching the reference
    marble + watercolor florals (responsive), gold arch, script names
    =================================================================== */
 
@@ -2281,21 +2280,31 @@ html.invitation-active.invitation-locked body {
     background: transparent !important;
 }
 
-/* ── Floral marble background behind the WHOLE velvet invitation ── */
+/* ── Floral marble background behind the WHOLE velvet invitation ──
+   Painted on a position:fixed pseudo-element rather than with
+   background-attachment:fixed. iOS Safari does NOT render fixed
+   backgrounds-it drops the image and shows the flat fallback colour-so the attachment approach made the bg disappear on iPhones. A fixed
+   layer keeps the same parallax-locked look and works on every device. */
 .invitation-root.velvet-invitation {
     --hero-gold: #b1924f;
-    background: #ece3d1 url('../../assets/velvetbg.png') center top / cover no-repeat fixed !important;
+    background: #ece3d1 !important;
+}
+
+.invitation-root.velvet-invitation::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    background: #ece3d1 url('../../assets/velvetbg.png') center top / cover no-repeat;
+    mix-blend-mode: normal;
+    opacity: 1;
+    pointer-events: none;
 }
 
 @media (min-aspect-ratio: 1/1) {
-    .invitation-root.velvet-invitation {
-        background-image: url('../../assets/velvetbgwide.png') !important;
+    .invitation-root.velvet-invitation::before {
+        background-image: url('../../assets/velvetbgwide.png');
     }
-}
-
-/* Drop the paper multiply overlay for velvet — the florals carry the texture */
-.invitation-root.velvet-invitation::before {
-    background: none;
 }
 
 /* ── Gold arch frame ── */
@@ -2461,7 +2470,7 @@ html.invitation-active.invitation-locked body {
 }
 
 /* ===================================================================
-   STATIONERY CARD — gold-arch card framing each section on the florals
+   STATIONERY CARD-gold-arch card framing each section on the florals
    =================================================================== */
 
 .velvet-invitation .stationery-card {
@@ -2595,7 +2604,7 @@ html.invitation-active.invitation-locked body {
 }
 
 /* ===================================================================
-   VELVET CEREMONY TIME — raised plaque on the florals
+   VELVET CEREMONY TIME-raised plaque on the florals
    =================================================================== */
 
 .velvet-invitation .time-fleuron {
@@ -2667,7 +2676,7 @@ html.invitation-active.invitation-locked body {
 }
 
 /* ===================================================================
-   VELVET LETTER — message centered directly on the florals
+   VELVET LETTER-message centered directly on the florals
    =================================================================== */
 
 .velvet-invitation .letter-content {
@@ -2738,7 +2747,7 @@ html.invitation-active.invitation-locked body {
 }
 
 /* ===================================================================
-   VELVET LOCATION — venue with watercolor building on the florals
+   VELVET LOCATION-venue with watercolor building on the florals
    =================================================================== */
 
 .velvet-invitation .location-content {
@@ -2841,7 +2850,7 @@ html.invitation-active.invitation-locked body {
 }
 
 /* ===================================================================
-   VELVET SAVE-THE-DATE — ornate gold-framed calendar card
+   VELVET SAVE-THE-DATE-ornate gold-framed calendar card
    =================================================================== */
 
 .velvet-invitation .calendar-card {
@@ -2959,7 +2968,7 @@ html.invitation-active.invitation-locked body {
 }
 
 /* ===================================================================
-   VELVET RSVP — "Kindly Respond" directly on the florals
+   VELVET RSVP-"Kindly Respond" directly on the florals
    =================================================================== */
 
 .velvet-invitation .rsvp-scene {

@@ -1,5 +1,5 @@
 /**
- * StationeryCard — the gold-arch "card" that frames each velvet section's
+ * StationeryCard-the gold-arch "card" that frames each velvet section's
  * content on the floral background. Provides the arch frame, a top fleuron and
  * a bottom flourish; children render inside the arch.
  */

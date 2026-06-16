@@ -1,5 +1,5 @@
 /**
- * SageBotanicals — line-art botanical ornaments for the Sage template.
+ * SageBotanicals-line-art botanical ornaments for the Sage template.
  * All stroked vector art using currentColor, so colour is set in CSS.
  */
 

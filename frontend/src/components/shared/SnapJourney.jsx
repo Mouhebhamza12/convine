@@ -5,7 +5,7 @@ const prefersReduced = () =>
     typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 /**
- * SnapJourney — turns a template's existing `<main className="invitation-story">`
+ * SnapJourney-turns a template's existing `<main className="invitation-story">`
  * into a cinematic one-section-per-gesture journey WITHOUT breaking the
  * scroll-driven animations the templates already use.
  *
@@ -71,7 +71,7 @@ export default function SnapJourney({
                     return;
                 }
                 const t0 = performance.now();
-                // easeInOutCubic — settled, intentional, never bouncy
+                // easeInOutCubic-settled, intentional, never bouncy
                 const ease = (t) => (t < 0.5 ? 4 * t * t * t : 1 - (-2 * t + 2) ** 3 / 2);
                 const step = (now) => {
                     const t = Math.min(1, (now - t0) / duration);

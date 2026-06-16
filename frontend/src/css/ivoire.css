@@ -1,5 +1,5 @@
 /* ===================================================================
-   IVOIRE — embossed ivory florals & a gilded blush cameo.
+   IVOIRE-embossed ivory florals & a gilded blush cameo.
    The cover is the two provided images (plaster-relief floral field +
    porcelain cameo) plus real vector lettering. This file does layout +
    typography ONLY: no drawn ornament, no gradients-as-art, no border
@@ -92,7 +92,7 @@
     overflow: visible;
 }
 
-/* ─────────────── THE NAMES — an inscription cut into the plaster ───────────
+/* ─────────────── THE NAMES-an inscription cut into the plaster ───────────
    Cinzel is a Roman capitalis face modelled on letters chiselled into stone.
    A pale highlight along the lower edge of each glyph with a soft umber shadow
    above makes the line read as incised into the stone, not printed on it. The
@@ -140,7 +140,7 @@
     .iv-seal { transform: none !important; }
 }
 
-/* ═══════════════ INTERIOR — THE عقد قِران ANNOUNCEMENT ═══════════════
+/* ═══════════════ INTERIOR-THE عقد قِران ANNOUNCEMENT ═══════════════
    The dusty-rose plaster relief (oval cameo + doves above, florals below) is
    the provided image; type is engraved into the open field between them. The
    relief's own tone drives the palette. */
@@ -175,32 +175,20 @@
 /* ── the cameo cipher, seated in the empty oval of the relief ── */
 .iv-hero__mono {
     position: absolute;
-    top: 14.2%;
+    top: 17.6%;
     left: 50%;
     transform: translate(-50%, -50%);
+    width: clamp(104px, 27vw, 158px);
     display: flex;
-    flex-direction: column;
     align-items: center;
-    line-height: 0.96;
-    font-family: 'Cinzel', serif;
-    font-weight: 600;
-    letter-spacing: 0.04em;
-    font-size: clamp(1.15rem, 5vw, 1.8rem);
+    justify-content: center;
 }
 
-.iv-hero__mono-amp {
-    font-size: 0.46em;
-    font-weight: 400;
-    color: var(--iv-rose-ink-soft);
-    margin: 0.12em 0;
-}
-
-.iv-hero__mono--ar {
-    font-family: 'Aref Ruqaa', serif;
-    font-weight: 700;
-    letter-spacing: 0;
-    line-height: 0.92;
-    font-size: clamp(1.3rem, 5.6vw, 2rem);
+.iv-hero__cameo {
+    display: block;
+    width: 100%;
+    height: auto;
+    color: var(--iv-rose-ink);
 }
 
 /* ── the engraved date below the doves ── */
@@ -268,7 +256,7 @@
     transform: translateY(-0.04em);
 }
 
-/* ═══════════════ INTERIOR — THE LETTER ═══════════════
+/* ═══════════════ INTERIOR-THE LETTER ═══════════════
    A heartfelt note hand-set on the embossed cream panel (provided framed
    relief, roses in the corners). The display voice is Nastaʿlīq (Gulzar), used
    nowhere else; the body is a fresh Naskh (Markazi Text). All engraved into
@@ -371,7 +359,7 @@
     transform: translateY(-0.1em);
 }
 
-/* ═══════════════ INTERIOR — THE DETAILS ═══════════════
+/* ═══════════════ INTERIOR-THE DETAILS ═══════════════
    Date · time · place inscribed on the framed cream panel (provided relief,
    florals in two corners). Weekday is the Nastaʿlīq flourish; the rest is the
    Naskh body. Engraved into the cream, same palette as the letter. */
@@ -466,7 +454,7 @@
     color: var(--iv-letter-ink-soft);
 }
 
-/* ═══════════════ INTERIOR — THE PLACE ═══════════════
+/* ═══════════════ INTERIOR-THE PLACE ═══════════════
    The venue, inscribed in the open field above the rose-draped garden rotunda
    (provided relief). Engraved into the ivory; a slim engraved button opens
    directions. */
@@ -575,9 +563,9 @@
     flex: 0 0 auto;
 }
 
-/* ═══════════════ FINALE — SEAL YOUR PRESENCE ═══════════════
+/* ═══════════════ FINALE-SEAL YOUR PRESENCE ═══════════════
    No buttons: the guest presses & holds a wax cameo; a gilded ring fills and
-   the couple's monogram is struck gold into the wax — the cover's seal,
+   the couple's monogram is struck gold into the wax-the cover's seal,
    mirrored. Set on the soft embroidered-linen relief. */
 .iv-rsvp {
     --iv-cream: #e7ddca;
@@ -632,7 +620,7 @@
     font-size: clamp(1.05rem, 4.6vw, 1.4rem);
 }
 
-/* the wax cameo — the press target */
+/* the wax cameo-the press target */
 .iv-rsvp__seal {
     position: relative;
     width: clamp(200px, 58vw, 296px);
@@ -675,7 +663,7 @@
     color: var(--iv-letter-ink-soft);
 }
 
-/* the quiet regret — an engraved line, not a button */
+/* the quiet regret-an engraved line, not a button */
 .iv-rsvp__regret {
     appearance: none;
     background: none;

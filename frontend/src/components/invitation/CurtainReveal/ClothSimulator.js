@@ -1,5 +1,5 @@
 /**
- * ClothSimulator — Verlet Integration Cloth Physics
+ * ClothSimulator-Verlet Integration Cloth Physics
  * Pure JavaScript, no React / Three.js dependency.
  *
  * Simulates one curtain panel (left or right).
@@ -21,7 +21,7 @@ export { CONFIG };
 
 export default class ClothSimulator {
   /**
-   * @param {'left'|'right'} side — which curtain panel
+   * @param {'left'|'right'} side-which curtain panel
    */
   constructor(side = 'left', viewportWidth = 2.8, viewportHeight = 2.05) {
     this.side = side;
@@ -158,7 +158,7 @@ export default class ClothSimulator {
       p.x += vx;
       p.z += vz;
 
-      // Ambient wind — sinusoidal sway on z-axis + slight x perturbation
+      // Ambient wind-sinusoidal sway on z-axis + slight x perturbation
       const windPhase =
         this.time * windFrequency + p.col * 0.15 + p.row * 0.08;
       p.z += Math.sin(windPhase) * windStrength;
@@ -234,7 +234,7 @@ export default class ClothSimulator {
     // Scale force by time step (dt) to keep it frame-rate independent
     const dtScale = dt / 0.0166;
 
-    // Strong horizontal pull — free particles follow the pinned top row sideways
+    // Strong horizontal pull-free particles follow the pinned top row sideways
     const strength = 0.002;
     if (this.side === 'left') {
       p.x -= (1 - u) * t * strength * dtScale;
@@ -248,7 +248,7 @@ export default class ClothSimulator {
     const foldSpring = 0.025;
     p.z += (p.initZ - p.z) * foldSpring * dtScale;
 
-    // Subtle living sway — very gentle z-oscillation to add organic movement
+    // Subtle living sway-very gentle z-oscillation to add organic movement
     // without the grotesque billowing of the old version
     const rowNorm = p.row / (this.rows - 1);
     const sway = Math.sin(p.col * 0.4 + this.time * 1.5 + rowNorm * 2) * 0.00004;

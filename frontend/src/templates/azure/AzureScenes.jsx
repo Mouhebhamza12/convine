@@ -2,10 +2,33 @@ import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import {
-    OrnateFrame, CoupleIllustration, StarsCluster, Star, Flourish, HeartDivider, ClockIcon, PinIcon, PhoneBadge,
+    OrnateFrame, CoupleIllustration, StarsCluster, Star, Flourish, HeartDivider, ClockIcon, PinIcon,
 } from './AzureArt';
 
 gsap.registerPlugin(ScrollTrigger);
+
+/* Eased jump to a journey section by index (mirrors SnapJourney's glide) */
+function jumpToSection(index) {
+    if (typeof document === 'undefined') return;
+    const el = document.querySelectorAll('.snap-journey > section')[index];
+    if (!el) return;
+    const startY = window.scrollY;
+    const targetY = Math.round(el.getBoundingClientRect().top + startY);
+    const dist = targetY - startY;
+    if (Math.abs(dist) < 2) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        window.scrollTo(0, targetY);
+        return;
+    }
+    const t0 = performance.now();
+    const ease = (t) => (t < 0.5 ? 4 * t * t * t : 1 - (-2 * t + 2) ** 3 / 2);
+    const stepFn = (now) => {
+        const t = Math.min(1, (now - t0) / 850);
+        window.scrollTo(0, Math.round(startY + dist * ease(t)));
+        if (t < 1) requestAnimationFrame(stepFn);
+    };
+    requestAnimationFrame(stepFn);
+}
 
 function ordinal(d) {
     if (d % 10 === 1 && d !== 11) return 'st';
@@ -71,31 +94,29 @@ export function AzureHero({ bride, groom, eventDate, eventTime, venue, rsvpPhone
             </div>
 
             <div className="azure-hero__fade azure-hero__meta">
-                <div className="azure-meta__col">
+                <button type="button" className="azure-meta__col azure-meta__btn" onClick={() => jumpToSection(1)} aria-label="View ceremony time">
                     <ClockIcon className="azure-meta__icon" />
                     <span>Start at<br />{ampm(eventTime)}</span>
-                </div>
+                </button>
                 <span className="azure-meta__sep" />
                 {dt && (
-                    <div className="azure-meta__col azure-meta__date">
+                    <button type="button" className="azure-meta__col azure-meta__date azure-meta__btn" onClick={() => jumpToSection(3)} aria-label="View countdown to the date">
                         <strong>{dt.day}<sup>{dt.ord}</sup> {dt.mon},</strong>
                         <strong className="azure-meta__year">{dt.year}</strong>
-                    </div>
+                    </button>
                 )}
                 <span className="azure-meta__sep" />
-                <div className="azure-meta__col">
+                <button type="button" className="azure-meta__col azure-meta__btn" onClick={() => jumpToSection(4)} aria-label="View the venue location">
                     <PinIcon className="azure-meta__icon" />
                     <span>{venue || 'The Venue'}</span>
-                </div>
+                </button>
             </div>
 
-            <p className="azure-hero__fade azure-hero__rsvp">
-                {deadline ? `Kindly RSVP before ${deadline.day}${deadline.ord} ${deadline.mon}, ${deadline.year} on` : 'Kindly RSVP on'}
-            </p>
-            <p className="azure-hero__fade azure-hero__phone">
-                <PhoneBadge className="azure-phone" />
-                {rsvpPhone || '+123-456-7890'}
-            </p>
+            {deadline && (
+                <p className="azure-hero__fade azure-hero__rsvp">
+                    Kindly RSVP before {deadline.day}{deadline.ord} {deadline.mon}, {deadline.year}
+                </p>
+            )}
 
             <HeartDivider className="azure-hero__fade azure-hero__hdiv" />
         </section>

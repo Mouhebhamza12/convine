@@ -1,7 +1,7 @@
 /* ===================================================================
-   ROSERAIE — couture editorial flagship.
+   ROSERAIE-couture editorial flagship.
    Theme drawn from the real vector assets: blush rose, burgundy, grey-green
-   foliage on ivory & cream. Every ornament is a real asset image — this file
+   foliage on ivory & cream. Every ornament is a real asset image-this file
    contains NO drawn graphics (no gradients-as-art, no border ornaments, no
    pseudo-element decoration). CSS does layout + type only.
    =================================================================== */
@@ -77,7 +77,7 @@
 }
 
 /* the section kickers read as an engraved italic serif line, not a tracked-out
-   geometric-sans UI label — quiet, larger, set close. */
+   geometric-sans UI label-quiet, larger, set close. */
 .ro-eyebrow {
     font-family: 'Cormorant Garamond', serif;
     font-style: italic;
@@ -393,7 +393,7 @@
     margin-top: clamp(1.4rem, 4vw, 2rem);
 }
 
-/* each choice IS a heart with its label beneath — no card, no box */
+/* each choice IS a heart with its label beneath-no card, no box */
 .ro-choice {
     display: flex;
     flex-direction: column;

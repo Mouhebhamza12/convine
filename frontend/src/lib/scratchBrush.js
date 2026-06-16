@@ -1,9 +1,9 @@
 /**
- * scratchBrush — realistic foil scratch-card coating + brush.
+ * scratchBrush-realistic foil scratch-card coating + brush.
  *
  * The coating is no longer a flat CSS gradient. We load a real crinkled-foil
  * NORMAL map (ambientCG Foil002, CC0) and bake a *lit* metallic surface from it
- * at runtime — diffuse + specular against a moving light — so it reads as a
+ * at runtime-diffuse + specular against a moving light-so it reads as a
  * genuine sheet of gold foil with creases catching the light. Same lighting
  * principle as the WebGL curtain, done in a 2D canvas.
  */
@@ -149,7 +149,7 @@ function buildBrushTexture(stampW = 76, stampH = 34) {
 
     ctx.clearRect(0, 0, stampW, stampH);
 
-    // Bristle clusters — horizontal brush drag orientation
+    // Bristle clusters-horizontal brush drag orientation
     for (let i = 0; i < 140; i++) {
         const x = Math.random() * stampW;
         const y = stampH / 2 + (Math.random() - 0.5) * stampH * 0.92;
@@ -281,7 +281,7 @@ function drawFoilCover(ctx, foil, width, height) {
     ctx.drawImage(foil, (width - w) / 2, (height - h) / 2, w, h);
 }
 
-/** Engraved hint text — dark cut + light edge so it reads as pressed into foil. */
+/** Engraved hint text-dark cut + light edge so it reads as pressed into foil. */
 function engraveHint(ctx, text, cx, cy, theme) {
     ctx.save();
     ctx.textAlign = 'center';
@@ -326,7 +326,7 @@ export function drawScratchOverlay(ctx, width, height, theme, onReady) {
     ctx.save();
     // No shape clipping: the card element already masks the coating to a
     // circle/rounded-rect via border-radius + overflow:hidden. We MUST fill the
-    // full canvas so it starts 100% opaque — otherwise the clipped-out corners
+    // full canvas so it starts 100% opaque-otherwise the clipped-out corners
     // read as "already scratched" and the first touch instantly reveals.
     const cx = width / 2;
     const cy = height / 2;

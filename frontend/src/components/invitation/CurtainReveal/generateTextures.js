@@ -1,5 +1,5 @@
 /**
- * generateTextures — Procedural canvas-based normal & roughness maps
+ * generateTextures-Procedural canvas-based normal & roughness maps
  *
  * Creates velvet fabric and gold metal textures at runtime so
  * we don't need to bundle external PNGs from ambientcg / freepbr.
@@ -96,11 +96,11 @@ export function createVelvetNormalMap(resolution = 512) {
       const u = px / resolution;
       const v = py / resolution;
 
-      // Fine fibers — high frequency, directional (stronger in y)
+      // Fine fibers-high frequency, directional (stronger in y)
       const fineX = fbm(gridA, 64, u * 80, v * 80, 3, 2.0, 0.5) - 0.5;
       const fineY = fbm(gridB, 64, u * 80, v * 120, 3, 2.0, 0.5) - 0.5;
 
-      // Medium waves — lower frequency, gives folds appearance
+      // Medium waves-lower frequency, gives folds appearance
       const medX = fbm(gridC, 32, u * 12, v * 8, 2, 2.0, 0.6) - 0.5;
       const medY = fbm(gridA, 64, u * 8, v * 14, 2, 2.0, 0.6) - 0.5;
 
@@ -111,7 +111,7 @@ export function createVelvetNormalMap(resolution = 512) {
       // Normal map encoding: (0.5 + normal * 0.5) * 255
       data[i]     = Math.max(0, Math.min(255, Math.floor((nx + 0.5) * 255)));
       data[i + 1] = Math.max(0, Math.min(255, Math.floor((ny + 0.5) * 255)));
-      data[i + 2] = 220; // z component — mostly pointing outward
+      data[i + 2] = 220; // z component-mostly pointing outward
       data[i + 3] = 255;
     }
   }
@@ -187,7 +187,7 @@ export function createGoldNormalMap(resolution = 256) {
       const u = px / resolution;
       const v = py / resolution;
 
-      // Scuffed gold — smooth bumps with fine scratches
+      // Scuffed gold-smooth bumps with fine scratches
       const bumpX = fbm(gridA, 32, u * 20, v * 20, 2, 2.0, 0.5) - 0.5;
       const bumpY = fbm(gridB, 32, u * 20, v * 20, 2, 2.0, 0.5) - 0.5;
 

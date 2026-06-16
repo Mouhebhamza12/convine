@@ -1,5 +1,5 @@
 /**
- * DarArt — painted SVG artwork for the Dar template (Algeria).
+ * DarArt-painted SVG artwork for the Dar template (Algeria).
  * Rich vector illustration: glazed zellige, carved voussoir arches, a studded
  * Casbah door with real depth. Gradients and grout lines live inside the SVG,
  * never in CSS.

@@ -1,5 +1,5 @@
 /* ===================================================================
-   FullPageScroller — cinematic one-section-per-gesture pager.
+   FullPageScroller-cinematic one-section-per-gesture pager.
    Transform-based track so it stays smooth on mobile and never leaves
    the user stranded between sections.
    =================================================================== */
@@ -46,7 +46,7 @@
     transform: none;
 }
 
-/* decorative pieces drift further & slower — subtle parallax settle */
+/* decorative pieces drift further & slower-subtle parallax settle */
 .fp-reveal--slow {
     transform: translateY(52px);
     transition-duration: 1.25s, 1.25s;

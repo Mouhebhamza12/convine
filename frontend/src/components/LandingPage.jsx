@@ -1,34 +1,9 @@
-import { useCallback, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ChevronRight } from 'lucide-react';
-import SiteHeader, { readSaved, SAVED_KEY } from './SiteHeader.jsx';
+import { ChevronRight, Facebook, Instagram, Twitter, Mail } from 'lucide-react';
+import SiteHeader from './SiteHeader.jsx';
 import TemplateDemoSection from './TemplateDemoSection.jsx';
 import { VELVET_TEMPLATE } from '../lib/templates';
 import heroVideo from '../../assets/hero-web-landscape.mp4';
-
-const categories = [
-    {
-        name: 'Wedding',
-        copy: 'Cinematic Velvet invitations with drape openings, date reveals, and RSVP.',
-        preview: '#6b0f1a',
-        demoPath: VELVET_TEMPLATE.demoPath,
-    },
-    {
-        name: 'Birthday',
-        copy: 'Milestones, surprise parties, and group celebrations.',
-        preview: '#c8d2d9',
-    },
-    {
-        name: 'Dinner',
-        copy: 'Holiday dinners, supper clubs, and seated gatherings.',
-        preview: '#d5cdb8',
-    },
-    {
-        name: 'Baby',
-        copy: 'Showers, announcements, and first birthdays.',
-        preview: '#d4c8cc',
-    },
-];
 
 const products = [
     {
@@ -45,111 +20,10 @@ const products = [
     },
 ];
 
-function CategoryPreview({ name, preview }) {
-    if (name === 'Wedding') {
-        return (
-            <div className="category-tile-preview category-tile-preview--wedding">
-                <div className="category-tile-preview-ornament" />
-                <div className="category-tile-preview-content">
-                    <span className="category-tile-preview-title">Amina &amp; Yacine</span>
-                    <span className="category-tile-preview-label">Wedding Invitation</span>
-                </div>
-            </div>
-        );
-    }
-    if (name === 'Birthday') {
-        return (
-            <div className="category-tile-preview category-tile-preview--birthday">
-                <div className="category-tile-preview-confetti" />
-                <div className="category-tile-preview-content">
-                    <span className="category-tile-preview-title">Soirée d'Anniversaire</span>
-                    <span className="category-tile-preview-label">Milestone Birthday</span>
-                </div>
-            </div>
-        );
-    }
-    if (name === 'Dinner') {
-        return (
-            <div className="category-tile-preview category-tile-preview--dinner">
-                <div className="category-tile-preview-frame" />
-                <div className="category-tile-preview-content">
-                    <span className="category-tile-preview-title">Rendezvous</span>
-                    <span className="category-tile-preview-label">Supper Clubs &amp; Dinners</span>
-                </div>
-            </div>
-        );
-    }
-    if (name === 'Baby') {
-        return (
-            <div className="category-tile-preview category-tile-preview--baby">
-                <div className="category-tile-preview-star" />
-                <div className="category-tile-preview-content">
-                    <span className="category-tile-preview-title">Welcome Little One</span>
-                    <span className="category-tile-preview-label">Shower &amp; Birth Announcements</span>
-                </div>
-            </div>
-        );
-    }
-    return (
-        <div
-            className="category-tile-preview"
-            style={{ backgroundColor: preview }}
-            aria-hidden="true"
-        />
-    );
-}
-
 export default function LandingPage() {
-    const [activeCategory, setActiveCategory] = useState('Wedding');
-    const [searchQuery, setSearchQuery] = useState('');
-    const [savedItems, setSavedItems] = useState(readSaved);
-
-    const handleCategorySelect = useCallback((category) => {
-        setActiveCategory(category);
-    }, []);
-
-    const updateSaved = useCallback((category, shouldSave) => {
-        setSavedItems((prev) => {
-            const next = shouldSave
-                ? prev.includes(category)
-                    ? prev
-                    : [...prev, category]
-                : prev.filter((item) => item !== category);
-            localStorage.setItem(SAVED_KEY, JSON.stringify(next));
-            return next;
-        });
-    }, []);
-
-    const toggleSaved = useCallback(
-        (category, event) => {
-            event.stopPropagation();
-            updateSaved(category, !savedItems.includes(category));
-        },
-        [savedItems, updateSaved],
-    );
-
-    const visibleCategories = useMemo(() => {
-        const query = searchQuery.trim().toLowerCase();
-        if (!query) {
-            return categories;
-        }
-
-        return categories.filter(
-            ({ name, copy }) =>
-                name.toLowerCase().includes(query) ||
-                copy.toLowerCase().includes(query) ||
-                `${name} invitations`.toLowerCase().includes(query),
-        );
-    }, [searchQuery]);
-
     return (
         <main className="min-h-screen bg-[#faf7f2] text-[#2c2419]">
-            <SiteHeader
-                onSearch={setSearchQuery}
-                onCategorySelect={handleCategorySelect}
-                savedItems={savedItems}
-                onRemoveSaved={(category) => updateSaved(category, false)}
-            />
+            <SiteHeader />
 
             <section className="relative overflow-hidden border-b border-black/10 bg-[#e7ded2]">
                 <div className="hero-shell">
@@ -191,7 +65,7 @@ export default function LandingPage() {
                             <Link to={VELVET_TEMPLATE.demoPath} className="hero-cta hero-cta--primary">
                                 Try live demo
                             </Link>
-                            <a href="#categories" className="hero-cta hero-cta--secondary">
+                            <a href="#demo" className="hero-cta hero-cta--secondary">
                                 Get started
                             </a>
                         </div>
@@ -204,81 +78,6 @@ export default function LandingPage() {
             </section>
 
             <TemplateDemoSection />
-
-            <section id="categories" className="celebrate-section">
-                <div className="celebrate-section-inner">
-                    <header className="celebrate-header">
-                        <h2 className="celebrate-heading">What are you celebrating?</h2>
-                        <p className="celebrate-subheading">
-                            Select an occasion to view invitation designs.
-                        </p>
-                    </header>
-
-                    {searchQuery.trim() && visibleCategories.length > 0 ? (
-                        <p className="celebrate-search-note">
-                            {visibleCategories.length} result{visibleCategories.length === 1 ? '' : 's'} for
-                            &ldquo;{searchQuery.trim()}&rdquo;
-                        </p>
-                    ) : null}
-
-                    <div className="category-grid">
-                        {visibleCategories.length === 0 ? (
-                            <p className="category-empty">
-                                No categories match your search. Try wedding, birthday, dinner, or baby.
-                            </p>
-                        ) : (
-                            visibleCategories.map(({ name, copy, preview, demoPath }) => {
-                                const isSaved = savedItems.includes(name);
-                                const isActive = activeCategory === name;
-
-                                return (
-                                    <article
-                                        key={name}
-                                        className={`category-tile ${isActive ? 'is-active' : ''}`}
-                                        onClick={() => setActiveCategory(name)}
-                                        onKeyDown={(event) => {
-                                            if (event.key === 'Enter' || event.key === ' ') {
-                                                event.preventDefault();
-                                                setActiveCategory(name);
-                                            }
-                                        }}
-                                        role="button"
-                                        tabIndex={0}
-                                        aria-pressed={isActive}
-                                    >
-                                        <CategoryPreview name={name} preview={preview} />
-                                        <div className="category-tile-body">
-                                            <h3 className="category-tile-name">{name}</h3>
-                                            <p className="category-tile-desc">{copy}</p>
-                                            <div className="category-tile-footer">
-                                                {demoPath ? (
-                                                    <Link
-                                                        to={demoPath}
-                                                        className="category-tile-action category-tile-action--link"
-                                                        onClick={(event) => event.stopPropagation()}
-                                                    >
-                                                        Try guest demo
-                                                    </Link>
-                                                ) : (
-                                                    <span className="category-tile-action">View designs</span>
-                                                )}
-                                                <button
-                                                    type="button"
-                                                    className={`category-tile-save ${isSaved ? 'is-saved' : ''}`}
-                                                    aria-pressed={isSaved}
-                                                    onClick={(event) => toggleSaved(name, event)}
-                                                >
-                                                    {isSaved ? 'Saved' : 'Save for later'}
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </article>
-                                );
-                            })
-                        )}
-                    </div>
-                </div>
-            </section>
 
             <section id="products" className="products-section">
                 <div className="products-section-inner">
@@ -302,6 +101,80 @@ export default function LandingPage() {
                     </div>
                 </div>
             </section>
+
+            <footer className="site-footer">
+                <div className="site-footer-inner">
+                    <div className="footer-brand-section">
+                        <div className="footer-logo">
+                            <span className="footer-logo-script">Convive</span>
+                            <span className="footer-logo-submark">MEMORABLE EVENTS</span>
+                        </div>
+                        <p className="footer-brand-desc">
+                            Crafting cinematic online invitations and stationery-grade keepsakes for the milestones that define your life.
+                        </p>
+                        <div className="footer-socials">
+                            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="footer-social-link" aria-label="Instagram">
+                                <Instagram size={18} strokeWidth={1.5} />
+                            </a>
+                            <a href="https://pinterest.com" target="_blank" rel="noopener noreferrer" className="footer-social-link" aria-label="Pinterest">
+                                <span style={{ fontFamily: 'serif', fontSize: '1.1rem', fontWeight: 'bold' }}>P</span>
+                            </a>
+                            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="footer-social-link" aria-label="Facebook">
+                                <Facebook size={18} strokeWidth={1.5} />
+                            </a>
+                            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="footer-social-link" aria-label="Twitter">
+                                <Twitter size={18} strokeWidth={1.5} />
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div className="footer-links-grid">
+                        <div className="footer-link-group">
+                            <h4 className="footer-group-title">Templates</h4>
+                            <ul className="footer-links">
+                                <li><Link to="/invite/demo">Velvet</Link></li>
+                                <li><Link to="/invite/demo-roseraie">Roseraie</Link></li>
+                                <li><Link to="/invite/demo-ivoire">Ivoire</Link></li>
+                                <li><Link to="/invite/demo-sage">Sage</Link></li>
+                                <li><Link to="/invite/demo-azure">Azure</Link></li>
+                                <li><Link to="/invite/demo-andalus">Andalus</Link></li>
+                            </ul>
+                        </div>
+                        <div className="footer-link-group">
+                            <h4 className="footer-group-title">Products</h4>
+                            <ul className="footer-links">
+                                <li><a href="#products">Card invitations</a></li>
+                                <li><a href="#products">Flyer event pages</a></li>
+                                <li><a href="#products">Greeting cards</a></li>
+                                <li><Link to="/login">Professional plans</Link></li>
+                            </ul>
+                        </div>
+                        <div className="footer-link-group">
+                            <h4 className="footer-group-title">Company</h4>
+                            <ul className="footer-links">
+                                <li><Link to="/login">About our craft</Link></li>
+                                <li><Link to="/login">Contact concierge</Link></li>
+                                <li><Link to="/login">Privacy policy</Link></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div className="footer-newsletter">
+                        <h4 className="footer-group-title">Newsletter</h4>
+                        <p className="footer-newsletter-desc">Subscribe to receive design inspirations and product updates.</p>
+                        <form className="footer-newsletter-form" onSubmit={(e) => e.preventDefault()}>
+                            <input type="email" placeholder="Your email address" className="footer-newsletter-input" required />
+                            <button type="submit" className="footer-newsletter-btn">Subscribe</button>
+                        </form>
+                    </div>
+                </div>
+
+                <div className="footer-bottom">
+                    <p className="footer-copyright">
+                        &copy; {new Date().getFullYear()} Convive. All rights reserved. Made with love for unforgettable moments.
+                    </p>
+                </div>
+            </footer>
         </main>
     );
 }

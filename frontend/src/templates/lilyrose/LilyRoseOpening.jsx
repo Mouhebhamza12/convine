@@ -4,7 +4,7 @@ import { Lily, Rose, Bud, Leaf } from './Botanicals';
 import { prefersReducedMotion } from './useBloom';
 
 /**
- * The Threshold — a garden at first light. A closed composition of lily and
+ * The Threshold-a garden at first light. A closed composition of lily and
  * roses blooms open and the couple's names rise from within. One tap parts
  * the bouquet and carries the guest into the story.
  */

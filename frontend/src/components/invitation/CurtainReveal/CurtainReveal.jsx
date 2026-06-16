@@ -1,5 +1,5 @@
 /**
- * CurtainReveal — Main WebGL curtain scene
+ * CurtainReveal-Main WebGL curtain scene
  *
  * Drop-in replacement for the old CSS-based DrapeOpening.
  * Same API: <CurtainReveal onComplete={fn} />
@@ -127,7 +127,7 @@ export default function CurtainReveal({ onStart, onComplete, data }) {
       },
     });
 
-    // Phase 1: Open the curtain — as soon as it is open the guest can scroll;
+    // Phase 1: Open the curtain-as soon as it is open the guest can scroll;
     // we unlock interaction here and let the settle/fade play on top, inert.
     tl.to(curtainState, {
       openProgress: 1,
@@ -145,7 +145,7 @@ export default function CurtainReveal({ onStart, onComplete, data }) {
       },
     });
 
-    // Phase 2: Settle oscillation (gentle elastic decay, overlapping) — purely
+    // Phase 2: Settle oscillation (gentle elastic decay, overlapping)-purely
     // decorative now that interaction is already unlocked.
     tl.to(curtainState, {
       settleAmplitude: 0,
@@ -175,7 +175,7 @@ export default function CurtainReveal({ onStart, onComplete, data }) {
       onKeyDown={(e) => e.key === 'Enter' && handleOpen()}
       aria-label="Touch to open invitation"
     >
-      {/* WebGL canvas — transparent background reveals content behind */}
+      {/* WebGL canvas-transparent background reveals content behind */}
       <Canvas
         className="curtain-reveal-canvas"
         dpr={Math.min(window.devicePixelRatio, 2)}

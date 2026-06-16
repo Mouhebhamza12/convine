@@ -92,7 +92,7 @@ export default function SiteHeader({
         if (category && onCategorySelect) {
             onCategorySelect(category);
         }
-        const el = document.getElementById('categories');
+        const el = document.getElementById('demo');
         el?.scrollIntoView({ behavior: 'smooth', block: 'start' });
         closePanels();
     }, [closePanels, onCategorySelect]);
@@ -102,7 +102,7 @@ export default function SiteHeader({
             setSearchQuery(value);
             onSearch?.(value);
             if (value.trim()) {
-                const el = document.getElementById('categories');
+                const el = document.getElementById('demo');
                 el?.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
         },
@@ -209,23 +209,6 @@ export default function SiteHeader({
                 </div>
 
                 <div className="mobile-header-actions">
-                    <button
-                        type="button"
-                        className={`nav-icon-btn ${savedOpen ? 'is-active' : ''}`}
-                        aria-label="Saved invitations"
-                        aria-expanded={savedOpen}
-                        onClick={() => {
-                            setSavedOpen((open) => !open);
-                            setMenuOpen(false);
-                            setSearchOpen(false);
-                        }}
-                    >
-                        <Heart
-                            size={21}
-                            strokeWidth={1.75}
-                            className={savedItems.length ? 'nav-heart-filled' : ''}
-                        />
-                    </button>
                     <Link
                         className="nav-icon-btn"
                         aria-label={user ? 'My account' : 'Sign in'}

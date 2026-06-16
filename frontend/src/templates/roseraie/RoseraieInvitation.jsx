@@ -9,7 +9,7 @@ import '../../css/invitation.css';
 import '../../css/roseraie.css';
 
 /**
- * Roseraie — couture editorial flagship. A sealed botanical keepsake parts to
+ * Roseraie-couture editorial flagship. A sealed botanical keepsake parts to
  * present an editorial spread. All ornament is real vector artwork (the
  * provided floral/damask assets); the page draws nothing in code.
  */

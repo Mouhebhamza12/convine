@@ -1,10 +1,10 @@
 /**
- * AndalusCurtain — a real WebGL velvet curtain reveal for the Andalus template.
+ * AndalusCurtain-a real WebGL velvet curtain reveal for the Andalus template.
  *
  * Two cloth-simulated oxblood drapes hang under an ornate gold-braided pelmet in
  * a cinematically lit room. On touch, the drapes do NOT slide like a drawer:
- * they shiver, take tension, then part heavily — gathering and bunching toward
- * the sides — while the pelmet lifts away and the scene dissolves straight onto
+ * they shiver, take tension, then part heavily-gathering and bunching toward
+ * the sides-while the pelmet lifts away and the scene dissolves straight onto
  * the invitation waiting behind it. Built on three.js + R3F + GSAP; same API as
  * the old opener (onComplete + strings) so it drops straight into DarOpening.
  */
@@ -123,7 +123,7 @@ export default function AndalusCurtain({ onComplete, strings }) {
       },
     }, 0);
 
-    // 2. the heavy part — slow, weighted, eased
+    // 2. the heavy part-slow, weighted, eased
     tl.to(reveal, {
       p: 1,
       duration: 2.6,

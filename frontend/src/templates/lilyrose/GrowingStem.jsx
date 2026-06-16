@@ -35,7 +35,7 @@ function buildStemPath(width, height) {
 }
 
 /**
- * The vine of their love — grows from the foot of the page upward as the
+ * The vine of their love-grows from the foot of the page upward as the
  * guest descends, unfurling small leaves along the way. Subtle, marginal.
  */
 export default function GrowingStem({ enabled }) {

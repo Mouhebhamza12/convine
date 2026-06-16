@@ -19,7 +19,7 @@ function ArchFleuron() {
     );
 }
 
-/* ─── Fleuron divider — engraved center motif with tapering rules ─── */
+/* ─── Fleuron divider-engraved center motif with tapering rules ─── */
 function FleuronDivider() {
     return (
         <svg className="hero-fleuron" width="200" height="16" viewBox="0 0 200 16" fill="none" aria-hidden="true">

@@ -1,5 +1,5 @@
 /**
- * DarStrings — all rendered copy for the Dar template, in two separate
+ * DarStrings-all rendered copy for the Dar template, in two separate
  * voices: French (elegant, premium) and Arabic (warm, family, Algerian).
  * Algerian Arabic month names (جانفي، فيفري…) are used on purpose: they are
  * specific to Algeria and signal authenticity instantly.

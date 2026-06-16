@@ -1,5 +1,5 @@
 /* ===================================================================
-   ANDALUS — burgundy-velvet palace curtain + engraved vintage Nikkah card.
+   ANDALUS-burgundy-velvet palace curtain + engraved vintage Nikkah card.
    Layered over dar.css; remaps the journey palette to wine / gold / parchment.
    =================================================================== */
 
@@ -144,7 +144,7 @@
     padding: clamp(1rem, 4vh, 2.5rem) 1rem;
 }
 
-/* The hero is crowned by the engraved ARCH — the top of the tall border image.
+/* The hero is crowned by the engraved ARCH-the top of the tall border image.
    Other scenes show the repeating side borders (cropped middle); the hero alone
    anchors to the top so the arch + corner roses frame the names. */
 .dar-invitation .andalus-card-scene {
@@ -315,13 +315,13 @@
     font-family: 'Amiri', serif;
 }
 
-/* ─────────────── MARHBA — melt the family letter into the scene ───────────────
+/* ─────────────── MARHBA-melt the family letter into the scene ───────────────
    The base template (dar.css) seats this wording on a hard opaque cream
    rectangle carrying a cold blue azure-era drop-shadow, so on the warm
    botanical border it floats like a pasted sticker. Here the panel is
    dissolved into a soft aged-parchment pool: a warm radial that holds the
    wording on solid paper at the centre and feathers to nothing before the
-   edges — no rectangle, no shadow. The letter now reads as ink laid onto the
+   edges-no rectangle, no shadow. The letter now reads as ink laid onto the
    same parchment as the surrounding frame, exactly like the engraved hero
    card whose wording also sits straight on the background. */
 .dar-invitation .dar-marhba {

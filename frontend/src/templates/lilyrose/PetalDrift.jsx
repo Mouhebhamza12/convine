@@ -2,8 +2,7 @@ import { useEffect, useRef } from 'react';
 import { prefersReducedMotion } from './useBloom';
 
 /**
- * A few soft petals drifting on a still morning. Deliberately sparse —
- * elegance, not a snow-globe. Canvas-based, DPR-capped, one rAF loop.
+ * A few soft petals drifting on a still morning. Deliberately sparse-* elegance, not a snow-globe. Canvas-based, DPR-capped, one rAF loop.
  */
 export default function PetalDrift({ count = 11 }) {
     const canvasRef = useRef(null);

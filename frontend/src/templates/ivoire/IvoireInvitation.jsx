@@ -8,7 +8,7 @@ import '../../css/invitation.css';
 import '../../css/ivoire.css';
 
 /**
- * Ivoire — embossed ivory florals & a gilded blush cameo.
+ * Ivoire-embossed ivory florals & a gilded blush cameo.
  *
  * The gilded cameo cover parts to reveal a section-per-gesture suite: the عقد
  * قِران announcement, a heartfelt letter, and the day's details. Each scene's

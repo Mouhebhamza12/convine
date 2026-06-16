@@ -52,7 +52,7 @@ const TIER_LABELS = {
 };
 
 const TIER_DESCRIPTIONS = {
-    formal: 'Floor-length gowns & tuxedos. Think timeless glamour — this is a night to shine.',
+    formal: 'Floor-length gowns & tuxedos. Think timeless glamour-this is a night to shine.',
     'semi-formal': 'Cocktail dresses & tailored suits. Elegant yet comfortable for a memorable evening.',
     casual: 'Dress to impress but keep it relaxed. Smart separates & stylish dresses welcome.',
     traditional: 'We warmly welcome traditional attire. Celebrate with us in the elegance of heritage.',

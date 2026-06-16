@@ -12,14 +12,14 @@ convive/
 
 ## Start development
 
-**Terminal 1 — backend**
+**Terminal 1-backend**
 
 ```bash
 cd backend
 php artisan serve
 ```
 
-**Terminal 2 — frontend**
+**Terminal 2-frontend**
 
 ```bash
 cd frontend
@@ -32,12 +32,12 @@ Open **http://localhost:3000** in your browser.
 
 | Template | URL |
 |----------|-----|
-| Lily & Rose — fine-art floral luxury | http://localhost:3000/invite/demo-lilyrose |
-| Filigree — golden thread, tie-the-knot | http://localhost:3000/invite/demo-filigree |
-| Velvet — red drape cinematic | http://localhost:3000/invite/demo |
-| Bloom — blush botanical | http://localhost:3000/invite/demo-bloom |
-| Sage — botanical line art | http://localhost:3000/invite/demo-sage |
-| Azure — blue illustrated charm | http://localhost:3000/invite/demo-azure |
+| Lily & Rose-fine-art floral luxury | http://localhost:3000/invite/demo-lilyrose |
+| Filigree-golden thread, tie-the-knot | http://localhost:3000/invite/demo-filigree |
+| Velvet-red drape cinematic | http://localhost:3000/invite/demo |
+| Bloom-blush botanical | http://localhost:3000/invite/demo-bloom |
+| Sage-botanical line art | http://localhost:3000/invite/demo-sage |
+| Azure-blue illustrated charm | http://localhost:3000/invite/demo-azure |
 
 ## Admin login
 

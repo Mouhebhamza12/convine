@@ -1,5 +1,5 @@
 /**
- * useFabricSwish — a subtle, synthesized heavy-fabric sweep.
+ * useFabricSwish-a subtle, synthesized heavy-fabric sweep.
  *
  * No audio file to ship: we generate filtered noise with the Web Audio API on
  * the opening gesture (which satisfies the autoplay-unlock requirement). A slow
@@ -53,7 +53,7 @@ export default function useFabricSwish() {
       src.start(t0);
       src.stop(t0 + dur);
     } catch {
-      /* audio blocked — ignore */
+      /* audio blocked-ignore */
     }
   }, []);
 

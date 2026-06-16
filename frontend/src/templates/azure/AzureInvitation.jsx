@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useInvitationScroll } from '../../hooks/useInvitationScroll';
 import SnapJourney from '../../components/shared/SnapJourney';
-import AzureEnvelope from './AzureEnvelope';
+import AzureOverture from './AzureOverture';
 import { AzureHero, AzureLetter, AzurePhotos } from './AzureScenes';
 import { AzureTime, AzureCountdown, AzureLocation, AzureRsvp } from './AzureSections';
 import '../../css/invitation.css';
@@ -20,7 +20,11 @@ export default function AzureInvitation({ data, isDemo, onRsvp }) {
     return (
         <div className="invitation-root azure-invitation">
             {!opened && (
-                <AzureEnvelope
+                <AzureOverture
+                    bride={bride}
+                    groom={groom}
+                    eventDate={wedding.event_date}
+                    venue={wedding.venue}
                     onStart={() => setRevealing(true)}
                     onComplete={() => setOpened(true)}
                 />

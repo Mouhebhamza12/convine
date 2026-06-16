@@ -1,5 +1,5 @@
 /**
- * useCurtainSound — Optional audio hook for curtain swish
+ * useCurtainSound-Optional audio hook for curtain swish
  *
  * Loads an MP3 from the textures folder (if present) and plays it
  * when triggered. Gracefully no-ops if the file is missing or
@@ -62,7 +62,7 @@ export default function useCurtainSound() {
         }
       }, 30);
     }).catch(() => {
-      // Autoplay blocked — silently ignore
+      // Autoplay blocked-silently ignore
       failedRef.current = true;
     });
   }, []);

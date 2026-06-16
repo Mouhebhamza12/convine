@@ -4,7 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useRsvp } from '../../components/shared/useRsvp';
 import { useCountdown } from '../../components/shared/useCountdown';
 import { HeartDivider, Star, PinIcon } from './AzureArt';
-import buildingImg from '../../../assets/buildingsvg.png';
+import buildingImg from '../../../assets/azurehouse.png';
 
 gsap.registerPlugin(ScrollTrigger);
 

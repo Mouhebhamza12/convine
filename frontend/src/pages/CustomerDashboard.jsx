@@ -144,7 +144,7 @@ export default function CustomerDashboard() {
                 <section className="border border-black/10 bg-white p-6">
                     <h2 className="text-2xl font-normal">Invitation details</h2>
                     <p className="mt-2 text-sm text-black/60">
-                        These details power the guest experience — drape opening, names, date reveal, letter, and more.
+                        These details power the guest experience-drape opening, names, date reveal, letter, and more.
                     </p>
 
                     <div className="mt-6 mb-4 grid gap-3 sm:grid-cols-3">

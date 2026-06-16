@@ -11,7 +11,7 @@ import '../../css/dar.css';
 import '../../css/andalus.css';
 
 /**
- * Dar — the flagship Algerian template. One layout, two voices:
+ * Dar-the flagship Algerian template. One layout, two voices:
  * lang='fr' (elegant, premium) and lang='ar' (warm, RTL, authentic).
  * Never both at once.
  */

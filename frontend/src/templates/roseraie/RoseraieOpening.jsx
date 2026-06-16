@@ -4,7 +4,7 @@ import topLayer from '../../../assets/Layer_0.png';
 import bottomLayer from '../../../assets/Layer_0_copy.png';
 
 /**
- * RoseraieOpening — the couture reveal, image-only.
+ * RoseraieOpening-the couture reveal, image-only.
  *
  * The two provided botanical panels meet at a wax-sealed seam. On tap the
  * upper panel lifts away, the lower panel sinks, and the field dissolves to

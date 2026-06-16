@@ -1,9 +1,9 @@
 import { useEffect, useRef } from 'react';
 
 /**
- * GoldenParticles — Floating golden bokeh dots that drift upward,
+ * GoldenParticles-Floating golden bokeh dots that drift upward,
  * creating a warm, cinematic atmosphere behind all invitation content.
- * Pure canvas 2D — no Three.js overhead.
+ * Pure canvas 2D-no Three.js overhead.
  */
 export default function GoldenParticles({ count = 45 }) {
     const canvasRef = useRef(null);

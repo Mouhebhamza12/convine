@@ -1,5 +1,5 @@
 /**
- * InvitationContent — HTML overlay rendered behind the curtain
+ * InvitationContent-HTML overlay rendered behind the curtain
  *
  * Fades in as the curtain opens (opacity driven by openProgress).
  * Uses Arabic text and luxury typography matching the main invitation.

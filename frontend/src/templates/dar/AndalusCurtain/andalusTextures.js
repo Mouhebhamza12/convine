@@ -1,5 +1,5 @@
 /**
- * andalusTextures — procedural PBR maps for the Andalus velvet curtain.
+ * andalusTextures-procedural PBR maps for the Andalus velvet curtain.
  *
  * Research note (velvet realism): velvet is NOT a diffuse material. Its pile is
  * a forest of near-vertical micro-fibres, so it back-scatters light at grazing
@@ -13,7 +13,7 @@
  *   - map (albedo): deep oxblood pile with subtle light/dark patches + engraved
  *                   gold trim bands with a Maghrebi arabesque motif (panel-scale)
  *
- * Everything is generated on a 2D canvas at runtime — no bundled PNGs, no flat
+ * Everything is generated on a 2D canvas at runtime-no bundled PNGs, no flat
  * CSS gradients. The colour lives in the map so the material colour stays white.
  */
 import * as THREE from 'three';

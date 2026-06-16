@@ -1,10 +1,10 @@
 /* ===================================================================
-   SnapJourney — cinematic one-section-per-gesture over real scroll.
+   SnapJourney-cinematic one-section-per-gesture over real scroll.
    Keeps document scroll alive (so ScrollTrigger animations still fire)
    while the controller eases between full-screen sections.
    =================================================================== */
 
-/* While active, the controller owns scrolling — kill native smooth + chaining */
+/* While active, the controller owns scrolling-kill native smooth + chaining */
 html.snap-active {
     scroll-behavior: auto !important;
     scroll-snap-type: none !important;

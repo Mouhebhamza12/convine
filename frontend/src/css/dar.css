@@ -1,5 +1,5 @@
 /* ===================================================================
-   DAR — the flagship Algerian template.
+   DAR-the flagship Algerian template.
    Casbah whitewash, Mediterranean blue, restrained zellige, jasmine.
    All ornament is SVG (DarArt.jsx); CSS does layout and typography.
    FR voice: Prata + Jost + EB Garamond.
@@ -577,7 +577,7 @@
 .dar-rsvp__jasmine { width: clamp(110px, 30vw, 150px); height: auto; margin-top: clamp(0.9rem, 2.8vw, 1.4rem); }
 
 /* ===================================================================
-   DAR × FullPageScroller — make each section a self-contained 100svh
+   DAR × FullPageScroller-make each section a self-contained 100svh
    slide and keep the paper background behind the fixed pager.
    =================================================================== */
 .dar-fp {

@@ -1,5 +1,5 @@
 /**
- * AndalusVelvetPanel — one cloth-simulated velvet drape, rendered with a
+ * AndalusVelvetPanel-one cloth-simulated velvet drape, rendered with a
  * physically based velvet material.
  *
  * The geometry is a PlaneGeometry whose vertices are driven every frame by an

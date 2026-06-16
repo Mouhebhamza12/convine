@@ -1,5 +1,5 @@
 /* ════════════════════════════════════════════════════════════════════
-   LILY & ROSE — a luxury love story told through flowers
+   LILY & ROSE-a luxury love story told through flowers
    Ivory · champagne · blush · sage · soft gold. Editorial, hand-painted,
    printed-on-fine-stationery. Mobile-first.
    ════════════════════════════════════════════════════════════════════ */
@@ -141,7 +141,7 @@
 .lr-open__hint-rule:last-child { background: linear-gradient(90deg, var(--lr-gold-soft), transparent); }
 
 /* ════════════════════════════════════════════════════════════════════
-   SCENES — shared
+   SCENES-shared
    ════════════════════════════════════════════════════════════════════ */
 .lr-scene {
     position: relative;

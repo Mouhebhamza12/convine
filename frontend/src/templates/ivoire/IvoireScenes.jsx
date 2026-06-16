@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
-import { IVOIRE_STRINGS, arabicDisplayName, initialOf, isArabicName, formatDots, arabicDateParts, arabicTime, monogramLetters } from './IvoireStrings';
-import { IvoireDivider, IvoirePin, IvoireMonogram } from './IvoireArt';
+import { IVOIRE_STRINGS, arabicDisplayName, initialOf, isArabicName, formatDots, arabicDateParts, arabicTime } from './IvoireStrings';
+import { IvoireDivider, IvoirePin, IvoireSealEmblem, IvoireCameo } from './IvoireArt';
 import { useRsvp } from '../../components/shared/useRsvp';
 import hero from '../../../assets/ivoire/hero.jpg';
 import letter from '../../../assets/ivoire/letter.jpg';
@@ -17,7 +17,7 @@ import rsvp from '../../../assets/ivoire/rsvp.jpg';
  */
 
 /**
- * IvoireHero — the عقد قِران announcement, set into the dusty-rose relief: the
+ * IvoireHero-the عقد قِران announcement, set into the dusty-rose relief: the
  * cameo cipher, the engraved date, the announcement, the names in Arabic
  * calligraphy and the duʿāʾ.
  */
@@ -32,10 +32,8 @@ export function IvoireHero({ bride = 'Amina', groom = 'Yacine', eventDate, isDem
 
     return (
         <section className="iv-hero" style={{ backgroundImage: `url(${hero})` }} dir="rtl">
-            <div className={`iv-hero__mono fp-reveal${initialsArabic ? ' iv-hero__mono--ar' : ''}`}>
-                <span className="iv-hero__mono-a">{initA}</span>
-                <span className="iv-hero__mono-amp">{S.and}</span>
-                <span className="iv-hero__mono-b">{initB}</span>
+            <div className="iv-hero__mono">
+                <IvoireCameo a={initA} b={initB} arabic={initialsArabic} className="iv-hero__cameo fp-reveal" />
             </div>
 
             {dots && <p className="iv-hero__date fp-reveal">{dots}</p>}
@@ -64,7 +62,7 @@ export function IvoireHero({ bride = 'Amina', groom = 'Yacine', eventDate, isDem
 }
 
 /**
- * IvoireLetter — a heartfelt note hand-set on the embossed cream panel. The
+ * IvoireLetter-a heartfelt note hand-set on the embossed cream panel. The
  * opening flourish and the signing names are Nastaʿlīq (Gulzar); the body is a
  * fresh Naskh (Markazi Text).
  */
@@ -96,7 +94,7 @@ export function IvoireLetter({ guestName = 'Mohamed', bride = 'Amina', groom = '
 }
 
 /**
- * IvoireDetails — the day's details (date · time · place) inscribed on the
+ * IvoireDetails-the day's details (date · time · place) inscribed on the
  * framed cream panel. The weekday is the Nastaʿlīq flourish (Gulzar); the rest
  * is the Naskh body (Markazi Text).
  */
@@ -122,7 +120,7 @@ export function IvoireDetails({ eventDate, eventTime }) {
 }
 
 /**
- * IvoireLocation — the fourth interior scene: the place, inscribed in the open
+ * IvoireLocation-the fourth interior scene: the place, inscribed in the open
  * field above the rose-draped garden rotunda (provided relief). Venue name and
  * address are engraved; a slim engraved button opens directions.
  */
@@ -155,17 +153,16 @@ const SEAL_C = 2 * Math.PI * SEAL_R;
 const HOLD_MS = 1150;
 
 /**
- * IvoireRsvp — the finale, and the cover's mirror. There are no accept/decline
+ * IvoireRsvp-the finale, and the cover's mirror. There are no accept/decline
  * buttons: the guest *seals their own presence*. Press and hold the wax cameo
  * and a gilded ring fills while the couple's monogram is struck gold into the
- * wax — the same gilded seal the invitation opened on. A single quiet engraved
+ * wax-the same gilded seal the invitation opened on. A single quiet engraved
  * line offers regrets. Backed by the shared RSVP state machine.
  */
 export function IvoireRsvp({ guestName = 'Mohamed', bride = 'Amina', groom = 'Yacine', initialStatus, onSubmit, isDemo = false }) {
     const S = IVOIRE_STRINGS.rsvp;
     const { status, submitting, respond } = useRsvp(initialStatus, onSubmit, isDemo);
     const guest = isDemo || isArabicName(guestName) ? arabicDisplayName(guestName) : guestName;
-    const mono = monogramLetters(bride, groom, { demo: isDemo });
 
     const sealRef = useRef(null);
     const ringRef = useRef(null);
@@ -269,7 +266,7 @@ export function IvoireRsvp({ guestName = 'Mohamed', bride = 'Amina', groom = 'Ya
                                 />
                             </svg>
                             <div ref={monoRef} className="iv-rsvp__mono">
-                                <IvoireMonogram letters={mono.letters} arabic={mono.arabic} className="iv-mono" />
+                                <IvoireSealEmblem className="iv-mono" />
                             </div>
                         </div>
 
@@ -294,7 +291,7 @@ export function IvoireRsvp({ guestName = 'Mohamed', bride = 'Amina', groom = 'Ya
                                 <circle cx="110" cy="110" r={SEAL_R} fill="none" stroke="url(#iv-seal-gold-set)" strokeWidth="4.5" />
                             </svg>
                             <div className="iv-rsvp__mono" style={{ opacity: attending ? 1 : 0.4 }}>
-                                <IvoireMonogram letters={mono.letters} arabic={mono.arabic} className="iv-mono" />
+                                <IvoireSealEmblem className="iv-mono" />
                             </div>
                         </div>
                         <p className="iv-rsvp__msg">{attending ? S.confirmYes(guest) : S.confirmNo(guest)}</p>

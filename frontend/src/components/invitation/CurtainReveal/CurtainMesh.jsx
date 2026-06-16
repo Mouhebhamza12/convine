@@ -1,5 +1,5 @@
 /**
- * CurtainMesh — Single cloth panel rendered via React Three Fiber
+ * CurtainMesh-Single cloth panel rendered via React Three Fiber
  *
  * Creates a PlaneGeometry whose vertex positions are updated every
  * frame from a ClothSimulator instance.  Uses MeshStandardMaterial

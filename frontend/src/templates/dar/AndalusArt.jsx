@@ -1,8 +1,8 @@
 /**
- * AndalusArt — engraved-gold & botanical artwork for the Andalus
+ * AndalusArt-engraved-gold & botanical artwork for the Andalus
  * (vintage Maghrebi / Ottoman Nikkah) template.
  *
- * The opening velvet curtain is NOT here — it is a real WebGL cloth
+ * The opening velvet curtain is NOT here-it is a real WebGL cloth
  * simulation under ./AndalusCurtain/. This module holds the flat-vector
  * stationery ornaments: the engraved Nikkah card frame, peony / bud /
  * leaf botanicals, ring motif and gold flourish dividers.

@@ -5,7 +5,7 @@ const prefersReduced = () =>
     typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 /**
- * FullPageScroller — a cinematic one-section-per-gesture pager.
+ * FullPageScroller-a cinematic one-section-per-gesture pager.
  *
  * Each child becomes a 100svh slide. A single wheel notch, trackpad gesture,
  * touch swipe, arrow / PageUp-Down / Space / Home / End press advances exactly

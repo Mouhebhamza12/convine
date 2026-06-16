@@ -59,7 +59,7 @@ export default function CreateCustomerPage() {
 
             <main className="mx-auto max-w-3xl px-6 py-10">
                 <p className="text-base leading-7 text-black/60">
-                    Use this after the customer pays via BaridiMob/CCP and chooses a template. Send them the generated login — never your admin password.
+                    Use this after the customer pays via BaridiMob/CCP and chooses a template. Send them the generated login-never your admin password.
                 </p>
 
                 <form className="mt-8 space-y-5 border border-black/10 bg-white p-6" onSubmit={handleSubmit}>
@@ -110,7 +110,6 @@ export default function CreateCustomerPage() {
                             <option value="sage">Sage: Botanical sage &amp; ivory</option>
                             <option value="azure">Azure: Blue &amp; cream illustrated</option>
                             <option value="andalus-fr">Andalus (Français): Velours royal &amp; Nikkah</option>
-                            <option value="andalus-ar">Andalus (العربية): مخمل ملكي وعقد قران</option>
                             <option value="roseraie">Roseraie: Blush &amp; burgundy botanical couture</option>
                             <option value="ivoire">Ivoire: Embossed ivory &amp; gilded cameo</option>
                         </select>
