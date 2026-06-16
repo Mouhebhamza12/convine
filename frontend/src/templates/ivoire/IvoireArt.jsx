@@ -6,6 +6,32 @@
    CSS adds none of it. */
 
 /**
+ * IvoireDivider — a slender engraved rule with a central lozenge floret. Drawn
+ * with currentColor so the scene's ink sets the tone.
+ */
+export function IvoireDivider({ className, ...rest }) {
+    return (
+        <svg
+            viewBox="0 0 220 16"
+            className={className}
+            fill="none"
+            stroke="currentColor"
+            aria-hidden="true"
+            style={{ display: 'block', height: 'auto', overflow: 'visible' }}
+            xmlns="http://www.w3.org/2000/svg"
+            {...rest}
+        >
+            <line x1="8" y1="8" x2="92" y2="8" strokeWidth="0.9" />
+            <line x1="128" y1="8" x2="212" y2="8" strokeWidth="0.9" />
+            <path d="M110 1.5 L116.5 8 L110 14.5 L103.5 8 Z" strokeWidth="0.9" />
+            <circle cx="110" cy="8" r="1.5" fill="currentColor" stroke="none" />
+            <circle cx="96.5" cy="8" r="1.1" fill="currentColor" stroke="none" />
+            <circle cx="123.5" cy="8" r="1.1" fill="currentColor" stroke="none" />
+        </svg>
+    );
+}
+
+/**
  * IvoireMonogram — the couple's engraved cameo mark.
  * `letters` is an array of one or two glyphs already chosen by the caller
  * (Arabic initials for an Arabic couple, Latin otherwise). `arabic` switches

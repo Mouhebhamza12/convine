@@ -14,6 +14,18 @@
     --iv-gold: #c69a52;
 }
 
+/* ─────────────── THE SCROLLER ─────────────── */
+.ivoire-fp {
+    --fp-accent: #a8786f;          /* dusty-rose nav dots */
+    background-color: #ece3d6;     /* neutral cream behind the slides */
+}
+
+.ivoire-fp .iv-hero,
+.ivoire-fp .iv-letter,
+.ivoire-fp .iv-details {
+    height: 100%;
+}
+
 /* ─────────────── THE COVER ─────────────── */
 .iv-cover {
     position: fixed;
@@ -249,4 +261,202 @@
     color: var(--iv-rose-ink-soft);
     margin: 0 0.06em;
     transform: translateY(-0.04em);
+}
+
+/* ═══════════════ INTERIOR — THE LETTER ═══════════════
+   A heartfelt note hand-set on the embossed cream panel (provided framed
+   relief, roses in the corners). The display voice is Nastaʿlīq (Gulzar), used
+   nowhere else; the body is a fresh Naskh (Markazi Text). All engraved into
+   the cream. */
+.iv-letter {
+    --iv-cream: #efe5d6;            /* the panel, matched to the photo */
+    --iv-letter-ink: #9c726a;      /* engraved sepia-rose */
+    --iv-letter-ink-soft: #b78f83;
+    position: relative;
+    width: 100%;
+    min-height: 100svh;
+    background-color: var(--iv-cream);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    overflow: hidden;
+    isolation: isolate;
+}
+
+/* the writing sits inside the carved frame, clear of the corner roses */
+.iv-letter__panel {
+    position: absolute;
+    inset: 18% 15% 16%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: clamp(0.6rem, 2vh, 1.15rem);
+}
+
+/* engrave every line into the cream */
+.iv-letter__kicker,
+.iv-letter__greeting,
+.iv-letter__body,
+.iv-letter__sign,
+.iv-letter__names,
+.iv-letter__rule {
+    color: var(--iv-letter-ink);
+    text-shadow:
+        0 1px 0 rgba(255, 250, 243, 0.8),
+        0 -1px 1px rgba(120, 86, 74, 0.26);
+}
+
+.iv-letter__kicker {
+    margin: 0;
+    font-family: 'Gulzar', serif;
+    font-weight: 400;
+    line-height: 1.5;
+    font-size: clamp(1.45rem, 6.6vw, 2.25rem);
+}
+
+.iv-letter__rule {
+    width: clamp(118px, 44%, 210px);
+    margin: 0.1rem 0 0.3rem;
+}
+
+.iv-letter__greeting {
+    margin: 0;
+    font-family: 'Markazi Text', serif;
+    font-weight: 600;
+    line-height: 1.4;
+    font-size: clamp(1.2rem, 5.2vw, 1.66rem);
+}
+
+.iv-letter__body {
+    margin: 0;
+    max-width: 34ch;
+    font-family: 'Markazi Text', serif;
+    font-weight: 400;
+    line-height: 1.95;
+    font-size: clamp(1.06rem, 4.7vw, 1.46rem);
+}
+
+.iv-letter__sign {
+    margin: clamp(0.5rem, 1.8vh, 0.9rem) 0 0;
+    font-family: 'Markazi Text', serif;
+    font-weight: 500;
+    font-size: clamp(0.96rem, 4vw, 1.22rem);
+    color: var(--iv-letter-ink-soft);
+}
+
+.iv-letter__names {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.28em;
+    font-family: 'Gulzar', serif;
+    font-weight: 400;
+    line-height: 1.7;
+    font-size: clamp(1.7rem, 8.4vw, 2.85rem);
+}
+
+.iv-letter__amp {
+    font-family: 'Playfair Display', serif;
+    font-weight: 500;
+    font-size: 0.4em;
+    color: var(--iv-letter-ink-soft);
+    transform: translateY(-0.1em);
+}
+
+/* ═══════════════ INTERIOR — THE DETAILS ═══════════════
+   Date · time · place inscribed on the framed cream panel (provided relief,
+   florals in two corners). Weekday is the Nastaʿlīq flourish; the rest is the
+   Naskh body. Engraved into the cream, same palette as the letter. */
+.iv-details {
+    --iv-cream: #efe7da;
+    --iv-letter-ink: #9c726a;
+    --iv-letter-ink-soft: #b78f83;
+    position: relative;
+    width: 100%;
+    min-height: 100svh;
+    background-color: var(--iv-cream);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    overflow: hidden;
+    isolation: isolate;
+}
+
+.iv-details__panel {
+    position: absolute;
+    inset: 19% 15% 17%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: clamp(0.45rem, 1.6vh, 0.95rem);
+}
+
+.iv-details__kicker,
+.iv-details__weekday,
+.iv-details__date,
+.iv-details__time,
+.iv-details__lead,
+.iv-details__venue,
+.iv-details__address,
+.iv-details__rule {
+    margin: 0;
+    color: var(--iv-letter-ink);
+    text-shadow:
+        0 1px 0 rgba(255, 250, 243, 0.8),
+        0 -1px 1px rgba(120, 86, 74, 0.26);
+}
+
+.iv-details__kicker,
+.iv-details__lead {
+    font-family: 'Markazi Text', serif;
+    font-weight: 500;
+    font-size: clamp(1.02rem, 4.4vw, 1.36rem);
+    color: var(--iv-letter-ink-soft);
+}
+
+.iv-details__weekday {
+    font-family: 'Gulzar', serif;
+    font-weight: 400;
+    line-height: 1.6;
+    font-size: clamp(1.9rem, 9.6vw, 3.2rem);
+    margin-top: clamp(0.3rem, 1.4vh, 0.7rem);
+}
+
+.iv-details__date {
+    font-family: 'Markazi Text', serif;
+    font-weight: 600;
+    line-height: 1.2;
+    font-size: clamp(1.5rem, 7vw, 2.3rem);
+}
+
+.iv-details__time {
+    font-family: 'Markazi Text', serif;
+    font-weight: 500;
+    font-size: clamp(1.05rem, 4.6vw, 1.42rem);
+}
+
+.iv-details__rule {
+    width: clamp(118px, 46%, 220px);
+    margin: clamp(0.7rem, 2.4vh, 1.4rem) 0;
+}
+
+.iv-details__venue {
+    font-family: 'Markazi Text', serif;
+    font-weight: 600;
+    line-height: 1.3;
+    font-size: clamp(1.3rem, 6vw, 1.95rem);
+}
+
+.iv-details__address {
+    font-family: 'Markazi Text', serif;
+    font-weight: 400;
+    line-height: 1.6;
+    max-width: 30ch;
+    font-size: clamp(0.96rem, 4vw, 1.2rem);
+    color: var(--iv-letter-ink-soft);
 }
