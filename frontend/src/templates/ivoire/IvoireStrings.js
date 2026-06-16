@@ -27,7 +27,7 @@ export function arabicDisplayName(name = '') {
 }
 
 export const IVOIRE_STRINGS = {
-    nav: ['الدعوة', 'الرسالة', 'التفاصيل'],
+    nav: ['الدعوة', 'الرسالة', 'الموعد', 'المكان', 'الحضور'],
     cover: {
         and: '&',
         andAr: 'و',
@@ -55,12 +55,28 @@ export const IVOIRE_STRINGS = {
             'يسعدُنا ويشرّفُنا أن نشارككم فرحةَ العُمر، وأن تكونوا بقربنا في يومٍ طالما حلمنا به. حضوركم أغلى هديةٍ نتمنّاها، وببهجتكم تكتملُ فرحتُنا، فكونوا معنا لنصنعَ سوياً ذكرى لا تُنسى.',
         sign: 'بكلِّ حبٍّ ومودّة،',
     },
-    /* the third interior scene: the day's details, engraved on the framed cream
-       panel */
+    /* the third interior scene: the day's date & hour, engraved on the framed
+       cream panel */
     details: {
-        kicker: 'يَسعدُنا أن نلتقيَ بكم في',
+        kicker: 'يَسعدُنا أن نلتقيَ بكم',
         at: 'في تمامِ الساعةِ',
-        venueLead: 'يُقامُ الحفلُ في',
+    },
+    /* the fourth interior scene: the place, set above the rose-draped rotunda */
+    location: {
+        heading: 'المكان',
+        lead: 'يُقامُ الحفلُ في',
+        directions: 'الاتجاهات',
+    },
+    /* the finale: the guest seals their own presence — press and hold to strike
+       the couple's monogram into the wax, mirroring the cover's gilded seal */
+    rsvp: {
+        heading: 'اختمْ حضورك',
+        ask: (name) => `${name}، اضغطْ مطوّلاً لتختمَ حضورك معنا`,
+        hold: 'اضغطْ مطوّلاً حتى يكتمل الختم',
+        sealing: 'يُختَم…',
+        regret: 'أعتذرُ بكلِّ مودّة',
+        confirmYes: (name) => `خُتِمَ حضورُك يا ${name}. أنتَ محفورٌ في فرحتنا، وفي انتظارك نعدُّ الأيّام.`,
+        confirmNo: (name) => `سنفتقدُك يا ${name}. شكراً لإعلامنا، وتبقى في قلوبنا دائماً.`,
     },
 };
 

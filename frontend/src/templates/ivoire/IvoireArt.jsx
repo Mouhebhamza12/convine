@@ -32,6 +32,28 @@ export function IvoireDivider({ className, ...rest }) {
 }
 
 /**
+ * IvoirePin — a slim engraved map-pin, stroked with currentColor.
+ */
+export function IvoirePin({ className }) {
+    return (
+        <svg
+            viewBox="0 0 24 24"
+            className={className}
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.4"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+        >
+            <path d="M12 21s-6.5-5.6-6.5-10.5a6.5 6.5 0 0 1 13 0C18.5 15.4 12 21 12 21z" />
+            <circle cx="12" cy="10.4" r="2.3" />
+        </svg>
+    );
+}
+
+/**
  * IvoireMonogram — the couple's engraved cameo mark.
  * `letters` is an array of one or two glyphs already chosen by the caller
  * (Arabic initials for an Arabic couple, Latin otherwise). `arabic` switches

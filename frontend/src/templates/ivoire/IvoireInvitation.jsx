@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useInvitationScroll } from '../../hooks/useInvitationScroll';
 import FullPageScroller from '../../components/shared/FullPageScroller';
 import IvoireOpening from './IvoireOpening';
-import { IvoireHero, IvoireLetter, IvoireDetails } from './IvoireScenes';
+import { IvoireHero, IvoireLetter, IvoireDetails, IvoireLocation, IvoireRsvp } from './IvoireScenes';
 import { IVOIRE_STRINGS } from './IvoireStrings';
 import '../../css/invitation.css';
 import '../../css/ivoire.css';
@@ -14,7 +14,7 @@ import '../../css/ivoire.css';
  * قِران announcement, a heartfelt letter, and the day's details. Each scene's
  * ornament is a provided relief image; all lettering is engraved type.
  */
-export default function IvoireInvitation({ data, isDemo }) {
+export default function IvoireInvitation({ data, isDemo, onRsvp }) {
     const [opened, setOpened] = useState(false);
     const { wedding, guest } = data;
     const bride = wedding.bride_name || 'Amina';
@@ -25,10 +25,12 @@ export default function IvoireInvitation({ data, isDemo }) {
 
     return (
         <div className="invitation-root ivoire-invitation">
-            <FullPageScroller enabled={opened} className="ivoire-fp" rtl labels={IVOIRE_STRINGS.nav}>
+            <FullPageScroller enabled={opened} className="ivoire-fp" rtl labels={IVOIRE_STRINGS.nav} rsvpIndex={4} rsvpLabel="تأكيد الحضور">
                 <IvoireHero bride={bride} groom={groom} eventDate={wedding.event_date} isDemo={isDemo} />
                 <IvoireLetter guestName={guest.name} bride={bride} groom={groom} message={message} isDemo={isDemo} />
-                <IvoireDetails eventDate={wedding.event_date} eventTime={wedding.event_time} venue={wedding.venue} venueAddress={wedding.venue_address} />
+                <IvoireDetails eventDate={wedding.event_date} eventTime={wedding.event_time} />
+                <IvoireLocation venue={wedding.venue} venueAddress={wedding.venue_address} googleMapsUrl={wedding.google_maps_url} />
+                <IvoireRsvp guestName={guest.name} bride={bride} groom={groom} initialStatus={guest.rsvp_status} onSubmit={onRsvp} isDemo={isDemo} />
             </FullPageScroller>
             {!opened && (
                 <IvoireOpening bride={bride} groom={groom} isDemo={isDemo} onComplete={() => setOpened(true)} />

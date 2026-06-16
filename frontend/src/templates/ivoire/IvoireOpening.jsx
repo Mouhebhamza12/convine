@@ -40,10 +40,12 @@ export default function IvoireOpening({ bride = 'Amina', groom = 'Yacine', isDem
         openedRef.current = true;
         const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         if (reduce) { onComplete(); return; }
-        gsap.timeline({ onComplete })
-            .to(sealRef.current, { scale: 1.06, duration: 0.5, ease: 'power2.out' }, 0)
-            .to(rootRef.current, { opacity: 0, duration: 0.9, ease: 'power2.inOut' }, 0.15)
-            .set(rootRef.current, { pointerEvents: 'none' });
+        // Drive the reveal with the timeline, but fire onComplete from an
+        // independent timer so the hand-off never depends on the tween callback.
+        if (rootRef.current) rootRef.current.style.pointerEvents = 'none';
+        gsap.to(sealRef.current, { scale: 1.06, duration: 0.55, ease: 'power2.out' });
+        gsap.to(rootRef.current, { opacity: 0, duration: 0.85, ease: 'power2.inOut', delay: 0.12 });
+        window.setTimeout(onComplete, 900);
     }
 
     return (
