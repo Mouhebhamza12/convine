@@ -19,7 +19,6 @@ const FOOT_ACCENT = {
     ivoire: '#e6c486',
     sage: '#a9bd7e',
     azure: '#7aa6e0',
-    'andalus-fr': '#d97f92',
 };
 
 export default function LandingPage() {

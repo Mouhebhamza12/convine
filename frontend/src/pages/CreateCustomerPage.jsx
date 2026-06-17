@@ -109,7 +109,6 @@ export default function CreateCustomerPage() {
                             <option value="velvet">Velvet: Red drape cinematic</option>
                             <option value="sage">Sage: Botanical sage &amp; ivory</option>
                             <option value="azure">Azure: Blue &amp; cream illustrated</option>
-                            <option value="andalus-fr">Andalus (Français): Velours royal &amp; Nikkah</option>
                             <option value="roseraie">Roseraie: Blush &amp; burgundy botanical couture</option>
                             <option value="ivoire">Ivoire: Embossed ivory &amp; gilded cameo</option>
                         </select>

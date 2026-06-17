@@ -29,17 +29,6 @@ export const AZURE_TEMPLATE = {
 };
 
 
-export const DAR_FR_TEMPLATE = {
-    slug: 'andalus-fr',
-    name: 'Andalus',
-    tagline: 'Velours, or et fleurs-une invitation Nikkah royale',
-    demoPath: '/invite/demo-andalus',
-    preview: 'andalus-fr',
-    couple: { bride: 'Maryam', groom: 'Mustafa' },
-    features: ['Rideau de velours royal', 'Cadre gravé doré', 'Bismillah & Nikkah', 'RSVP élégant'],
-};
-
-
 export const ROSERAIE_TEMPLATE = {
     slug: 'roseraie',
     name: 'Roseraie',
@@ -60,6 +49,6 @@ export const IVOIRE_TEMPLATE = {
     features: ['Plaster-relief florals', 'Porcelain cameo seal', 'Foiled monogram', 'Latin & Arabic'],
 };
 
-export const WEDDING_TEMPLATES = [IVOIRE_TEMPLATE, ROSERAIE_TEMPLATE, DAR_FR_TEMPLATE, VELVET_TEMPLATE, SAGE_TEMPLATE, AZURE_TEMPLATE];
+export const WEDDING_TEMPLATES = [IVOIRE_TEMPLATE, ROSERAIE_TEMPLATE, VELVET_TEMPLATE, SAGE_TEMPLATE, AZURE_TEMPLATE];
 
 export const TEMPLATE_BY_SLUG = Object.fromEntries(WEDDING_TEMPLATES.map((t) => [t.slug, t]));

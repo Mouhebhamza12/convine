@@ -13,7 +13,6 @@ const THEME = {
     roseraie: { accent: '#9c2740', soft: '#f5e6e5' },
     sage: { accent: '#67753f', soft: '#ecefe2' },
     azure: { accent: '#2e5e9e', soft: '#e6edf6' },
-    'andalus-fr': { accent: '#7a2236', soft: '#f2e6e1' },
 };
 
 const DESC_MAP = {
@@ -22,7 +21,6 @@ const DESC_MAP = {
     ivoire: 'A plaster relief floral field cradles a porcelain blush cameo, the initials struck in gilded foil. Soft ivory and rose gold.',
     sage: 'Botanical line art on sage and ivory for understated, garden elegance. For the refined, quietly modern couple.',
     azure: 'Bold blue type and a hand drawn couple on warm cream. For the playful couple who break the mould.',
-    'andalus-fr': "Un rideau de velours royal s'écarte sur une carte Nikkah gravée à l'or. L'élégance algérienne et andalouse, en français.",
 };
 
 function TemplatePreview({ template }) {
@@ -41,17 +39,6 @@ function TemplatePreview({ template }) {
         );
     }
 
-    if (template.preview === 'andalus-fr') {
-        return (
-            <div className="lx-screen" style={{ background: 'linear-gradient(160deg, #f3e8cf 0%, #e7d6b0 100%)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '0.45rem', textAlign: 'center', padding: '1rem 0.9rem' }}>
-                <p style={{ fontFamily: "'Amiri', serif", fontSize: '0.66rem', color: '#9c7b34', margin: 0 }}>بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</p>
-                <p style={{ fontFamily: "'Pinyon Script', cursive", fontWeight: 400, fontSize: '1.85rem', lineHeight: 1, color: '#7a2236', margin: '0.1rem 0' }}>
-                    {bride} <span style={{ color: '#5e6b3a' }}>&amp;</span> {groom}
-                </p>
-                <p style={{ fontFamily: "'EB Garamond', serif", fontSize: '0.54rem', letterSpacing: '0.18em', textTransform: 'uppercase', color: '#5b4423', margin: 0 }}>Nikkah celebration</p>
-            </div>
-        );
-    }
 
     if (template.preview === 'ivoire') {
         const initA = initialOf(bride);
