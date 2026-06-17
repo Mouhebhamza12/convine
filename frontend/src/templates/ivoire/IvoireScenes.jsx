@@ -33,7 +33,7 @@ export function IvoireHero({ bride = 'Amina', groom = 'Yacine', eventDate, isDem
     return (
         <section className="iv-hero" style={{ backgroundImage: `url(${hero})` }} dir="rtl">
             <div className="iv-hero__mono">
-                <IvoireCameo a={initA} b={initB} arabic={initialsArabic} className="iv-hero__cameo fp-reveal" />
+                <IvoireCameo a={initA} b={initB} arabic={initialsArabic} letterSpacing={initialsArabic ? undefined : -10} className="iv-hero__cameo fp-reveal" />
             </div>
 
             {dots && <p className="iv-hero__date fp-reveal">{dots}</p>}

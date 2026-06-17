@@ -79,6 +79,7 @@ export function IvoireCameo({ a = '', b = '', arabic = false, letterSpacing, cla
                 fontFamily={family}
                 fontWeight="600"
                 fontSize={cap}
+                letterSpacing={letterSpacing}
             >{`${a} & ${b}`}</text>
         </svg>
     );

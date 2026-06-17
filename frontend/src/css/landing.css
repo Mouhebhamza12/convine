@@ -1,0 +1,623 @@
+/* ============================================================================
+   LANDING — flagship product showcase below the hero.
+   Confident modern sans, oversized devices, an immersive colour wash that
+   morphs to the focused world, and tactile buttons that glow in its colour.
+   Movement I: the Showcase. Movement II: a bold closing Footer.
+   Namespaced `lx-` so it never touches the legacy landing styles.
+   ========================================================================== */
+
+.lx {
+    --lx-ivory: #f5efe7;
+    --lx-ink: #1c160f;
+    --lx-muted: #786c5b;
+    --lx-accent: #6b0f1a;
+    --lx-soft: #efe6dc;
+    --lx-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
+}
+
+/* ───────────────────────── SHOWCASE ───────────────────────── */
+.lx-showcase {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    padding: clamp(4.5rem, 13vw, 8rem) 0 clamp(4rem, 11vw, 7rem);
+    background: var(--lx-soft);
+    transition: background-color 0.9s ease;
+    color: var(--lx-ink);
+    text-align: center;
+}
+
+/* the colour you sink into — large, soft, morphing */
+.lx-ambient {
+    position: absolute;
+    inset: 0 0 0 0;
+    z-index: -1;
+    background:
+        radial-gradient(80% 55% at 50% 0%, var(--lx-accent), transparent 70%),
+        radial-gradient(60% 50% at 50% 100%, var(--lx-accent), transparent 72%);
+    opacity: 0.13;
+    transition: background 0.9s ease, opacity 0.9s ease;
+    pointer-events: none;
+}
+
+/* ── header ── */
+.lx-head {
+    padding: 0 clamp(1.5rem, 6vw, 3rem);
+    max-width: 820px;
+    margin: 0 auto;
+}
+.lx-pill {
+    display: inline-block;
+    color: var(--lx-accent);
+    font-family: var(--lx-sans);
+    font-weight: 600;
+    font-size: clamp(0.86rem, 3.4vw, 0.98rem);
+    letter-spacing: 0.005em;
+    transition: color 0.9s ease;
+}
+.lx-head-title {
+    font-family: var(--lx-sans);
+    font-weight: 600;
+    font-size: clamp(2.4rem, 10vw, 4.6rem);
+    line-height: 1.04;
+    letter-spacing: -0.035em;
+    margin: 1.3rem 0 0;
+    color: var(--lx-ink);
+}
+.lx-head-title b {
+    font-weight: 600;
+    color: var(--lx-accent);
+    transition: color 0.9s ease;
+}
+.lx-head-sub {
+    font-family: var(--lx-sans);
+    font-weight: 400;
+    font-size: clamp(1rem, 4vw, 1.22rem);
+    line-height: 1.55;
+    color: var(--lx-muted);
+    margin: 1.1rem auto 0;
+    max-width: 36ch;
+}
+
+/* reveal-on-scroll */
+.lx-reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1), transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.lx-reveal.is-in { opacity: 1; transform: none; }
+
+/* ── swipeable rail of devices ── */
+.lx-track {
+    display: flex;
+    gap: clamp(1rem, 4vw, 2.2rem);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding: clamp(2.4rem, 7vw, 3.6rem) 50% clamp(1.4rem, 5vw, 2.2rem);
+    scroll-padding-inline: 50%;
+}
+.lx-track::-webkit-scrollbar { display: none; }
+
+.lx-slide {
+    flex: 0 0 auto;
+    scroll-snap-align: center;
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    transform: scale(0.8);
+    opacity: 0.38;
+    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.6s ease;
+    will-change: transform;
+}
+.lx-slide.is-active { transform: scale(1); opacity: 1; }
+
+.lx-device {
+    position: relative;
+    width: clamp(204px, 66vw, 270px);
+    padding: 11px 9px;
+    border-radius: 44px;
+    background: linear-gradient(150deg, #34323a, #08080b 60%);
+    box-shadow:
+        0 30px 56px -22px rgba(20, 10, 8, 0.5),
+        inset 0 0 0 1.5px rgba(255, 255, 255, 0.12),
+        inset 0 0 0 7px #000;
+}
+.lx-slide.is-active .lx-device {
+    box-shadow:
+        0 60px 90px -30px var(--lx-accent),
+        0 30px 56px -22px rgba(20, 10, 8, 0.4),
+        inset 0 0 0 1.5px rgba(255, 255, 255, 0.14),
+        inset 0 0 0 7px #000;
+    transition: box-shadow 0.9s ease;
+}
+.lx-device::before {
+    content: '';
+    position: absolute;
+    top: 19px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30%;
+    height: 7px;
+    border-radius: 99px;
+    background: #000;
+    z-index: 3;
+}
+.lx-screen {
+    position: relative;
+    overflow: hidden;
+    border-radius: 33px;
+    aspect-ratio: 9 / 16;
+    background: #faf6f0;
+}
+.td2-ivoire-mono { width: 100%; display: block; }
+
+/* progress (slim morphing pills) */
+.lx-prog {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 0.4rem;
+}
+.lx-prog button {
+    height: 5px;
+    width: 16px;
+    padding: 0;
+    border: 0;
+    border-radius: 99px;
+    background: color-mix(in srgb, var(--lx-ink) 18%, transparent);
+    transition: width 0.45s cubic-bezier(0.22, 1, 0.36, 1), background 0.45s ease;
+}
+.lx-prog button.is-on { width: 40px; background: var(--lx-accent); }
+
+/* ── the meta "stage" that morphs to the focused world ── */
+.lx-stage {
+    max-width: 540px;
+    margin: clamp(1.8rem, 5vw, 2.6rem) auto 0;
+    padding: 0 clamp(1.5rem, 6vw, 2.5rem);
+    animation: lx-stage-in 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+}
+@keyframes lx-stage-in {
+    from { opacity: 0; transform: translateY(16px) scale(0.99); }
+    to { opacity: 1; transform: none; }
+}
+.lx-stage-name {
+    font-family: var(--lx-sans);
+    font-weight: 600;
+    font-size: clamp(2.1rem, 9vw, 3.1rem);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    margin: 0;
+    color: var(--lx-accent);
+    transition: color 0.9s ease;
+}
+.lx-stage-desc {
+    font-family: var(--lx-sans);
+    font-weight: 400;
+    font-size: clamp(1.04rem, 4vw, 1.2rem);
+    line-height: 1.55;
+    color: var(--lx-ink);
+    opacity: 0.84;
+    margin: 0.9rem auto 0;
+    max-width: 38ch;
+}
+.lx-tags {
+    list-style: none;
+    margin: 1.3rem 0 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+}
+.lx-tags li {
+    padding: 0.5rem 0.95rem;
+    border-radius: 12px;
+    background: color-mix(in srgb, var(--lx-accent) 9%, #fff);
+    color: color-mix(in srgb, var(--lx-accent) 82%, #000);
+    font-family: var(--lx-sans);
+    font-weight: 500;
+    font-size: 0.82rem;
+    letter-spacing: -0.01em;
+    transition: background 0.9s ease, color 0.9s ease;
+}
+
+/* the tactile, glowing button */
+.lx-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1.7rem;
+    padding: 1.05rem 2rem;
+    border-radius: 18px;
+    background: linear-gradient(180deg, color-mix(in srgb, var(--lx-accent) 88%, #fff), var(--lx-accent));
+    color: #fff;
+    font-family: var(--lx-sans);
+    font-weight: 600;
+    font-size: 1.02rem;
+    letter-spacing: -0.01em;
+    text-decoration: none;
+    box-shadow:
+        0 16px 34px -12px var(--lx-accent),
+        inset 0 1px 0 rgba(255, 255, 255, 0.32);
+    transition: transform 0.28s ease, box-shadow 0.28s ease, filter 0.28s ease, background 0.9s ease;
+}
+.lx-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 26px 46px -12px var(--lx-accent), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    filter: brightness(1.05);
+}
+.lx-btn:active { transform: translateY(-1px); }
+.lx-btn svg { width: 18px; height: 18px; }
+
+.lx-note {
+    margin: clamp(2.6rem, 7vw, 3.4rem) auto 0;
+    max-width: 40ch;
+    padding: 0 1.5rem;
+    font-family: var(--lx-sans);
+    font-size: 0.92rem;
+    color: var(--lx-muted);
+}
+.lx-note b { font-weight: 600; color: var(--lx-ink); }
+
+/* ───────────────────────── FOOTER (flagship close) ───────────────────────── */
+.lx-footer {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    color: #efe7da;
+    background: radial-gradient(125% 80% at 50% -8%, #46101a 0%, #1a060a 40%, #070304 80%);
+    padding: clamp(5rem, 13vw, 8.5rem) 0 0;
+    --lx-gold: #e6c486;
+}
+.lx-footer::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 50%;
+    z-index: -1;
+    background: radial-gradient(60% 100% at 50% 0%, rgba(230, 196, 134, 0.12), transparent 70%);
+}
+
+/* closing CTA */
+.lx-foot-cta-wrap {
+    text-align: center;
+    padding: 0 clamp(1.5rem, 6vw, 3rem);
+    max-width: 720px;
+    margin: 0 auto clamp(3.5rem, 10vw, 5.5rem);
+}
+.lx-foot-eye {
+    display: inline-block;
+    font-family: var(--lx-sans);
+    font-weight: 600;
+    font-size: clamp(0.86rem, 3.4vw, 0.98rem);
+    letter-spacing: 0.005em;
+    color: var(--lx-gold);
+    margin: 0 0 1.3rem;
+}
+.lx-foot-cta-wrap h2 {
+    font-family: var(--lx-sans);
+    font-weight: 600;
+    font-size: clamp(2.6rem, 12vw, 5rem);
+    line-height: 1;
+    letter-spacing: -0.04em;
+    margin: 0;
+    color: #fbf4e7;
+}
+.lx-foot-cta-wrap h2 b { font-weight: 600; color: var(--lx-gold); }
+.lx-foot-cta-sub {
+    font-family: var(--lx-sans);
+    font-size: clamp(1rem, 4vw, 1.18rem);
+    line-height: 1.5;
+    color: rgba(239, 231, 218, 0.66);
+    margin: 1.2rem auto 0;
+    max-width: 34ch;
+}
+.lx-btn--gold {
+    margin-top: 2rem;
+    padding: 1.1rem 2.1rem;
+    background: linear-gradient(180deg, #f4dca6, #cf9f57);
+    color: #2a0a10;
+    box-shadow: 0 20px 44px -12px rgba(230, 196, 134, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.55);
+}
+.lx-btn--gold:hover {
+    box-shadow: 0 30px 56px -12px rgba(230, 196, 134, 0.62), inset 0 1px 0 rgba(255, 255, 255, 0.65);
+    filter: brightness(1.04);
+}
+
+/* ───────────────── THE CLOSING LEAF ─────────────────
+   Not a footer of stacked components but the last printed leaf of a fine
+   album: a gilt house mark, an emotional script line, an editorial index of
+   worlds, a single line of correspondence, and a colossal engraved wordmark.
+   High-contrast Cormorant against a quiet Marcellus/sans; every ornament is
+   hand-drawn SVG (CloseArt.jsx), never a CSS border or pseudo-element. */
+.lx-close {
+    --cl-serif: 'Cormorant Garamond', Georgia, serif;
+    --cl-script: 'Ephesis', 'Cormorant Garamond', cursive;
+    --cl-caps: 'Marcellus', Georgia, serif;
+    --cl-cream: #f1e7d6;
+    position: relative;
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 clamp(1.5rem, 6vw, 3rem);
+}
+
+/* the threshold flourish into the close */
+.lx-close-flourish {
+    width: clamp(168px, 42vw, 244px);
+    margin: 0 auto;
+    color: rgba(230, 196, 134, 0.5);
+}
+
+/* colophon — the house mark + an emotional, hand-set line */
+.lx-close-colophon {
+    text-align: center;
+    margin-top: clamp(1.6rem, 5vw, 2.4rem);
+}
+.lx-close-seal {
+    width: clamp(74px, 17vw, 106px);
+    margin: 0 auto;
+    color: rgba(230, 196, 134, 0.78);
+}
+.lx-close-eye {
+    margin: clamp(1.3rem, 4vw, 1.9rem) 0 0;
+    font-family: var(--cl-caps);
+    font-size: clamp(0.72rem, 2.6vw, 0.82rem);
+    letter-spacing: 0.42em;
+    text-indent: 0.42em;
+    text-transform: uppercase;
+    color: rgba(230, 196, 134, 0.72);
+}
+.lx-close-script {
+    margin: clamp(0.6rem, 2.2vw, 0.9rem) auto 0;
+    max-width: 15ch;
+    font-family: var(--cl-script);
+    font-weight: 400;
+    font-size: clamp(2.3rem, 10vw, 3.9rem);
+    line-height: 1.04;
+    color: #fbf4e7;
+}
+
+/* editorial spread — voice on the left, the index of worlds on the right */
+.lx-close-spread {
+    margin-top: clamp(3rem, 9vw, 4.8rem);
+    display: grid;
+    gap: clamp(2.8rem, 8vw, 4rem);
+}
+
+.lx-close-manifesto {
+    margin: 0;
+    max-width: 28ch;
+    font-family: var(--cl-serif);
+    font-weight: 500;
+    font-size: clamp(1.3rem, 5vw, 1.68rem);
+    line-height: 1.5;
+    color: rgba(241, 231, 214, 0.82);
+}
+.lx-close-name {
+    font-family: var(--cl-caps);
+    color: var(--lx-gold);
+    letter-spacing: 0.015em;
+}
+
+.lx-close-corr { margin-top: clamp(2.4rem, 7vw, 3.2rem); }
+.lx-close-corr-eye,
+.lx-close-index-eye {
+    margin: 0;
+    font-family: var(--cl-caps);
+    font-size: 0.74rem;
+    letter-spacing: 0.32em;
+    text-indent: 0.32em;
+    text-transform: uppercase;
+    color: rgba(230, 196, 134, 0.66);
+}
+.lx-close-corr-line {
+    margin: 0.7rem 0 1.25rem;
+    max-width: 30ch;
+    font-family: var(--cl-serif);
+    font-style: italic;
+    font-size: clamp(1.05rem, 4vw, 1.24rem);
+    line-height: 1.45;
+    color: rgba(241, 231, 214, 0.6);
+}
+.lx-close-rsvp {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    max-width: 380px;
+}
+.lx-close-rsvp input {
+    flex: 1;
+    min-width: 0;
+    background: none;
+    border: 0;
+    border-bottom: 1px solid rgba(230, 196, 134, 0.32);
+    outline: none;
+    padding: 0.5rem 0.2rem;
+    color: var(--cl-cream);
+    font-family: var(--cl-serif);
+    font-size: 1.18rem;
+    transition: border-color 0.3s ease;
+}
+.lx-close-rsvp input::placeholder { color: rgba(241, 231, 214, 0.4); font-style: italic; }
+.lx-close-rsvp input:focus { border-color: rgba(230, 196, 134, 0.72); }
+.lx-close-rsvp button {
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1px solid rgba(230, 196, 134, 0.34);
+    background: none;
+    color: var(--lx-gold);
+    cursor: pointer;
+    transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+}
+.lx-close-rsvp button:hover {
+    background: var(--lx-gold);
+    color: #2a0a10;
+    border-color: var(--lx-gold);
+    transform: translateY(-2px);
+}
+.lx-close-send { width: 20px; height: 20px; }
+
+.lx-close-credits {
+    margin-top: clamp(2.2rem, 7vw, 3rem);
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+}
+.lx-close-credit-row { display: flex; flex-wrap: wrap; gap: 0.45rem 1.4rem; }
+.lx-close-credit-row a {
+    font-family: var(--lx-sans);
+    font-size: 0.9rem;
+    color: rgba(241, 231, 214, 0.56);
+    text-decoration: none;
+    transition: color 0.25s ease;
+}
+.lx-close-credit-row a:hover { color: var(--lx-gold); }
+
+/* the index of worlds — a fine contents page, not a mega-footer nav */
+.lx-close-index-eye { margin-bottom: clamp(0.7rem, 3vw, 1.1rem); }
+.lx-close-index-list { list-style: none; margin: 0; padding: 0; }
+.lx-close-world {
+    --c: var(--lx-gold);
+    display: flex;
+    align-items: baseline;
+    gap: clamp(0.85rem, 3vw, 1.25rem);
+    padding: clamp(0.55rem, 2.2vw, 0.78rem) 0;
+    text-decoration: none;
+    color: inherit;
+}
+.lx-close-world-num {
+    flex-shrink: 0;
+    width: 2.4ch;
+    text-align: right;
+    font-family: var(--cl-serif);
+    font-style: italic;
+    font-size: 0.98rem;
+    letter-spacing: 0.04em;
+    color: rgba(230, 196, 134, 0.46);
+    transition: color 0.35s ease;
+}
+.lx-close-world-text { display: flex; flex-direction: column; gap: 0.1rem; }
+.lx-close-world-name {
+    font-family: var(--cl-serif);
+    font-weight: 500;
+    font-size: clamp(1.6rem, 6.5vw, 2.15rem);
+    line-height: 1;
+    color: #f3ead9;
+    transition: color 0.35s ease;
+}
+.lx-close-world-note {
+    font-family: var(--lx-sans);
+    font-size: 0.77rem;
+    letter-spacing: 0.02em;
+    color: rgba(241, 231, 214, 0.42);
+    transition: color 0.35s ease;
+}
+.lx-close-world-leaf {
+    flex-shrink: 0;
+    width: clamp(16px, 4.5vw, 20px);
+    margin-left: auto;
+    align-self: center;
+    color: var(--c);
+    opacity: 0;
+    transform: translateX(-8px) rotate(-8deg);
+    transition: opacity 0.35s ease, transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.lx-close-world:hover .lx-close-world-name,
+.lx-close-world:focus-visible .lx-close-world-name,
+.lx-close-world:hover .lx-close-world-num,
+.lx-close-world:focus-visible .lx-close-world-num { color: var(--c); }
+.lx-close-world:hover .lx-close-world-note,
+.lx-close-world:focus-visible .lx-close-world-note { color: rgba(241, 231, 214, 0.66); }
+.lx-close-world:hover .lx-close-world-leaf,
+.lx-close-world:focus-visible .lx-close-world-leaf { opacity: 1; transform: none; }
+
+/* the warm sign-off + a colossal wordmark engraved into the stock */
+.lx-close-signoff {
+    margin-top: clamp(3.6rem, 11vw, 6rem);
+    text-align: center;
+    overflow: hidden;
+}
+.lx-close-bientot {
+    margin: 0;
+    font-family: var(--cl-script);
+    font-size: clamp(1.7rem, 7vw, 2.6rem);
+    color: rgba(230, 196, 134, 0.82);
+}
+.lx-close-wordmark {
+    margin-top: clamp(0.1rem, 1.5vw, 0.6rem);
+    font-family: var(--cl-serif);
+    font-weight: 600;
+    font-size: clamp(4.2rem, 27vw, 18rem);
+    line-height: 0.9;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+    color: transparent;
+    -webkit-text-fill-color: rgba(230, 196, 134, 0.045);
+    -webkit-text-stroke: 1px rgba(230, 196, 134, 0.4);
+    filter: drop-shadow(0 1px 0 rgba(0, 0, 0, 0.45));
+}
+
+.lx-foot-bottom {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    text-align: center;
+    padding: clamp(2rem, 6vw, 2.6rem) clamp(1.5rem, 6vw, 3rem) clamp(2.4rem, 6vw, 3.2rem);
+    border-top: 1px solid rgba(230, 196, 134, 0.12);
+    margin-top: clamp(1rem, 4vw, 2rem);
+}
+.lx-foot-bottom p {
+    font-family: var(--lx-sans);
+    font-size: 0.86rem;
+    color: rgba(239, 231, 218, 0.5);
+    margin: 0;
+    order: 2;
+}
+.lx-foot-legal {
+    display: flex;
+    align-items: center;
+    gap: 1.6rem;
+    order: 1;
+}
+.lx-foot-legal a,
+.lx-totop {
+    background: none;
+    border: 0;
+    padding: 0;
+    color: rgba(239, 231, 218, 0.7);
+    font-family: var(--lx-sans);
+    font-weight: 500;
+    font-size: 0.86rem;
+    text-decoration: none;
+    transition: color 0.25s ease;
+}
+.lx-foot-legal a:hover,
+.lx-totop:hover { color: var(--lx-gold); }
+
+@media (min-width: 900px) {
+    .lx-close-spread {
+        grid-template-columns: 1fr 0.92fr;
+        gap: clamp(3.5rem, 7vw, 6.5rem);
+        align-items: start;
+    }
+}
+
+@media (min-width: 820px) {
+    .lx-foot-bottom { flex-direction: row; justify-content: space-between; }
+    .lx-foot-bottom p { order: 1; }
+    .lx-foot-legal { order: 2; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .lx-slide,
+    .lx-reveal { transition: none; }
+    .lx-reveal { opacity: 1; transform: none; }
+}
