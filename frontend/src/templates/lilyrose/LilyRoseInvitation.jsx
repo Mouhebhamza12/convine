@@ -3,6 +3,7 @@ import { useInvitationScroll } from '../../hooks/useInvitationScroll';
 import SnapJourney from '../../components/shared/SnapJourney';
 import { BotanicalDefs, FloralDivider } from './Botanicals';
 import PetalDrift from './PetalDrift';
+import RoseGarden from './RoseGarden';
 import GrowingStem from './GrowingStem';
 import LilyRoseOpening from './LilyRoseOpening';
 import {
@@ -32,6 +33,7 @@ export default function LilyRoseInvitation({ data, isDemo, onRsvp }) {
         <div className="invitation-root lilyrose-invitation">
             <BotanicalDefs />
             <div className="lr-paper" aria-hidden="true" />
+            <RoseGarden enabled={opened} />
             <PetalDrift />
             {opened && <GrowingStem enabled={opened} />}
 

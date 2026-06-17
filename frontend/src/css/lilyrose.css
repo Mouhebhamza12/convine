@@ -64,6 +64,12 @@
     background-size: 180px 180px;
 }
 
+/* Deep rose-garden backdrop — soft blooms peeking from the margins */
+.lr-rosebg { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; opacity: 0.13; }
+.lr-rosebg__item { position: absolute; will-change: transform; }
+.lilyrose-invitation .lr-rosebg .lr-rose,
+.lilyrose-invitation .lr-rosebg .lr-leaf { filter: none; }
+
 .lr-petal-drift { position: fixed; inset: 0; z-index: 1; pointer-events: none; }
 
 .lr-stem { position: absolute; top: 0; left: 0; z-index: 1; pointer-events: none; overflow: visible; }

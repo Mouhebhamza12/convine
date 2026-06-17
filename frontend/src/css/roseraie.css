@@ -15,6 +15,43 @@
     --ro-ivory: #fdf9f3;
     --ro-cream: #f6ece2;
     --ro-ink: #5a2333;
+
+    position: relative;
+    isolation: isolate;
+    background-color: var(--ro-cream);
+}
+
+/* ─────────────── DEEP ROSE-GARDEN BACKDROP ─────────────── */
+/* The house rose cluster, large and faint in the margins, parallaxing off the
+   active slide index (the pager has no document scroll). Sits behind the
+   transparent scroller field; opaque scenes (the hero) simply cover it. */
+.ro-rosebg {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+    opacity: 0.12;
+}
+.ro-rosebg__item {
+    position: absolute;
+    transition: transform 900ms cubic-bezier(0.7, 0, 0.2, 1);
+    will-change: transform;
+}
+.ro-rosebg__sway {
+    display: block;
+    animation: ro-rosebg-float 12s ease-in-out infinite;
+}
+.ro-rosebg__item img { display: block; height: auto; }
+
+@keyframes ro-rosebg-float {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-12px) rotate(1.4deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ro-rosebg__item { transition: none; }
+    .ro-rosebg__sway { animation: none; }
 }
 
 /* ─────────────── THE COVER: the sealed keepsake reveal ─────────────── */
@@ -55,7 +92,7 @@
 /* ─────────────── THE SCROLLER FIELD ─────────────── */
 .roseraie-fp {
     --fp-accent: var(--ro-wine);
-    background-color: var(--ro-cream);
+    background-color: transparent; /* cream now lives on the root so the rose garden shows through */
     color: var(--ro-ink);
 }
 

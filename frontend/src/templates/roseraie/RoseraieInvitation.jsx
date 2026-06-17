@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useInvitationScroll } from '../../hooks/useInvitationScroll';
 import FullPageScroller from '../../components/shared/FullPageScroller';
 import RoseraieOpening from './RoseraieOpening';
+import RoseraieGarden from './RoseraieGarden';
 import { RoseraieHero, RoseraieLetter, RoseraieDate, RoseraiePhotos } from './RoseraieScenes';
 import { RoseraieTime, RoseraieCountdown, RoseraieVenue, RoseraieRsvp } from './RoseraieSections';
 import { ROSERAIE_STRINGS } from './RoseraieStrings';
@@ -15,6 +16,7 @@ import '../../css/roseraie.css';
  */
 export default function RoseraieInvitation({ data, isDemo, onRsvp }) {
     const [opened, setOpened] = useState(false);
+    const [slide, setSlide] = useState(0);
     const { guest, wedding } = data;
     const strings = ROSERAIE_STRINGS;
 
@@ -26,7 +28,8 @@ export default function RoseraieInvitation({ data, isDemo, onRsvp }) {
 
     return (
         <div className="invitation-root roseraie-invitation">
-            <FullPageScroller enabled={opened} className="roseraie-fp" labels={strings.nav} rsvpIndex={7} rsvpLabel={strings.rsvp.cta}>
+            {opened && <RoseraieGarden index={slide} count={8} />}
+            <FullPageScroller enabled={opened} className="roseraie-fp" labels={strings.nav} onIndexChange={setSlide} rsvpIndex={7} rsvpLabel={strings.rsvp.cta}>
                 <RoseraieHero bride={bride} groom={groom} eventDate={wedding.event_date} eventTime={wedding.event_time} venue={wedding.venue} strings={strings} />
                 <RoseraieLetter guestName={guest.name} bride={bride} groom={groom} message={message} strings={strings} />
                 <RoseraieDate eventDate={wedding.event_date} strings={strings} />
