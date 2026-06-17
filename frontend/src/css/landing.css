@@ -564,6 +564,193 @@
     filter: drop-shadow(0 1px 0 rgba(0, 0, 0, 0.45));
 }
 
+/* ── footer body: the kept hand-set line, a grand nav, a clean close ── */
+.lx-foot-body {
+    max-width: 1140px;
+    margin: 0 auto;
+    padding: 0 clamp(1.5rem, 6vw, 3rem);
+}
+.lx-foot-statement {
+    text-align: center;
+    max-width: 16ch;
+    margin: 0 auto clamp(3rem, 9vw, 4.5rem);
+    font-family: 'Ephesis', 'Cormorant Garamond', cursive;
+    font-weight: 400;
+    font-size: clamp(2.4rem, 10vw, 4rem);
+    line-height: 1.05;
+    color: #fbf4e7;
+}
+/* the collection — a bold, colourful index, each world set in its own hue.
+   No label, no rules: the names themselves are the statement. */
+.lx-foot-index {
+    margin-top: clamp(2.6rem, 9vw, 4rem);
+    display: flex;
+    flex-direction: column;
+    gap: clamp(0.15rem, 1vw, 0.45rem);
+}
+.lx-foot-world {
+    --c: var(--lx-gold);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+    width: fit-content;
+    padding: clamp(0.35rem, 1.6vw, 0.6rem) 0;
+    font-family: var(--lx-sans);
+    font-weight: 600;
+    font-size: clamp(2.2rem, 12vw, 3.8rem);
+    letter-spacing: -0.045em;
+    line-height: 1.02;
+    color: var(--c);
+    text-decoration: none;
+    transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), filter 0.3s ease;
+}
+.lx-foot-world:hover { transform: translateX(14px); filter: brightness(1.15) saturate(1.12); }
+.lx-foot-world svg {
+    width: clamp(20px, 5.5vw, 28px);
+    height: auto;
+    flex-shrink: 0;
+    color: var(--c);
+    opacity: 0;
+    transform: translateX(-10px);
+    transition: opacity 0.3s ease, transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.lx-foot-world:hover svg { opacity: 1; transform: none; }
+
+/* ── the grand finale: a luminous sign-up + a colossal signature ── */
+.lx-finale {
+    position: relative;
+    text-align: center;
+    margin-top: clamp(3.5rem, 10vw, 6rem);
+    padding-top: clamp(2.5rem, 8vw, 4.5rem);
+}
+.lx-finale::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: min(130%, 960px);
+    height: clamp(280px, 50vw, 460px);
+    transform: translateX(-50%);
+    background: radial-gradient(58% 100% at 50% 0%, rgba(230, 196, 134, 0.22), transparent 70%);
+    pointer-events: none;
+    z-index: -1;
+}
+.lx-fin-head {
+    font-family: var(--lx-sans);
+    font-weight: 600;
+    font-size: clamp(2.7rem, 13vw, 5.6rem);
+    line-height: 0.98;
+    letter-spacing: -0.045em;
+    color: #fbf4e7;
+    margin: 0 auto;
+    max-width: 13ch;
+}
+.lx-fin-head em {
+    font-style: normal;
+    background: linear-gradient(100deg, #f6e2b3, #cf9f57);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.lx-fin-sub {
+    font-family: var(--lx-sans);
+    font-size: clamp(1.02rem, 4vw, 1.2rem);
+    line-height: 1.5;
+    color: rgba(239, 231, 218, 0.66);
+    margin: 1.2rem auto 0;
+    max-width: 36ch;
+}
+.lx-fin-form {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    max-width: 470px;
+    margin: clamp(2rem, 6vw, 2.8rem) auto 0;
+    padding: 6px 6px 6px 1.4rem;
+    border-radius: 99px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(230, 196, 134, 0.3);
+    transition: border-color 0.3s ease;
+}
+.lx-fin-form:focus-within { border-color: rgba(230, 196, 134, 0.62); }
+.lx-fin-form input {
+    flex: 1;
+    min-width: 0;
+    background: none;
+    border: 0;
+    outline: none;
+    color: #fbf4e7;
+    font-family: var(--lx-sans);
+    font-size: 1rem;
+}
+.lx-fin-form input::placeholder { color: rgba(239, 231, 218, 0.42); }
+.lx-fin-form button {
+    flex-shrink: 0;
+    border: 0;
+    border-radius: 99px;
+    padding: 0.8rem 1.6rem;
+    background: linear-gradient(180deg, #f4dca6, #cf9f57);
+    color: #2a0a10;
+    font-family: var(--lx-sans);
+    font-weight: 600;
+    font-size: 0.95rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    transition: filter 0.25s ease, transform 0.25s ease;
+}
+.lx-fin-form button:hover { filter: brightness(1.05); transform: translateY(-1px); }
+.lx-fin-form button svg { width: 16px; height: 16px; }
+
+.lx-fin-credits {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.9rem;
+    margin-top: clamp(2.6rem, 7vw, 3.6rem);
+}
+.lx-fin-tag {
+    font-family: var(--lx-sans);
+    font-size: 1rem;
+    color: rgba(239, 231, 218, 0.58);
+}
+.lx-fin-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.7rem 1.6rem; }
+.lx-fin-links a {
+    font-family: var(--lx-sans);
+    font-weight: 500;
+    font-size: 0.95rem;
+    color: rgba(239, 231, 218, 0.66);
+    text-decoration: none;
+    transition: color 0.25s ease;
+}
+.lx-fin-links a:hover { color: var(--lx-gold); }
+
+.lx-fin-wordmark {
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+    margin-top: clamp(3rem, 10vw, 5.5rem);
+    text-align: center;
+    line-height: 0.82;
+    overflow: hidden;
+}
+.lx-fin-wordmark span {
+    display: inline-block;
+    font-family: var(--lx-sans);
+    font-weight: 600;
+    font-size: clamp(2.3rem, 20vw, 16rem);
+    letter-spacing: -0.05em;
+    white-space: nowrap;
+    background: linear-gradient(180deg, #fbeac2 0%, #dcb066 38%, #8a5a2c 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 70px rgba(230, 196, 134, 0.32));
+}
+
+@media (min-width: 760px) {
+    .lx-fin-credits { flex-direction: row; justify-content: center; gap: 2rem; }
+}
+
 .lx-foot-bottom {
     display: flex;
     flex-direction: column;

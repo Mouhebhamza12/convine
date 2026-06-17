@@ -2,7 +2,6 @@ import { Link } from 'react-router-dom';
 import { ChevronRight } from 'lucide-react';
 import SiteHeader from './SiteHeader.jsx';
 import TemplateDemoSection from './TemplateDemoSection.jsx';
-import { CloseFlourish, CloseSeal, CloseLeaf, CloseSend } from './CloseArt.jsx';
 import { VELVET_TEMPLATE, WEDDING_TEMPLATES } from '../lib/templates';
 import heroVideo from '../../assets/hero-web-landscape.mp4';
 import '../css/landing.css';
@@ -22,17 +21,6 @@ const FOOT_ACCENT = {
     azure: '#7aa6e0',
     'andalus-fr': '#d97f92',
 };
-
-/* a curated one-line descriptor per world, set as an editorial index */
-const WORLD_NOTE = {
-    ivoire: 'Gilded ivory & blush',
-    roseraie: 'A sealed botanical keepsake',
-    'andalus-fr': 'Royal velour & gold',
-    velvet: 'Cinematic crimson drape',
-    sage: 'Sage & ivory botanicals',
-    azure: 'Illustrated blue & cream',
-};
-const ROMAN = ['I', 'II', 'III', 'IV', 'V', 'VI'];
 
 export default function LandingPage() {
     const scrollTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -87,74 +75,44 @@ export default function LandingPage() {
                     </Link>
                 </div>
 
-                {/* ── The closing leaf: a colophon, an index of worlds, a sign-off ── */}
-                <div className="lx-close">
-                    <CloseFlourish className="lx-close-flourish" />
+                {/* ── Footer body: the line worth keeping, a grand nav, a clean close ── */}
+                <div className="lx-foot-body">
+                    <p className="lx-foot-statement">Some moments deserve to be announced, not just sent.</p>
 
-                    <div className="lx-close-colophon">
-                        <CloseSeal className="lx-close-seal" />
-                        <p className="lx-close-eye">The last word</p>
-                        <p className="lx-close-script">Some moments deserve to be announced, not just sent.</p>
-                    </div>
+                    <nav className="lx-foot-index" aria-label="Browse templates">
+                        {WEDDING_TEMPLATES.map((t) => (
+                            <Link
+                                key={t.slug}
+                                to={t.demoPath}
+                                className="lx-foot-world"
+                                style={{ '--c': FOOT_ACCENT[t.preview] }}
+                            >
+                                <span>{t.name}</span>
+                                <Arrow />
+                            </Link>
+                        ))}
+                    </nav>
 
-                    <div className="lx-close-spread">
-                        <div className="lx-close-voice">
-                            <p className="lx-close-manifesto">
-                                <span className="lx-close-name">Convive</span> composes cinematic invitations and
-                                stationery-grade keepsakes for the milestones that quietly define a life.
-                            </p>
+                    <div className="lx-finale">
+                        <h3 className="lx-fin-head">Be first <em>through the door.</em></h3>
+                        <p className="lx-fin-sub">One quiet note when a new world joins the collection. Nothing else, ever.</p>
+                        <form className="lx-fin-form" onSubmit={(e) => e.preventDefault()}>
+                            <input type="email" placeholder="Your email address" aria-label="Email address" required />
+                            <button type="submit">Notify me <Arrow /></button>
+                        </form>
 
-                            <div className="lx-close-corr">
-                                <p className="lx-close-corr-eye">Correspondence</p>
-                                <p className="lx-close-corr-line">We write only when a new world joins the house. Never otherwise.</p>
-                                <form className="lx-close-rsvp" onSubmit={(e) => e.preventDefault()}>
-                                    <input type="email" required placeholder="Leave your address" aria-label="Your email address" />
-                                    <button type="submit" aria-label="Send your address">
-                                        <CloseSend className="lx-close-send" />
-                                    </button>
-                                </form>
-                            </div>
-
-                            <div className="lx-close-credits">
-                                <div className="lx-close-credit-row">
-                                    <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">Instagram</a>
-                                    <a href="https://pinterest.com" target="_blank" rel="noopener noreferrer">Pinterest</a>
-                                    <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">Facebook</a>
-                                </div>
-                                <div className="lx-close-credit-row">
-                                    <Link to="/login">Professional plans</Link>
-                                    <Link to="/login">The concierge</Link>
-                                    <Link to="/login">Our craft</Link>
-                                </div>
+                        <div className="lx-fin-credits">
+                            <span className="lx-fin-tag">Invitations for the moments that matter.</span>
+                            <div className="lx-fin-links">
+                                <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">Instagram</a>
+                                <a href="https://pinterest.com" target="_blank" rel="noopener noreferrer">Pinterest</a>
+                                <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">Facebook</a>
+                                <Link to="/login">Professional plans</Link>
+                                <Link to="/login">Contact</Link>
                             </div>
                         </div>
 
-                        <nav className="lx-close-index" aria-label="Browse the collection">
-                            <p className="lx-close-index-eye">The collection &mdash; six worlds</p>
-                            <ol className="lx-close-index-list">
-                                {WEDDING_TEMPLATES.map((t, i) => (
-                                    <li key={t.slug}>
-                                        <Link
-                                            to={t.demoPath}
-                                            className="lx-close-world"
-                                            style={{ '--c': FOOT_ACCENT[t.preview] }}
-                                        >
-                                            <span className="lx-close-world-num">{ROMAN[i]}</span>
-                                            <span className="lx-close-world-text">
-                                                <span className="lx-close-world-name">{t.name}</span>
-                                                <span className="lx-close-world-note">{WORLD_NOTE[t.slug]}</span>
-                                            </span>
-                                            <CloseLeaf className="lx-close-world-leaf" />
-                                        </Link>
-                                    </li>
-                                ))}
-                            </ol>
-                        </nav>
-                    </div>
-
-                    <div className="lx-close-signoff">
-                        <p className="lx-close-bientot">&agrave; bient&ocirc;t</p>
-                        <div className="lx-close-wordmark" aria-hidden="true">Convive</div>
+                        <div className="lx-fin-wordmark" aria-hidden="true"><span>Convive</span></div>
                     </div>
                 </div>
 
