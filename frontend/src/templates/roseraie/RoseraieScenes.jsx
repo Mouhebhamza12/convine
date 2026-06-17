@@ -54,23 +54,23 @@ export function RoseraieDate({ eventDate, strings }) {
 
 /* ─── OUR STORY: three portraits in soft ovals ─── */
 export function RoseraiePhotos({ photos = [], strings }) {
-    const items = [...(photos || [])];
-    while (items.length < 3) items.push(null);
-    const fb = ['#e7d9d3', '#efe2da', '#e0d4cf'];
+    // Only the couple's real photos — 1 to 4. With none, the section is omitted.
+    const items = (photos || []).filter((p) => typeof p === 'string' && p.trim()).slice(0, 4);
+    if (!items.length) return null;
     return (
         <section className="ro-scene ro-photos">
             <img src={roses} alt="" className="fp-reveal fp-reveal--slow ro-photos__floral" />
             <p className="fp-reveal ro-eyebrow">{strings.photos.label}</p>
             <div className="ro-photos__row">
-                {items.slice(0, 3).map((src, i) => (
+                {items.map((src, i) => (
                     // eslint-disable-next-line react/no-array-index-key
                     <figure key={i} className="fp-reveal ro-photo">
                         <span className="ro-photo__frame">
-                            {src
-                                ? <img src={src} alt="" className="ro-photo__img" />
-                                : <span className="ro-photo__ph" style={{ background: fb[i] }} />}
+                            <img src={src} alt="" className="ro-photo__img" />
                         </span>
-                        <figcaption className="ro-photo__cap">{strings.photos.captions[i]}</figcaption>
+                        {strings.photos.captions[i] ? (
+                            <figcaption className="ro-photo__cap">{strings.photos.captions[i]}</figcaption>
+                        ) : null}
                     </figure>
                 ))}
             </div>

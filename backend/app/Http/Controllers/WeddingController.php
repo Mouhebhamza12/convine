@@ -38,7 +38,7 @@ class WeddingController extends Controller
             'venue_address' => ['nullable', 'string', 'max:500'],
             'google_maps_url' => ['nullable', 'url', 'max:2000'],
             'message' => ['nullable', 'string', 'max:5000'],
-            'photos' => ['nullable', 'array', 'max:6'],
+            'photos' => ['nullable', 'array', 'max:4'],
             'status' => ['sometimes', 'string', 'in:draft,ready,sent'],
         ]);
 
@@ -125,6 +125,6 @@ class WeddingController extends Controller
             ->values()
             ->all();
 
-        return array_slice(array_values(array_filter(array_merge($existingPhotos, $uploadedPhotos))), 0, 6);
+        return array_slice(array_values(array_filter(array_merge($existingPhotos, $uploadedPhotos))), 0, 4);
     }
 }

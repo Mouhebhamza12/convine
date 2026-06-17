@@ -4,22 +4,13 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const PLACEHOLDER_GRADIENTS = [
-    'linear-gradient(135deg, #e8dcc8, #c9a962)',
-    'linear-gradient(135deg, #d4c4a8, #8b4a5c)',
-    'linear-gradient(135deg, #f0e8dc, #c9a962)',
-    'linear-gradient(135deg, #e8d5a3, #6b0f1a)',
-];
-
 export default function PhotoStory({ photos = [] }) {
     const sceneRef = useRef(null);
     const titleRef = useRef(null);
     const itemsRef = useRef([]);
 
-    const photoList = [...photos];
-    while (photoList.length < 4) {
-        photoList.push(null);
-    }
+    // Only the couple's real photos — 1 to 4. With none, the section is omitted.
+    const photoList = (photos || []).filter((p) => typeof p === 'string' && p.trim()).slice(0, 4);
 
     useEffect(() => {
         const ctx = gsap.context(() => {
@@ -77,6 +68,8 @@ export default function PhotoStory({ photos = [] }) {
         return () => ctx.revert();
     }, []);
 
+    if (!photoList.length) return null;
+
     return (
         <section ref={sceneRef} className="invite-scene photo-story-scene">
             <p ref={titleRef} className="photo-story-title">
@@ -84,7 +77,7 @@ export default function PhotoStory({ photos = [] }) {
             </p>
 
             <div className="photo-story-stage">
-                {photoList.slice(0, 4).map((src, index) => (
+                {photoList.map((src, index) => (
                     <div
                         key={index}
                         ref={(el) => {
@@ -92,14 +85,7 @@ export default function PhotoStory({ photos = [] }) {
                         }}
                         className={`photo-story-item photo-story-item--${index + 1} ken-burns photo-glow`}
                     >
-                        {src ? (
-                            <img src={src} alt="" loading="lazy" />
-                        ) : (
-                            <div
-                                className="photo-story-placeholder"
-                                style={{ background: PLACEHOLDER_GRADIENTS[index] }}
-                            />
-                        )}
+                        <img src={src} alt="" loading="lazy" />
                     </div>
                 ))}
             </div>

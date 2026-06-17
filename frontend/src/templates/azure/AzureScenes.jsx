@@ -155,9 +155,7 @@ export function AzureLetter({ guestName, bride, groom, message }) {
 /* ─── Photos ─── */
 export function AzurePhotos({ photos = [] }) {
     const stageRef = useRef(null);
-    const items = [...photos];
-    while (items.length < 3) items.push(null);
-    const fills = ['#d8e2f0', '#e7e0cc', '#cdd9ec'];
+    const items = (photos || []).filter((p) => typeof p === 'string' && p.trim()).slice(0, 4);
 
     useEffect(() => {
         const ctx = gsap.context(() => {
@@ -170,20 +168,22 @@ export function AzurePhotos({ photos = [] }) {
         return () => ctx.revert();
     }, []);
 
-    const captions = ['snapshot no. 1', 'snapshot no. 2', 'snapshot no. 3'];
+    const captions = ['snapshot no. 1', 'snapshot no. 2', 'snapshot no. 3', 'snapshot no. 4'];
+
+    if (!items.length) return null;
 
     return (
         <section className="azure-scene">
             <p className="azure-eyebrow">From our travel album</p>
             <div ref={stageRef} className="azure-photo-stage">
-                {items.slice(0, 3).map((src, i) => (
+                {items.map((src, i) => (
                     <div key={i} className={`azure-photo azure-photo--${i + 1} az-scrap`}>
                         {/* washi-tape strip holding the photo to the page */}
                         <svg className="az-scrap__tape" viewBox="0 0 70 22" aria-hidden="true">
                             <path d="M4 4 L66 1 L64 18 L2 21 Z" fill="currentColor" opacity="0.25" />
                             <path d="M4 4 L66 1 M64 18 L2 21" stroke="currentColor" strokeWidth="0.8" opacity="0.4" />
                         </svg>
-                        {src ? <img src={src} alt="" loading="lazy" /> : <div className="azure-photo__fill" style={{ background: fills[i] }} />}
+                        <img src={src} alt="" loading="lazy" />
                         <p className="az-scrap__caption">{captions[i]}</p>
                     </div>
                 ))}
