@@ -58,11 +58,23 @@ export const api = {
         }),
     logout: () => request('/api/logout', { method: 'POST' }),
     adminWeddings: () => request('/api/admin/weddings'),
+    adminCustomers: (q = '') =>
+        request(`/api/admin/customers${q ? `?q=${encodeURIComponent(q)}` : ''}`),
+    adminCustomer: (id) => request(`/api/admin/customers/${id}`),
     createCustomer: (payload) =>
         request('/api/admin/customers', {
             method: 'POST',
             body: JSON.stringify(payload),
         }),
+    updateCustomer: (id, payload) =>
+        request(`/api/admin/customers/${id}`, {
+            method: 'PATCH',
+            body: JSON.stringify(payload),
+        }),
+    deleteCustomer: (id) =>
+        request(`/api/admin/customers/${id}`, { method: 'DELETE' }),
+    regenerateCustomerPassword: (id) =>
+        request(`/api/admin/customers/${id}/regenerate-password`, { method: 'POST' }),
     getWedding: () => request('/api/wedding'),
     updateWedding: (payload) =>
         request('/api/wedding', {

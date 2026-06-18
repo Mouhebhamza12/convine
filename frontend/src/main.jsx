@@ -5,6 +5,7 @@ import ProtectedRoute from './components/ProtectedRoute.jsx';
 import LandingPage from './components/LandingPage.jsx';
 import { AuthProvider } from './context/AuthContext.jsx';
 import AdminDashboard from './pages/AdminDashboard.jsx';
+import AdminCustomerDetail from './pages/AdminCustomerDetail.jsx';
 import CreateCustomerPage from './pages/CreateCustomerPage.jsx';
 import CustomerDashboard from './pages/CustomerDashboard.jsx';
 import LoginPage from './pages/LoginPage.jsx';
@@ -30,6 +31,14 @@ createRoot(document.getElementById('app')).render(
                     element={
                         <ProtectedRoute role="admin">
                             <CreateCustomerPage />
+                        </ProtectedRoute>
+                    }
+                />
+                <Route
+                    path="/admin/customers/:id"
+                    element={
+                        <ProtectedRoute role="admin">
+                            <AdminCustomerDetail />
                         </ProtectedRoute>
                     }
                 />

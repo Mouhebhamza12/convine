@@ -24,6 +24,8 @@ class Wedding extends Model
         'message',
         'photos',
         'status',
+        'paid',
+        'paid_at',
     ];
 
     protected function casts(): array
@@ -31,6 +33,8 @@ class Wedding extends Model
         return [
             'event_date' => 'date',
             'photos' => 'array',
+            'paid' => 'boolean',
+            'paid_at' => 'datetime',
         ];
     }
 

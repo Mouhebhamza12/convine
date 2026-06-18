@@ -24,7 +24,12 @@ Route::middleware('web')->group(function () {
 
         Route::middleware('admin')->prefix('admin')->group(function () {
             Route::get('/weddings', [AdminWeddingController::class, 'index']);
+            Route::get('/customers', [AdminCustomerController::class, 'index']);
+            Route::get('/customers/{wedding}', [AdminCustomerController::class, 'show']);
             Route::post('/customers', [AdminCustomerController::class, 'store']);
+            Route::patch('/customers/{wedding}', [AdminCustomerController::class, 'update']);
+            Route::delete('/customers/{wedding}', [AdminCustomerController::class, 'destroy']);
+            Route::post('/customers/{wedding}/regenerate-password', [AdminCustomerController::class, 'regeneratePassword']);
         });
 
         Route::get('/wedding', [WeddingController::class, 'show']);
