@@ -14,11 +14,18 @@ class DatabaseSeeder extends Seeder
 
     public function run(): void
     {
+        // Admin credentials come from the environment so production never ships
+        // the well-known dev default. ADMIN_EMAIL / ADMIN_PASSWORD must be set on
+        // any real deploy (see .env.example); the fallbacks exist only for local
+        // dev convenience.
+        $email = config('convive.admin.email');
+        $password = config('convive.admin.password');
+
         User::query()->updateOrCreate(
-            ['email' => 'you@platform.com'],
+            ['email' => $email],
             [
                 'name' => 'Platform Admin',
-                'password' => Hash::make('admin-change-me'),
+                'password' => Hash::make($password),
                 'role' => UserRole::Admin,
             ],
         );

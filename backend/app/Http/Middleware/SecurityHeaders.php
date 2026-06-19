@@ -18,16 +18,30 @@ class SecurityHeaders
     {
         $response = $next($request);
 
+        // API responses are JSON only — forbid the document from loading or
+        // framing anything, which neutralises XSS/clickjacking on any HTML error
+        // page the framework might still emit. The SPA shell (everything else
+        // this middleware touches — Laravel serves index.html from web.php) needs
+        // a real policy: its own bundles, inline styles from React style props,
+        // data:/blob: images, and the Google/Bunny webfont CDNs it links.
+        $csp = $request->is('api/*')
+            ? "default-src 'none'; frame-ancestors 'none'; base-uri 'none'; form-action 'none'"
+            : "default-src 'self'; "
+                ."script-src 'self'; "
+                ."style-src 'self' 'unsafe-inline' https://fonts.bunny.net https://fonts.googleapis.com; "
+                ."font-src 'self' data: https://fonts.bunny.net https://fonts.gstatic.com; "
+                ."img-src 'self' data: blob:; "
+                ."media-src 'self' blob: data:; "
+                ."connect-src 'self'; "
+                ."object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'";
+
         $headers = [
             'X-Content-Type-Options' => 'nosniff',
             'X-Frame-Options' => 'SAMEORIGIN',
             'Referrer-Policy' => 'strict-origin-when-cross-origin',
             'Permissions-Policy' => 'camera=(), microphone=(), geolocation=()',
             'Cross-Origin-Opener-Policy' => 'same-origin',
-            // API responses are JSON only — forbid the document from loading or
-            // framing anything, which neutralises XSS/clickjacking on any HTML
-            // error page the framework might still emit.
-            'Content-Security-Policy' => "default-src 'none'; frame-ancestors 'none'; base-uri 'none'; form-action 'none'",
+            'Content-Security-Policy' => $csp,
         ];
 
         foreach ($headers as $name => $value) {
