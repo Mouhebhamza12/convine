@@ -1227,6 +1227,45 @@
         }
     }
 
+    @keyframes nav-fade-out {
+        from {
+            opacity: 1;
+        }
+        to {
+            opacity: 0;
+        }
+    }
+
+    @keyframes nav-slide-out-left {
+        from {
+            transform: translateX(0);
+        }
+        to {
+            transform: translateX(-100%);
+        }
+    }
+
+    @keyframes nav-slide-out-right {
+        from {
+            transform: translateX(0);
+        }
+        to {
+            transform: translateX(100%);
+        }
+    }
+
+    .mobile-drawer.is-closing {
+        animation: nav-slide-out-left 260ms ease forwards;
+    }
+
+    .saved-panel.is-closing {
+        animation: nav-slide-out-right 260ms ease forwards;
+    }
+
+    .nav-overlay.is-closing {
+        animation: nav-fade-out 200ms ease forwards;
+    }
+
     .hero-mobile-tabs {
         display: none;
     }

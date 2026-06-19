@@ -2,7 +2,6 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
     ChevronDown,
-    ChevronRight,
     Heart,
     LogIn,
     Menu,
@@ -17,39 +16,17 @@ const SAVED_KEY = 'convive-saved-categories';
 const navMenus = [
     {
         id: 'cards',
-        label: 'Card invitations',
+        label: 'Wedding invitations',
         items: [
-            { label: 'Wedding', category: 'Wedding' },
-            { label: 'Birthday', category: 'Birthday' },
-            { label: 'Dinner', category: 'Dinner' },
-            { label: 'Baby', category: 'Baby' },
-        ],
-    },
-    {
-        id: 'flyers',
-        label: 'Flyer event pages',
-        items: [
-            { label: 'Launch parties', category: 'Birthday' },
-            { label: 'Community events', category: 'Dinner' },
-            { label: 'Weekend gatherings', category: 'Wedding' },
-        ],
-    },
-    {
-        id: 'greeting',
-        label: 'Greeting cards',
-        items: [
-            { label: 'Thank you notes', category: 'Dinner' },
-            { label: 'Holiday greetings', category: 'Birthday' },
-            { label: 'Announcements', category: 'Baby' },
+            { label: 'Ivoire', href: '/invite/demo-ivoire' },
+            { label: 'Roseraie', href: '/invite/demo-roseraie' },
+            { label: 'Velvet', href: '/invite/demo' },
+            { label: 'Sage', href: '/invite/demo-sage' },
+            { label: 'Azure', href: '/invite/demo-azure' },
         ],
     },
 ];
 
-const professionalLinks = [
-    { label: 'Event planners', href: '/login' },
-    { label: 'Venues & caterers', href: '/login' },
-    { label: 'Photographers', href: '/login' },
-];
 
 function readSaved() {
     try {
@@ -67,6 +44,7 @@ export default function SiteHeader({
     onRemoveSaved,
 }) {
     const { user } = useAuth();
+    const drawerBodyRef = useRef(null);
     const searchInputRef = useRef(null);
 
     const [menuOpen, setMenuOpen] = useState(false);
@@ -75,6 +53,40 @@ export default function SiteHeader({
     const [searchQuery, setSearchQuery] = useState('');
     const [openMenu, setOpenMenu] = useState(null);
 
+    const [menuClosing, setMenuClosing] = useState(false);
+    const [savedClosing, setSavedClosing] = useState(false);
+    const [searchClosing, setSearchClosing] = useState(false);
+
+    const animateCloseMenu = useCallback(() => {
+        setMenuClosing(true);
+        setTimeout(() => {
+            setMenuOpen(false);
+            setMenuClosing(false);
+        }, 260);
+    }, []);
+
+    const animateCloseSaved = useCallback(() => {
+        setSavedClosing(true);
+        setTimeout(() => {
+            setSavedOpen(false);
+            setSavedClosing(false);
+        }, 260);
+    }, []);
+
+    const animateCloseSearch = useCallback(() => {
+        setSearchClosing(true);
+        setTimeout(() => {
+            setSearchOpen(false);
+            setSearchClosing(false);
+        }, 200);
+    }, []);
+
+    useEffect(() => {
+        if (menuOpen && drawerBodyRef.current) {
+            drawerBodyRef.current.scrollTop = 0;
+        }
+    }, [menuOpen]);
+
     const accountPath = user
         ? user.role === 'admin'
             ? '/admin'
@@ -82,11 +94,17 @@ export default function SiteHeader({
         : '/login';
 
     const closePanels = useCallback(() => {
-        setMenuOpen(false);
-        setSearchOpen(false);
-        setSavedOpen(false);
+        if (menuOpen) animateCloseMenu();
+        else setMenuOpen(false);
+
+        if (savedOpen) animateCloseSaved();
+        else setSavedOpen(false);
+
+        if (searchOpen) animateCloseSearch();
+        else setSearchOpen(false);
+
         setOpenMenu(null);
-    }, []);
+    }, [menuOpen, savedOpen, searchOpen, animateCloseMenu, animateCloseSaved, animateCloseSearch]);
 
     const scrollToCategories = useCallback((category) => {
         if (category && onCategorySelect) {
@@ -121,11 +139,14 @@ export default function SiteHeader({
         };
 
         document.addEventListener('keydown', onKeyDown);
-        document.body.style.overflow = menuOpen || savedOpen || searchOpen ? 'hidden' : '';
+        const shouldBlock = menuOpen || savedOpen || searchOpen;
+        document.body.style.overflow = shouldBlock ? 'hidden' : '';
+        document.documentElement.style.overflow = shouldBlock ? 'hidden' : '';
 
         return () => {
             document.removeEventListener('keydown', onKeyDown);
             document.body.style.overflow = '';
+            document.documentElement.style.overflow = '';
         };
     }, [menuOpen, searchOpen, savedOpen, openMenu, closePanels]);
 
@@ -140,11 +161,20 @@ export default function SiteHeader({
             if (!event.target.closest('[data-nav-dropdown]')) {
                 setOpenMenu(null);
             }
+            if (menuOpen && !event.target.closest('.mobile-drawer') && !event.target.closest('.nav-icon-btn')) {
+                animateCloseMenu();
+            }
+            if (savedOpen && !event.target.closest('.saved-panel') && !event.target.closest('.nav-icon-btn')) {
+                animateCloseSaved();
+            }
+            if (searchOpen && !event.target.closest('.search-overlay') && !event.target.closest('.nav-icon-btn')) {
+                animateCloseSearch();
+            }
         };
 
         document.addEventListener('pointerdown', onPointerDown);
         return () => document.removeEventListener('pointerdown', onPointerDown);
-    }, []);
+    }, [menuOpen, savedOpen, searchOpen, animateCloseMenu, animateCloseSaved, animateCloseSearch]);
 
     return (
         <header className="site-header">
@@ -156,9 +186,13 @@ export default function SiteHeader({
                         aria-label={menuOpen ? 'Close menu' : 'Open menu'}
                         aria-expanded={menuOpen}
                         onClick={() => {
-                            setMenuOpen((open) => !open);
-                            setSearchOpen(false);
-                            setSavedOpen(false);
+                            if (menuOpen) {
+                                animateCloseMenu();
+                            } else {
+                                setMenuOpen(true);
+                                if (searchOpen) animateCloseSearch();
+                                if (savedOpen) animateCloseSaved();
+                            }
                         }}
                     >
                         {menuOpen ? <X size={22} strokeWidth={1.75} /> : <Menu size={22} strokeWidth={1.75} />}
@@ -169,9 +203,13 @@ export default function SiteHeader({
                         aria-label="Search"
                         aria-expanded={searchOpen}
                         onClick={() => {
-                            setSearchOpen((open) => !open);
-                            setMenuOpen(false);
-                            setSavedOpen(false);
+                            if (searchOpen) {
+                                animateCloseSearch();
+                            } else {
+                                setSearchOpen(true);
+                                if (menuOpen) animateCloseMenu();
+                                if (savedOpen) animateCloseSaved();
+                            }
                         }}
                     >
                         <Search size={21} strokeWidth={1.75} />
@@ -190,9 +228,13 @@ export default function SiteHeader({
                         aria-label="Search"
                         aria-expanded={searchOpen}
                         onClick={() => {
-                            setSearchOpen((open) => !open);
-                            setMenuOpen(false);
-                            setSavedOpen(false);
+                            if (searchOpen) {
+                                animateCloseSearch();
+                            } else {
+                                setSearchOpen(true);
+                                if (menuOpen) animateCloseMenu();
+                                if (savedOpen) animateCloseSaved();
+                            }
                         }}
                     >
                         <Search size={21} strokeWidth={1.75} />
@@ -220,27 +262,27 @@ export default function SiteHeader({
                 </div>
             </div>
 
-            {searchOpen && (
+            {(searchOpen || searchClosing) && (
                 <>
                     <button
                         type="button"
-                        className="nav-overlay"
+                        className={`nav-overlay ${searchClosing ? 'is-closing' : ''}`}
                         aria-label="Close search"
-                        onClick={() => setSearchOpen(false)}
+                        onClick={animateCloseSearch}
                     />
-                    <div className="search-overlay" role="dialog" aria-label="Search">
+                    <div className={`search-overlay ${searchClosing ? 'is-closing' : ''}`} role="dialog" aria-label="Search">
                         <button
                             type="button"
                             className="search-overlay-close"
                             aria-label="Close search"
-                            onClick={() => setSearchOpen(false)}
+                            onClick={animateCloseSearch}
                         >
                             <X size={22} strokeWidth={1.75} />
                         </button>
                         <input
                             ref={searchInputRef}
                             className="search-overlay-input"
-                            placeholder="Wedding, birthday, dinner..."
+                            placeholder="Search wedding invitations..."
                             value={searchQuery}
                             onChange={(event) => handleSearch(event.target.value)}
                         />
@@ -272,122 +314,82 @@ export default function SiteHeader({
                         {openMenu === menu.id && (
                             <div className="nav-dropdown-panel">
                                 {menu.items.map((item) => (
-                                    <button
-                                        key={item.label}
-                                        type="button"
-                                        className="nav-dropdown-item"
-                                        onClick={() => scrollToCategories(item.category)}
-                                    >
-                                        {item.label}
-                                    </button>
+                                    item.href ? (
+                                        <Link
+                                            key={item.label}
+                                            className="nav-dropdown-item"
+                                            to={item.href}
+                                            onClick={closePanels}
+                                        >
+                                            {item.label}
+                                        </Link>
+                                    ) : (
+                                        <button
+                                            key={item.label}
+                                            type="button"
+                                            className="nav-dropdown-item"
+                                            onClick={() => scrollToCategories(item.category)}
+                                        >
+                                            {item.label}
+                                        </button>
+                                    )
                                 ))}
                             </div>
                         )}
                     </div>
                 ))}
-
-                <button
-                    type="button"
-                    className="nav-link nav-link-plain"
-                    onClick={() => scrollToCategories('Wedding')}
-                >
-                    Make your own
-                </button>
-
-                <div className="nav-divider" aria-hidden="true" />
-
-                <div className="nav-dropdown" data-nav-dropdown>
-                    <button
-                        type="button"
-                        className={`nav-link ${openMenu === 'pros' ? 'is-open' : ''}`}
-                        aria-expanded={openMenu === 'pros'}
-                        onClick={() => setOpenMenu((current) => (current === 'pros' ? null : 'pros'))}
-                    >
-                        For professionals
-                        <ChevronDown size={16} className="nav-chevron" />
-                    </button>
-                    {openMenu === 'pros' && (
-                        <div className="nav-dropdown-panel">
-                            {professionalLinks.map((item) => (
-                                <Link
-                                    key={item.label}
-                                    className="nav-dropdown-item"
-                                    to={item.href}
-                                    onClick={closePanels}
-                                >
-                                    {item.label}
-                                </Link>
-                            ))}
-                        </div>
-                    )}
-                </div>
             </nav>
 
-            {menuOpen && (
+            {(menuOpen || menuClosing) && (
                 <>
                     <button
                         type="button"
-                        className="nav-overlay"
+                        className={`nav-overlay ${menuClosing ? 'is-closing' : ''}`}
                         aria-label="Close menu"
-                        onClick={() => setMenuOpen(false)}
+                        onClick={animateCloseMenu}
                     />
-                    <aside className="mobile-drawer" aria-label="Mobile menu">
+                    <aside className={`mobile-drawer ${menuClosing ? 'is-closing' : ''}`} aria-label="Mobile menu">
                         <div className="mobile-drawer-header">
-                            <Link to="/" className="convive-script text-[26px]" onClick={() => setMenuOpen(false)}>
+                            <Link to="/" className="convive-script text-[26px]" onClick={animateCloseMenu}>
                                 Convive
                             </Link>
                             <button
                                 type="button"
                                 className="nav-icon-btn"
                                 aria-label="Close menu"
-                                onClick={() => setMenuOpen(false)}
+                                onClick={animateCloseMenu}
                             >
                                 <X size={20} strokeWidth={1.75} />
                             </button>
                         </div>
 
-                        <div className="mobile-drawer-body">
-                            <button
-                                type="button"
-                                className="mobile-drawer-create"
-                                onClick={() => scrollToCategories('Wedding')}
-                            >
-                                <span className="mobile-drawer-create-copy">
-                                    <span className="mobile-drawer-create-eyebrow">Blank canvas</span>
-                                    <span className="mobile-drawer-create-title">Make your own</span>
-                                </span>
-                                <ChevronRight size={18} strokeWidth={1.75} aria-hidden="true" />
-                            </button>
-
+                        <div ref={drawerBodyRef} className="mobile-drawer-body">
                             {navMenus.map((menu) => (
                                 <div key={menu.id} className="mobile-drawer-group">
-                                    <p className="drawer-section-title">{menu.label}</p>
-                                    {menu.items.map((item) => (
-                                        <button
-                                            key={item.label}
-                                            type="button"
-                                            className="mobile-drawer-link"
-                                            onClick={() => scrollToCategories(item.category)}
-                                        >
-                                            {item.label}
-                                        </button>
+                                     <p className="drawer-section-title">{menu.label}</p>
+                                     {menu.items.map((item) => (
+                                         item.href ? (
+                                             <Link
+                                                 key={item.label}
+                                                 className="mobile-drawer-link"
+                                                 to={item.href}
+                                                 onClick={animateCloseMenu}
+                                             >
+                                                {item.label}
+                                            </Link>
+                                        ) : (
+                                            <button
+                                                key={item.label}
+                                                type="button"
+                                                className="mobile-drawer-link"
+                                                onClick={() => scrollToCategories(item.category)}
+                                            >
+                                                {item.label}
+                                            </button>
+                                        )
                                     ))}
                                 </div>
                             ))}
-
-                            <div className="mobile-drawer-group">
-                                <p className="drawer-section-title">For professionals</p>
-                                {professionalLinks.map((item) => (
-                                    <Link
-                                        key={item.label}
-                                        className="mobile-drawer-link"
-                                        to={item.href}
-                                        onClick={() => setMenuOpen(false)}
-                                    >
-                                        {item.label}
-                                    </Link>
-                                ))}
-                            </div>
                         </div>
 
                         <div className="mobile-drawer-footer">

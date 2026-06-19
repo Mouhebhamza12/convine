@@ -1,5 +1,5 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ChevronRight } from 'lucide-react';
 import SiteHeader from './SiteHeader.jsx';
 import TemplateDemoSection from './TemplateDemoSection.jsx';
 import { VELVET_TEMPLATE, WEDDING_TEMPLATES } from '../lib/templates';
@@ -21,7 +21,16 @@ const FOOT_ACCENT = {
     azure: '#7aa6e0',
 };
 
+const DEMO_CHOICES = [
+    { name: 'Ivoire', path: '/invite/demo-ivoire', color: '#ac7d2d', tx: '-10px', ty: '18px', rot: '-14deg' },
+    { name: 'Roseraie', path: '/invite/demo-roseraie', color: '#b53f57', tx: '-5px', ty: '5px', rot: '-7deg' },
+    { name: 'Velvet', path: '/invite/demo', color: '#9d0a1c', tx: '0px', ty: '0px', rot: '0deg' },
+    { name: 'Sage', path: '/invite/demo-sage', color: '#4a6841', tx: '5px', ty: '5px', rot: '7deg' },
+    { name: 'Azure', path: '/invite/demo-azure', color: '#2d5f9e', tx: '10px', ty: '18px', rot: '14deg' },
+];
+
 export default function LandingPage() {
+    const [showChoices, setShowChoices] = useState(false);
     const scrollTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 
     return (
@@ -37,7 +46,6 @@ export default function LandingPage() {
 
                     <nav className="hero-mobile-tabs" aria-label="Invitation categories">
                         <a href="#categories" className="hero-mobile-tab is-active">Card invitations</a>
-                        <a href="#categories" className="hero-mobile-tab">Flyer event pages</a>
                     </nav>
 
                     <div className="hero-content">
@@ -45,19 +53,51 @@ export default function LandingPage() {
                             Online <em>invitations</em> &amp; <em>cards</em> for the moments that matter
                         </h1>
 
-                        <div className="hero-cta-group">
-                            <Link to={VELVET_TEMPLATE.demoPath} className="hero-cta hero-cta--primary">
-                                Try live demo
-                            </Link>
-                            <a href="#demo" className="hero-cta hero-cta--secondary">
-                                Get started
-                            </a>
+                        <div className="hero-cta-group-container">
+                            {!showChoices ? (
+                                <div className="hero-cta-group fade-in-fast">
+                                    <button
+                                        type="button"
+                                        onClick={() => setShowChoices(true)}
+                                        className="hero-cta hero-cta--primary"
+                                    >
+                                        Try live demo
+                                    </button>
+                                    <a href="#demo" className="hero-cta hero-cta--secondary">
+                                        Get started
+                                    </a>
+                                </div>
+                            ) : (
+                                <div className="demo-choices-wrapper">
+                                    <div className="demo-choices-container">
+                                        {DEMO_CHOICES.map((tpl, idx) => (
+                                            <Link
+                                                key={tpl.name}
+                                                to={tpl.path}
+                                                className="demo-choice-item"
+                                                style={{
+                                                    '--color': tpl.color,
+                                                    '--tx': tpl.tx,
+                                                    '--ty': tpl.ty,
+                                                    '--rot': tpl.rot,
+                                                    '--delay': `${idx * 0.08}s`,
+                                                }}
+                                            >
+                                                {tpl.name}
+                                            </Link>
+                                        ))}
+                                    </div>
+                                    <button
+                                        type="button"
+                                        onClick={() => setShowChoices(false)}
+                                        className="demo-choices-close"
+                                    >
+                                        Back to options
+                                    </button>
+                                </div>
+                            )}
                         </div>
                     </div>
-
-                    <button className="hero-arrow">
-                        <ChevronRight size={32} strokeWidth={1.5} />
-                    </button>
                 </div>
             </section>
 
@@ -106,7 +146,6 @@ export default function LandingPage() {
                                 <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">Instagram</a>
                                 <a href="https://pinterest.com" target="_blank" rel="noopener noreferrer">Pinterest</a>
                                 <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">Facebook</a>
-                                <Link to="/login">Professional plans</Link>
                                 <Link to="/login">Contact</Link>
                             </div>
                         </div>
