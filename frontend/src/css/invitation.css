@@ -3062,6 +3062,12 @@ html, body {
     transition: transform 0.12s linear;
 }
 
+/* Remove the right-edge scroll-position dots on Velvet — the journey still
+   advances by scroll / swipe / arrow keys; the indicator is just removed. */
+.velvet-invitation .snap-dots {
+    display: none;
+}
+
 html.invitation-active {
     scroll-behavior: smooth;
 }
@@ -3082,26 +3088,29 @@ html.invitation-active {
     }
 
     .velvet-invitation .countdown-grid {
-        gap: clamp(0.35rem, 2vw, 1.2rem);
+        gap: clamp(2px, 1.2vw, 10px);
+        width: 100%;
+        max-width: 100%;
+        flex-wrap: nowrap;
     }
 
     .velvet-invitation .countdown-glow {
-        width: clamp(52px, 13.5vw, 68px);
-        height: clamp(52px, 13.5vw, 68px);
+        width: clamp(46px, 13vw, 66px);
+        height: clamp(46px, 13vw, 66px);
     }
 
     .velvet-invitation .countdown-number {
-        font-size: clamp(1.4rem, 6.5vw, 2.2rem);
+        font-size: clamp(1.2rem, 5.5vw, 2rem);
     }
 
     .velvet-invitation .countdown-label {
-        font-size: 0.58rem;
-        letter-spacing: 0.22em;
+        font-size: 0.5rem;
+        letter-spacing: 0.08em;
     }
 
     .velvet-invitation .countdown-separator {
-        font-size: clamp(1.4rem, 4vw, 1.8rem);
-        margin-top: 0.35rem;
+        font-size: clamp(0.8rem, 3vw, 1.3rem);
+        margin-top: 0.2rem;
     }
 
     .velvet-invitation .calendar-card {
