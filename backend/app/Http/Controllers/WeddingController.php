@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Wedding;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 
 class WeddingController extends Controller
@@ -36,7 +37,9 @@ class WeddingController extends Controller
             'event_time' => ['nullable', 'string', 'max:20'],
             'venue' => ['nullable', 'string', 'max:255'],
             'venue_address' => ['nullable', 'string', 'max:500'],
-            'google_maps_url' => ['nullable', 'url', 'max:2000'],
+            // Only http(s) links — blocks javascript:/data: URLs that would
+            // otherwise become stored XSS when rendered as the "View map" link.
+            'google_maps_url' => ['nullable', 'url:http,https', 'max:2000'],
             'message' => ['nullable', 'string', 'max:5000'],
             'photos' => ['nullable', 'array', 'max:4'],
             'status' => ['sometimes', 'string', 'in:draft,ready,sent'],
@@ -110,21 +113,37 @@ class WeddingController extends Controller
 
     private function resolvePhotos(Request $request): array
     {
+        // Re-accept only already-stored photo URLs the client echoes back: real
+        // http(s) links or same-origin /storage paths. This blocks dangerous
+        // schemes (javascript:, data:) and protocol-relative //evil URLs while
+        // round-tripping whichever URL format the public disk produced.
         $existingPhotos = collect($request->input('photos', []))
-            ->filter(fn ($photo) => is_string($photo) && trim($photo) !== '')
+            ->map(fn ($photo) => is_string($photo) ? trim($photo) : '')
+            ->filter(fn (string $photo) => preg_match('#^https?://#i', $photo) === 1
+                || str_starts_with($photo, '/storage/'))
             ->values()
             ->all();
 
+        // Validate every uploaded file as a real image (content-sniffed, not by
+        // extension), cap the size, and let Laravel name it from the *guessed*
+        // extension so a caller can never smuggle an executable (.php/.svg/.html)
+        // into public storage or choose the stored path.
         $uploadedPhotos = collect($request->file('photos', []))
-            ->filter()
-            ->map(function ($photo) {
-                $path = $photo->storePublicly('weddings/photos', 'public');
+            ->filter(fn ($photo) => $photo instanceof UploadedFile && $photo->isValid())
+            ->map(function (UploadedFile $photo) {
+                validator(
+                    ['photo' => $photo],
+                    ['photo' => ['image', 'mimetypes:image/jpeg,image/png,image/webp,image/gif', 'max:5120']],
+                    ['photo.*' => 'Each photo must be a JPEG, PNG, WebP or GIF image under 5 MB.']
+                )->validate();
+
+                $path = $photo->store('weddings/photos', 'public');
 
                 return Storage::disk('public')->url($path);
             })
             ->values()
             ->all();
 
-        return array_slice(array_values(array_filter(array_merge($existingPhotos, $uploadedPhotos))), 0, 4);
+        return array_slice(array_merge($existingPhotos, $uploadedPhotos), 0, 4);
     }
 }

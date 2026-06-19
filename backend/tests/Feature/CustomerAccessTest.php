@@ -7,6 +7,8 @@ use App\Models\User;
 use App\Models\Wedding;
 use App\Services\CustomerProvisioner;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Schema;
 use Tests\TestCase;
 
 class CustomerAccessTest extends TestCase
@@ -68,16 +70,18 @@ class CustomerAccessTest extends TestCase
         $response
             ->assertCreated()
             ->assertJsonPath('customer.credentials.email', 'amina.yacine@platform.com')
-            ->assertJsonStructure(['password', 'customer' => ['id', 'credentials' => ['email', 'password']]]);
+            ->assertJsonStructure(['password', 'customer' => ['id', 'credentials' => ['email']]]);
 
         $this->assertDatabaseHas('users', [
             'email' => 'amina.yacine@platform.com',
             'role' => UserRole::Customer->value,
         ]);
 
-        // Password is viewable by the owner (stored encrypted, decrypted on read).
+        // The one-time password is the real login password (only its hash is
+        // stored) — never persisted in recoverable form.
         $customer = User::query()->where('email', 'amina.yacine@platform.com')->firstOrFail();
-        $this->assertSame($response->json('password'), $customer->plain_password);
+        $this->assertTrue(Hash::check($response->json('password'), $customer->password));
+        $this->assertFalse(Schema::hasColumn('users', 'plain_password'));
     }
 
     public function test_admin_provisioner_handles_email_collisions(): void
@@ -99,24 +103,32 @@ class CustomerAccessTest extends TestCase
         $this->assertSame('amina.yacine2@platform.com', $second['user']->email);
     }
 
-    public function test_admin_can_list_customers_with_credentials(): void
+    public function test_admin_customer_list_does_not_leak_passwords(): void
     {
         $admin = User::factory()->create(['role' => UserRole::Admin]);
-        app(CustomerProvisioner::class)->create($admin, [
+        $provisioned = app(CustomerProvisioner::class)->create($admin, [
             'name' => 'Amina Yacine',
             'title' => 'Amina & Yacine Wedding',
             'email_local' => 'amina.yacine',
         ]);
 
-        $response = $this->actingAs($admin)->getJson('/api/admin/customers');
+        // The bulk list exposes identity but NOT the plaintext password, so a
+        // single response can never leak every customer's credentials.
+        $list = $this->actingAs($admin)->getJson('/api/admin/customers');
 
-        $response
+        $list
             ->assertOk()
             ->assertJsonCount(1, 'customers')
             ->assertJsonPath('customers.0.credentials.email', 'amina.yacine@platform.com')
+            ->assertJsonPath('customers.0.credentials.password', null)
             ->assertJsonPath('summary.customers', 1);
 
-        $this->assertNotEmpty($response->json('customers.0.credentials.password'));
+        // The detail view never returns a recoverable password either — it is
+        // only ever shown once at creation/regeneration.
+        $detail = $this->actingAs($admin)
+            ->getJson('/api/admin/customers/'.$provisioned['wedding']->id);
+
+        $detail->assertOk()->assertJsonPath('customer.credentials.password', null);
     }
 
     public function test_admin_can_regenerate_customer_password(): void
@@ -128,14 +140,15 @@ class CustomerAccessTest extends TestCase
             'email_local' => 'amina.yacine',
         ]);
 
-        $original = $provisioned['user']->plain_password;
+        $original = $provisioned['password'];
 
         $response = $this->actingAs($admin)
             ->postJson('/api/admin/customers/'.$provisioned['wedding']->id.'/regenerate-password');
 
         $response->assertOk()->assertJsonStructure(['email', 'password']);
         $this->assertNotSame($original, $response->json('password'));
-        $this->assertSame($response->json('password'), $provisioned['user']->fresh()->plain_password);
+        // The new one-time password is what now authenticates (hash-only storage).
+        $this->assertTrue(Hash::check($response->json('password'), $provisioned['user']->fresh()->password));
     }
 
     public function test_admin_can_mark_customer_paid_and_publish(): void

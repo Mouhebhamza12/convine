@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { api } from '../lib/api';
 import { resolveInvitationToken, resolveTemplateSlug } from '../lib/resolveInvitation';
+import PhoneFramePreview from '../components/invitation/PhoneFramePreview';
 import VelvetInvitation from '../templates/velvet/VelvetInvitation';
 import SageInvitation from '../templates/sage/SageInvitation';
 import AzureInvitation from '../templates/azure/AzureInvitation';
@@ -24,7 +25,28 @@ export default function InvitationPage() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
 
+    // `?frame=raw` means we are *inside* the phone iframe — render the template
+    // directly and never nest another frame.
+    const isRaw = useMemo(
+        () => new URLSearchParams(window.location.search).get('frame') === 'raw',
+        [],
+    );
+    const [isWide, setIsWide] = useState(
+        () => typeof window !== 'undefined' && window.matchMedia('(min-width: 480px)').matches,
+    );
+
     useEffect(() => {
+        const mq = window.matchMedia('(min-width: 480px)');
+        const onChange = (event) => setIsWide(event.matches);
+        mq.addEventListener('change', onChange);
+        return () => mq.removeEventListener('change', onChange);
+    }, []);
+
+    const showFrame = isWide && !isRaw;
+
+    useEffect(() => {
+        if (showFrame) return; // the iframe loads its own copy; skip the outer fetch.
+
         const context = resolveInvitationToken(token);
 
         if (context.isDemo) {
@@ -46,7 +68,7 @@ export default function InvitationPage() {
             })
             .catch((err) => setError(err.message))
             .finally(() => setLoading(false));
-    }, [token]);
+    }, [token, showFrame]);
 
     async function handleRsvp(status) {
         const result = await api.submitRsvp(token, status);
@@ -54,6 +76,13 @@ export default function InvitationPage() {
             ...current,
             guest: { ...current.guest, rsvp_status: result.guest.rsvp_status },
         }));
+    }
+
+    // Large screen: present the invitation at true phone size inside a device
+    // frame, with the warning. (Decided before the loading/error gates so the
+    // frame appears instantly — the iframe handles its own loading.)
+    if (showFrame) {
+        return <PhoneFramePreview />;
     }
 
     if (loading) {

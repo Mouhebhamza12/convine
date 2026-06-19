@@ -79,6 +79,10 @@ export default function AdminCustomerDetail() {
 
     async function copyLogin() {
         const { email, password } = customer.credentials;
+        if (!password) {
+            setError('Password is hidden. Regenerate it first, then copy the new password.');
+            return;
+        }
         try {
             await navigator.clipboard.writeText(`Email: ${email}\nPassword: ${password}`);
             setCopied(true);
@@ -171,7 +175,7 @@ export default function AdminCustomerDetail() {
                     {/* Credentials */}
                     <section className="border border-black/10 bg-white p-6">
                         <h2 className="text-2xl font-normal">Login credentials</h2>
-                        <p className="mt-2 text-sm text-black/60">Send these to the customer. The password is stored so you can re-read it anytime.</p>
+                        <p className="mt-2 text-sm text-black/60">Send these to the customer. For security the password is shown only once when generated — if it&apos;s lost, click <span className="font-semibold">Regenerate password</span> to issue a new one.</p>
                         <dl className="mt-5 space-y-3 text-base">
                             <div>
                                 <dt className="text-black/50">Email</dt>
@@ -179,7 +183,11 @@ export default function AdminCustomerDetail() {
                             </div>
                             <div>
                                 <dt className="text-black/50">Password</dt>
-                                <dd className="font-mono text-lg">{credentials.password ?? '—'}</dd>
+                                {credentials.password ? (
+                                    <dd className="font-mono text-lg">{credentials.password}</dd>
+                                ) : (
+                                    <dd className="text-sm italic text-black/40">Hidden — regenerate to issue a new one</dd>
+                                )}
                             </div>
                         </dl>
                         <div className="mt-5 flex flex-wrap gap-3">

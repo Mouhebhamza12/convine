@@ -11,15 +11,23 @@ use Illuminate\Support\Facades\Route;
 // CSRF and authentication routes need the session, so run them under the
 // `web` middleware group which boots the session store for the request.
 Route::middleware('web')->group(function () {
-    Route::get('/csrf', fn () => response()->json(['token' => csrf_token()]));
+    Route::get('/csrf', fn () => response()->json(['token' => csrf_token()]))
+        ->middleware('throttle:60,1');
 
-    Route::get('/invite/{token}', [InvitationController::class, 'show']);
-    Route::post('/invite/{token}/rsvp', [InvitationController::class, 'rsvp']);
+    // Public, unauthenticated endpoints — throttled per IP to blunt scraping,
+    // token-guessing and RSVP spam.
+    Route::get('/invite/{token}', [InvitationController::class, 'show'])
+        ->middleware('throttle:90,1');
+    Route::post('/invite/{token}/rsvp', [InvitationController::class, 'rsvp'])
+        ->middleware('throttle:15,1');
 
-    Route::post('/login', [AuthController::class, 'login']);
-    Route::get('/user', [AuthController::class, 'user']);
+    // Tight limit on login to defeat password brute-forcing.
+    Route::post('/login', [AuthController::class, 'login'])
+        ->middleware('throttle:6,1');
+    Route::get('/user', [AuthController::class, 'user'])
+        ->middleware('throttle:60,1');
 
-    Route::middleware('auth')->group(function () {
+    Route::middleware(['auth', 'throttle:120,1'])->group(function () {
         Route::post('/logout', [AuthController::class, 'logout']);
 
         Route::middleware('admin')->prefix('admin')->group(function () {

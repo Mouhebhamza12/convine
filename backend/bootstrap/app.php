@@ -18,6 +18,9 @@ return Application::configure(basePath: dirname(__DIR__))
             'admin' => \App\Http\Middleware\EnsureAdmin::class,
         ]);
 
+        // Defensive browser-security headers on every response.
+        $middleware->append(\App\Http\Middleware\SecurityHeaders::class);
+
         // NOTE: we deliberately do NOT call $middleware->statefulApi().
         //
         // This app is a same-origin SPA: the browser talks to the Vite dev

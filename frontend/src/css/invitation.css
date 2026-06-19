@@ -1491,22 +1491,15 @@ html.invitation-active.invitation-locked body {
     width: min(100%, 340px);
 }
 
-/* 12. Elegant Custom Scrollbar */
+/* 12. Hide Scrollbar completely */
+html, body {
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+}
 ::-webkit-scrollbar {
-    width: 7px;
-}
-
-::-webkit-scrollbar-track {
-    background: #faf6f0;
-}
-
-::-webkit-scrollbar-thumb {
-    background: #e8dcc8;
-    border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: #c9a962;
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
 }
 
 /* ────────────────────────────────────────────────────────────────── */
@@ -3088,13 +3081,27 @@ html.invitation-active {
         font-size: 0.95rem;
     }
 
-    .velvet-invitation .countdown-number {
-        font-size: clamp(2rem, 8vw, 3.5rem);
+    .velvet-invitation .countdown-grid {
+        gap: clamp(0.35rem, 2vw, 1.2rem);
     }
 
     .velvet-invitation .countdown-glow {
-        width: clamp(62px, 15vw, 95px);
-        height: clamp(62px, 15vw, 95px);
+        width: clamp(52px, 13.5vw, 68px);
+        height: clamp(52px, 13.5vw, 68px);
+    }
+
+    .velvet-invitation .countdown-number {
+        font-size: clamp(1.4rem, 6.5vw, 2.2rem);
+    }
+
+    .velvet-invitation .countdown-label {
+        font-size: 0.58rem;
+        letter-spacing: 0.22em;
+    }
+
+    .velvet-invitation .countdown-separator {
+        font-size: clamp(1.4rem, 4vw, 1.8rem);
+        margin-top: 0.35rem;
     }
 
     .velvet-invitation .calendar-card {

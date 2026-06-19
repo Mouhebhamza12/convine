@@ -22,7 +22,6 @@ class CustomerProvisioner
                 'name' => $data['name'],
                 'email' => $this->uniqueEmail($data['email_local'] ?? null),
                 'password' => $password,
-                'plain_password' => $password,
                 'role' => UserRole::Customer,
             ]);
 
@@ -48,7 +47,9 @@ class CustomerProvisioner
     }
 
     /**
-     * Generate a fresh password for a customer, store it (hashed + viewable), and return it.
+     * Generate a fresh password for a customer, store only its hash, and return
+     * the plaintext once so the admin can hand it off. It is never persisted in
+     * recoverable form.
      */
     public function regeneratePassword(User $customer): string
     {
@@ -56,7 +57,6 @@ class CustomerProvisioner
 
         $customer->update([
             'password' => $password,
-            'plain_password' => $password,
         ]);
 
         return $password;

@@ -1,0 +1,11 @@
+# Security headers for the static SPA (Netlify / Cloudflare Pages format).
+# Hosts that don't read _headers ignore this file — replicate the same headers
+# in nginx/Apache/Vercel for those platforms (see SECURITY notes).
+# Note: only affects the deployed build, NOT the Vite dev server, so HMR is safe.
+/*
+  X-Frame-Options: SAMEORIGIN
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.bunny.net; font-src 'self' https://fonts.gstatic.com https://fonts.bunny.net data:; img-src 'self' data: blob: https:; media-src 'self' data: blob: https:; connect-src 'self'; frame-src 'self'; frame-ancestors 'self'; base-uri 'self'; object-src 'none'; form-action 'self'

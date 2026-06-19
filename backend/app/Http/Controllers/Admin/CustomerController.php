@@ -154,7 +154,9 @@ class CustomerController extends Controller
             'credentials' => [
                 'name' => $wedding->owner->name,
                 'email' => $wedding->owner->email,
-                'password' => $wedding->owner->plain_password,
+                // Passwords are never stored in recoverable form; they are shown
+                // once (top-level "password") on create/regenerate only.
+                'password' => null,
             ],
             'guests' => $wedding->guests->map(fn ($guest) => [
                 'id' => $guest->id,
