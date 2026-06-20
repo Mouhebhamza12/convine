@@ -751,6 +751,25 @@
     .lx-fin-credits { flex-direction: row; justify-content: center; gap: 2rem; }
 }
 
+/* ── the makers' mark — a quiet credit, set small in the same Instrument Sans
+   as the rest of the footer copy. No ornament, no foil, no fuss. ── */
+.lx-makers {
+    text-align: center;
+    max-width: 620px;
+    margin: 0 auto;
+    padding: clamp(1.6rem, 5vw, 2.4rem) clamp(1.5rem, 6vw, 3rem) 0;
+    font-family: var(--lx-sans);
+    font-weight: 400;
+    font-size: 0.9rem;
+    line-height: 1.7;
+    color: rgba(239, 231, 218, 0.4);
+}
+.lx-maker {
+    font-weight: 500;
+    color: rgba(251, 244, 231, 0.82);
+    white-space: nowrap;
+}
+
 .lx-foot-bottom {
     display: flex;
     flex-direction: column;

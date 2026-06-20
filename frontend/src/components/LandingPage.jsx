@@ -154,6 +154,12 @@ export default function LandingPage() {
                     </div>
                 </div>
 
+                <p className="lx-makers">
+                    Designed and developed by{' '}
+                    <span className="lx-maker">Mouheb Abdelhak HAMZA</span> and{' '}
+                    <span className="lx-maker">Mustapha Nedjmeddine DJELLOUT</span>
+                </p>
+
                 <div className="lx-foot-bottom">
                     <p>© {new Date().getFullYear()} Convive. All rights reserved.</p>
                     <div className="lx-foot-legal">
