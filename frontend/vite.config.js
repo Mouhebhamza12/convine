@@ -12,6 +12,10 @@ export default defineConfig({
         outDir: '../backend/public',
         emptyOutDir: false,
         assetsDir: 'assets',
+        // The Velvet template's three.js curtain engine is an inherently large,
+        // lazily-loaded chunk — it never blocks the initial download — so lift
+        // the warning past it while still flagging anything truly oversized.
+        chunkSizeWarningLimit: 900,
     },
     server: {
         host: 'localhost',

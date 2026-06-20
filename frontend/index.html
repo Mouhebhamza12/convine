@@ -4,15 +4,102 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="referrer" content="strict-origin-when-cross-origin" />
-        <meta name="theme-color" content="#6b0f1a" />
+        <meta name="theme-color" content="#f5efe7" />
         <title>Convive - Digital Invitations</title>
         <link rel="preconnect" href="https://fonts.bunny.net" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
         <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Aref+Ruqaa:wght@400;700&family=Gulzar&family=Ephesis&family=Markazi+Text:wght@400;500;600;700&family=Cinzel:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Dancing+Script:wght@400;500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Great+Vibes&family=Jost:wght@300;400;500&family=Marcellus&family=Pinyon+Script&family=Prata&family=Reem+Kufi:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,700&family=Tangerine:wght@400;700&display=swap" rel="stylesheet" />
+
+        <!-- Critical boot screen: paints on the first frame, before the app
+             bundle. React removes it on mount, cross-fading into the pixel-
+             matched LoadingScreen so the hand-off is invisible. -->
+        <style>
+            #cv-boot {
+                position: fixed;
+                inset: 0;
+                z-index: 2147483647;
+                display: grid;
+                place-items: center;
+                padding: 24px;
+                overflow: hidden;
+                background: radial-gradient(125% 95% at 50% 10%, #faf6f0 0%, #f5efe7 46%, #efe6dc 100%);
+                font-family: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
+                opacity: 1;
+                transition: opacity 0.6s ease;
+            }
+            #cv-boot.cv-boot--hide { opacity: 0; pointer-events: none; }
+            #cv-boot .cvb-glow {
+                position: absolute;
+                inset: 0;
+                pointer-events: none;
+                background:
+                    radial-gradient(70% 50% at 50% 0%, rgba(107, 15, 26, 0.12), transparent 70%),
+                    radial-gradient(58% 50% at 50% 100%, rgba(107, 15, 26, 0.10), transparent 72%);
+                animation: cvb-breathe 7s ease-in-out infinite;
+            }
+            #cv-boot .cvb-inner {
+                position: relative;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 26px;
+            }
+            #cv-boot .cvb-word {
+                font-size: clamp(34px, 9vw, 52px);
+                font-weight: 600;
+                letter-spacing: -0.035em;
+                line-height: 1;
+                background: linear-gradient(100deg, #6b0f1a 0%, #6b0f1a 42%, #c9a25a 50%, #6b0f1a 58%, #6b0f1a 100%);
+                background-size: 240% 100%;
+                -webkit-background-clip: text;
+                background-clip: text;
+                -webkit-text-fill-color: transparent;
+                color: transparent;
+                opacity: 0;
+                animation:
+                    cvb-rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) both,
+                    cvb-sheen 3.6s linear 0.6s infinite;
+            }
+            #cv-boot .cvb-pills { display: flex; align-items: center; gap: 8px; }
+            #cv-boot .cvb-pills span {
+                width: 14px;
+                height: 5px;
+                border-radius: 99px;
+                background: linear-gradient(180deg, #f4dca6, #cf9f57);
+                opacity: 0.28;
+                animation: cvb-pill 1.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+            }
+            #cv-boot .cvb-pills span:nth-child(1) { animation-delay: 0s; }
+            #cv-boot .cvb-pills span:nth-child(2) { animation-delay: 0.45s; }
+            #cv-boot .cvb-pills span:nth-child(3) { animation-delay: 0.9s; }
+            #cv-boot .cvb-pills span:nth-child(4) { animation-delay: 1.35s; }
+            @keyframes cvb-rise { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+            @keyframes cvb-sheen { 0% { background-position: 150% 0; } 100% { background-position: -50% 0; } }
+            @keyframes cvb-pill {
+                0%   { width: 14px; opacity: 0.28; }
+                12%  { width: 40px; opacity: 1; }
+                32%  { width: 14px; opacity: 0.28; }
+                100% { width: 14px; opacity: 0.28; }
+            }
+            @keyframes cvb-breathe { 0%, 100% { opacity: 0.7; } 50% { opacity: 1; } }
+            @media (prefers-reduced-motion: reduce) {
+                #cv-boot .cvb-glow { animation: none; }
+                #cv-boot .cvb-word { animation: cvb-rise 0.4s ease both; background-position: 50% 0; }
+                #cv-boot .cvb-pills span { animation-duration: 2.6s; }
+            }
+        </style>
     </head>
     <body>
+        <div id="cv-boot">
+            <div class="cvb-glow" aria-hidden="true"></div>
+            <div class="cvb-inner">
+                <div class="cvb-word">Convive</div>
+                <div class="cvb-pills" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+            </div>
+        </div>
+
         <div id="app"></div>
         <script type="module" src="/src/main.jsx"></script>
     </body>

@@ -1,0 +1,116 @@
+/* ─────────────────────────────────────────────────────────────────────────
+   Convive loading screen — warm ivory, burgundy & gold, matching the landing.
+   Used as the React Suspense fallback (lazy routes + lazy templates) and the
+   invitation "opening" state. index.html paints a pixel-matched copy (#cv-boot)
+   before any JS, so the hand-off into React is seamless.
+   Palette + the morphing pills are lifted straight from landing.css.
+   ───────────────────────────────────────────────────────────────────────── */
+
+.cv-load {
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    display: grid;
+    place-items: center;
+    padding: 24px;
+    overflow: hidden;
+    background: radial-gradient(125% 95% at 50% 10%, #faf6f0 0%, #f5efe7 46%, #efe6dc 100%);
+    color: #6b0f1a;
+    font-family: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+}
+
+/* the warm burgundy wash you sink into — borrowed from .lx-ambient */
+.cv-load__glow {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+        radial-gradient(70% 50% at 50% 0%, rgba(107, 15, 26, 0.12), transparent 70%),
+        radial-gradient(58% 50% at 50% 100%, rgba(107, 15, 26, 0.10), transparent 72%);
+    animation: cv-breathe 7s ease-in-out infinite;
+}
+
+.cv-load__inner {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 26px;
+}
+
+.cv-load__word {
+    font-size: clamp(34px, 9vw, 52px);
+    font-weight: 600;
+    letter-spacing: -0.035em;
+    line-height: 1;
+    /* burgundy wordmark with a slow gold-foil sheen sweeping across */
+    background: linear-gradient(100deg, #6b0f1a 0%, #6b0f1a 42%, #c9a25a 50%, #6b0f1a 58%, #6b0f1a 100%);
+    background-size: 240% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    animation:
+        cv-rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) both,
+        cv-sheen 3.6s linear 0.6s infinite;
+}
+
+/* slim gold pills that morph one-at-a-time — the landing's .lx-prog loader */
+.cv-load__pills {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.cv-load__pills span {
+    width: 14px;
+    height: 5px;
+    border-radius: 99px;
+    background: linear-gradient(180deg, #f4dca6, #cf9f57);
+    opacity: 0.28;
+    animation: cv-pill 1.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+.cv-load__pills span:nth-child(1) { animation-delay: 0s; }
+.cv-load__pills span:nth-child(2) { animation-delay: 0.45s; }
+.cv-load__pills span:nth-child(3) { animation-delay: 0.9s; }
+.cv-load__pills span:nth-child(4) { animation-delay: 1.35s; }
+
+.cv-load__sr {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+}
+
+/* Invitation context: loader sits inside the phone canvas, so fill the parent. */
+.cv-load[data-variant='invitation'] {
+    position: absolute;
+}
+
+@keyframes cv-rise {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes cv-sheen {
+    0%   { background-position: 150% 0; }
+    100% { background-position: -50% 0; }
+}
+@keyframes cv-pill {
+    0%   { width: 14px; opacity: 0.28; }
+    12%  { width: 40px; opacity: 1; }
+    32%  { width: 14px; opacity: 0.28; }
+    100% { width: 14px; opacity: 0.28; }
+}
+@keyframes cv-breathe {
+    0%, 100% { opacity: 0.7; }
+    50%      { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .cv-load__glow { animation: none; }
+    .cv-load__word { animation: cv-rise 0.4s ease both; background-position: 50% 0; }
+    .cv-load__pills span { animation-duration: 2.6s; }
+}

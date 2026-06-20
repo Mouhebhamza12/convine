@@ -1,13 +1,18 @@
-import { useEffect, useMemo, useState } from 'react';
+import { Suspense, lazy, useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { api } from '../lib/api';
 import { resolveInvitationToken, resolveTemplateSlug } from '../lib/resolveInvitation';
 import PhoneFramePreview from '../components/invitation/PhoneFramePreview';
-import VelvetInvitation from '../templates/velvet/VelvetInvitation';
-import SageInvitation from '../templates/sage/SageInvitation';
-import AzureInvitation from '../templates/azure/AzureInvitation';
-import RoseraieInvitation from '../templates/roseraie/RoseraieInvitation';
-import IvoireInvitation from '../templates/ivoire/IvoireInvitation';
+import LoadingScreen from '../components/LoadingScreen';
+
+// Each template is its own chunk, so a guest only downloads the one they were
+// sent — crucially, three.js (the Velvet curtain engine) never ships to anyone
+// opening a Sage, Azure, Roseraie or Ivoire invitation.
+const VelvetInvitation = lazy(() => import('../templates/velvet/VelvetInvitation'));
+const SageInvitation = lazy(() => import('../templates/sage/SageInvitation'));
+const AzureInvitation = lazy(() => import('../templates/azure/AzureInvitation'));
+const RoseraieInvitation = lazy(() => import('../templates/roseraie/RoseraieInvitation'));
+const IvoireInvitation = lazy(() => import('../templates/ivoire/IvoireInvitation'));
 
 const TEMPLATE_VIEWS = {
     velvet: VelvetInvitation,
@@ -86,11 +91,7 @@ export default function InvitationPage() {
     }
 
     if (loading) {
-        return (
-            <div className="invitation-root flex min-h-svh items-center justify-center">
-                <p className="font-serif text-lg tracking-widest text-[#8b4a5c] uppercase">Opening...</p>
-            </div>
-        );
+        return <LoadingScreen variant="invitation" />;
     }
 
     if (error || !data) {
@@ -103,5 +104,9 @@ export default function InvitationPage() {
 
     const TemplateView = TEMPLATE_VIEWS[templateSlug] ?? VelvetInvitation;
 
-    return <TemplateView data={data} isDemo={isDemo} onRsvp={handleRsvp} />;
+    return (
+        <Suspense fallback={<LoadingScreen variant="invitation" />}>
+            <TemplateView data={data} isDemo={isDemo} onRsvp={handleRsvp} />
+        </Suspense>
+    );
 }
