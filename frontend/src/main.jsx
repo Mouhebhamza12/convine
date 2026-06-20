@@ -12,13 +12,15 @@ import { AuthProvider } from './context/AuthContext.jsx';
 const LandingPage = lazy(() => import('./components/LandingPage.jsx'));
 const InvitationPage = lazy(() => import('./pages/InvitationPage.jsx'));
 const LoginPage = lazy(() => import('./pages/LoginPage.jsx'));
+const PrivacyPage = lazy(() => import('./pages/PrivacyPage.jsx'));
+const TermsPage = lazy(() => import('./pages/TermsPage.jsx'));
 const AdminDashboard = lazy(() => import('./pages/AdminDashboard.jsx'));
 const AdminCustomerDetail = lazy(() => import('./pages/AdminCustomerDetail.jsx'));
 const CreateCustomerPage = lazy(() => import('./pages/CreateCustomerPage.jsx'));
 const CustomerDashboard = lazy(() => import('./pages/CustomerDashboard.jsx'));
 
 // Fade out the pre-React boot screen once the app has mounted, but only after it
-// has been visible long enough for the crest to finish drawing — so a fast load
+// has been visible long enough for the crest to finish drawing, so a fast load
 // still gets the full moment instead of a jarring flash. The React LoadingScreen
 // (Suspense fallback) is pixel-matched, so if a chunk is still in flight the
 // hand-off is seamless.
@@ -55,6 +57,8 @@ function App() {
                         <Route path="/" element={<LandingPage />} />
                         <Route path="/invite/:token" element={<InvitationPage />} />
                         <Route path="/login" element={<LoginPage />} />
+                        <Route path="/privacy" element={<PrivacyPage />} />
+                        <Route path="/terms" element={<TermsPage />} />
                         <Route
                             path="/admin"
                             element={

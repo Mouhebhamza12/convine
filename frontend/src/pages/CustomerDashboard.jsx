@@ -13,7 +13,7 @@ function inviteLink(token) {
     return token ? `${window.location.origin}/invite/${token}` : null;
 }
 
-/* Only send a maps URL once it actually looks like one — otherwise a half-typed
+/* Only send a maps URL once it actually looks like one, otherwise a half-typed
    link would make every autosave fail validation and flash an error. */
 function isSendableUrl(value) {
     return value === '' || /^https?:\/\/.+/i.test(value);
@@ -43,7 +43,7 @@ function Spinner() {
 
 function SaveStatus({ state }) {
     if (state === 'saving') return <span className="flex items-center gap-2 text-sm text-[#8a7b6a]"><Spinner /> Saving…</span>;
-    if (state === 'error') return <span className="text-sm font-medium text-[#a23a3a]">Couldn’t save — tap Save</span>;
+    if (state === 'error') return <span className="text-sm font-medium text-[#a23a3a]">Couldn’t save. Tap Save</span>;
     if (state === 'unsaved') return <span className="text-sm text-[#8a7b6a]">Editing… changes save automatically</span>;
     return <span className="flex items-center gap-1.5 text-sm font-medium text-[#0f7a44]"><CheckIcon /> All changes saved</span>;
 }
@@ -223,7 +223,7 @@ export default function CustomerDashboard() {
             setCopiedId(id);
             setTimeout(() => setCopiedId((c) => (c === id ? null : c)), 1600);
         } catch {
-            /* clipboard blocked — ignore */
+            /* clipboard blocked, ignore */
         }
     }
 
@@ -231,7 +231,7 @@ export default function CustomerDashboard() {
     // desktop fallback so a link can always be sent in one tap.
     async function shareLink(guest, link) {
         const couple = [wedding?.bride_name, wedding?.groom_name].filter(Boolean).join(' & ');
-        const text = couple ? `${couple} — you’re invited! 💌` : 'You’re invited! 💌';
+        const text = couple ? `${couple}, you’re invited! 💌` : 'You’re invited! 💌';
         if (navigator.share) {
             try {
                 await navigator.share({ title: couple || 'Wedding invitation', text, url: link });
@@ -288,7 +288,7 @@ export default function CustomerDashboard() {
                 <div>
                     <h1 className="font-serif text-3xl font-normal sm:text-4xl">Your invitation</h1>
                     <p className="mt-1.5 text-[15px] leading-relaxed text-[#6b5d4d]">
-                        Fill in the details below — everything saves on its own as you go.
+                        Fill in the details below. Everything saves on its own as you go.
                     </p>
                 </div>
 
@@ -338,7 +338,7 @@ export default function CustomerDashboard() {
                 <SectionCard
                     icon={<CamIcon />}
                     title={<>Photos <span className="ml-1 text-sm font-normal text-[#8a7b6a]">{totalPhotos}/{MAX_PHOTOS}</span></>}
-                    hint="Add up to 4 of your own pictures — or none at all. They join your invitation’s photo story."
+                    hint="Add up to 4 of your own pictures, or none at all. They join your invitation’s photo story."
                 >
                     <div className="grid grid-cols-3 gap-3 sm:grid-cols-4">
                         {existingPhotos.map((url) => (

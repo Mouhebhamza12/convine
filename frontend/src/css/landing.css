@@ -1,5 +1,5 @@
 /* ============================================================================
-   LANDING — flagship product showcase below the hero.
+   LANDING, flagship product showcase below the hero.
    Confident modern sans, oversized devices, an immersive colour wash that
    morphs to the focused world, and tactile buttons that glow in its colour.
    Movement I: the Showcase. Movement II: a bold closing Footer.
@@ -27,7 +27,7 @@
     text-align: center;
 }
 
-/* the colour you sink into — large, soft, morphing */
+/* the colour you sink into, large, soft, morphing */
 .lx-ambient {
     position: absolute;
     inset: 0 0 0 0;
@@ -351,7 +351,7 @@
     color: rgba(230, 196, 134, 0.5);
 }
 
-/* colophon — the house mark + an emotional, hand-set line */
+/* colophon, the house mark + an emotional, hand-set line */
 .lx-close-colophon {
     text-align: center;
     margin-top: clamp(1.6rem, 5vw, 2.4rem);
@@ -380,7 +380,7 @@
     color: #fbf4e7;
 }
 
-/* editorial spread — voice on the left, the index of worlds on the right */
+/* editorial spread, voice on the left, the index of worlds on the right */
 .lx-close-spread {
     margin-top: clamp(3rem, 9vw, 4.8rem);
     display: grid;
@@ -480,7 +480,7 @@
 }
 .lx-close-credit-row a:hover { color: var(--lx-gold); }
 
-/* the index of worlds — a fine contents page, not a mega-footer nav */
+/* the index of worlds, a fine contents page, not a mega-footer nav */
 .lx-close-index-eye { margin-bottom: clamp(0.7rem, 3vw, 1.1rem); }
 .lx-close-index-list { list-style: none; margin: 0; padding: 0; }
 .lx-close-world {
@@ -580,7 +580,7 @@
     line-height: 1.05;
     color: #fbf4e7;
 }
-/* the collection — a bold, colourful index, each world set in its own hue.
+/* the collection, a bold, colourful index, each world set in its own hue.
    No label, no rules: the names themselves are the statement. */
 .lx-foot-index {
     margin-top: clamp(2.6rem, 9vw, 4rem);
@@ -751,7 +751,7 @@
     .lx-fin-credits { flex-direction: row; justify-content: center; gap: 2rem; }
 }
 
-/* ── the makers' mark — a quiet credit, set small in the same Instrument Sans
+/* ── the makers' mark, a quiet credit, set small in the same Instrument Sans
    as the rest of the footer copy. No ornament, no foil, no fuss. ── */
 .lx-makers {
     text-align: center;

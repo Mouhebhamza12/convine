@@ -1,7 +1,7 @@
 import roses from '../../assets/roseraie/roses.svg';
 
 /**
- * Roseraie's deep background — the house's own rose cluster, set large and
+ * Roseraie's deep background, the house's own rose cluster, set large and
  * faint in the margins. Because the journey is a one-slide-per-gesture pager
  * (no document scroll), the garden parallaxes off the active SLIDE INDEX:
  * advancing a section eases every bloom to a new offset, so the backdrop drifts

@@ -1,7 +1,7 @@
 import '../css/loading.css';
 
 /**
- * Convive loading screen — warm ivory, burgundy & gold, matching the landing.
+ * Convive loading screen, warm ivory, burgundy & gold, matching the landing.
  *
  * Rendered as the Suspense fallback for lazy routes/templates and as the
  * invitation "opening" state. index.html paints a pixel-matched copy (#cv-boot)

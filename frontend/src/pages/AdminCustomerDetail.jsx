@@ -88,7 +88,7 @@ export default function AdminCustomerDetail() {
             setCopied(true);
             setTimeout(() => setCopied(false), 2000);
         } catch {
-            setError('Could not copy automatically — select and copy the details manually.');
+            setError('Could not copy automatically. Select and copy the details manually.');
         }
     }
 
@@ -175,7 +175,7 @@ export default function AdminCustomerDetail() {
                     {/* Credentials */}
                     <section className="border border-black/10 bg-white p-6">
                         <h2 className="text-2xl font-normal">Login credentials</h2>
-                        <p className="mt-2 text-sm text-black/60">Send these to the customer. For security the password is shown only once when generated — if it&apos;s lost, click <span className="font-semibold">Regenerate password</span> to issue a new one.</p>
+                        <p className="mt-2 text-sm text-black/60">Send these to the customer. For security the password is shown only once when generated. If it&apos;s lost, click <span className="font-semibold">Regenerate password</span> to issue a new one.</p>
                         <dl className="mt-5 space-y-3 text-base">
                             <div>
                                 <dt className="text-black/50">Email</dt>
@@ -186,7 +186,7 @@ export default function AdminCustomerDetail() {
                                 {credentials.password ? (
                                     <dd className="font-mono text-lg">{credentials.password}</dd>
                                 ) : (
-                                    <dd className="text-sm italic text-black/40">Hidden — regenerate to issue a new one</dd>
+                                    <dd className="text-sm italic text-black/40">Hidden, regenerate to issue a new one</dd>
                                 )}
                             </div>
                         </dl>
@@ -215,7 +215,7 @@ export default function AdminCustomerDetail() {
                                 >
                                     {WEDDING_TEMPLATES.map((t) => (
                                         <option key={t.slug} value={t.slug}>
-                                            {t.name} — {t.tagline}
+                                            {t.name} · {t.tagline}
                                         </option>
                                     ))}
                                 </select>
@@ -257,7 +257,7 @@ export default function AdminCustomerDetail() {
                 {/* Invitation details (owner can edit on behalf) */}
                 <section className="mt-8 border border-black/10 bg-white p-6">
                     <h2 className="text-2xl font-normal">Invitation details</h2>
-                    <p className="mt-2 text-sm text-black/60">The customer edits these too — change them here only if you need to.</p>
+                    <p className="mt-2 text-sm text-black/60">The customer edits these too. Change them here only if you need to.</p>
 
                     <form className="mt-5 grid gap-4 sm:grid-cols-2" onSubmit={saveDetails}>
                         <label className="block sm:col-span-2">

@@ -1,5 +1,5 @@
 /* ─────────────────────────────────────────────────────────────────────────
-   Convive loading screen — warm ivory, burgundy & gold, matching the landing.
+   Convive loading screen, warm ivory, burgundy & gold, matching the landing.
    Used as the React Suspense fallback (lazy routes + lazy templates) and the
    invitation "opening" state. index.html paints a pixel-matched copy (#cv-boot)
    before any JS, so the hand-off into React is seamless.
@@ -21,7 +21,7 @@
     text-rendering: optimizeLegibility;
 }
 
-/* the warm burgundy wash you sink into — borrowed from .lx-ambient */
+/* the warm burgundy wash you sink into, borrowed from .lx-ambient */
 .cv-load__glow {
     position: absolute;
     inset: 0;
@@ -57,7 +57,7 @@
         cv-sheen 3.6s linear 0.6s infinite;
 }
 
-/* slim gold pills that morph one-at-a-time — the landing's .lx-prog loader */
+/* slim gold pills that morph one-at-a-time, the landing's .lx-prog loader */
 .cv-load__pills {
     display: flex;
     align-items: center;

@@ -6,7 +6,7 @@ import PhoneFramePreview from '../components/invitation/PhoneFramePreview';
 import LoadingScreen from '../components/LoadingScreen';
 
 // Each template is its own chunk, so a guest only downloads the one they were
-// sent — crucially, three.js (the Velvet curtain engine) never ships to anyone
+// sent, crucially, three.js (the Velvet curtain engine) never ships to anyone
 // opening a Sage, Azure, Roseraie or Ivoire invitation.
 const VelvetInvitation = lazy(() => import('../templates/velvet/VelvetInvitation'));
 const SageInvitation = lazy(() => import('../templates/sage/SageInvitation'));
@@ -30,7 +30,7 @@ export default function InvitationPage() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
 
-    // `?frame=raw` means we are *inside* the phone iframe — render the template
+    // `?frame=raw` means we are *inside* the phone iframe, render the template
     // directly and never nest another frame.
     const isRaw = useMemo(
         () => new URLSearchParams(window.location.search).get('frame') === 'raw',
@@ -85,7 +85,7 @@ export default function InvitationPage() {
 
     // Large screen: present the invitation at true phone size inside a device
     // frame, with the warning. (Decided before the loading/error gates so the
-    // frame appears instantly — the iframe handles its own loading.)
+    // frame appears instantly, the iframe handles its own loading.)
     if (showFrame) {
         return <PhoneFramePreview />;
     }

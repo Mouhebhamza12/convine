@@ -1,0 +1,107 @@
+/* ============================================================================
+   LEGAL, Privacy & Terms. A quiet, readable document on warm ivory stock:
+   ink body, burgundy marks, Instrument Sans throughout to match the site. No
+   ornament, just well-set type and generous reading rhythm.
+   ========================================================================== */
+
+.lg {
+    min-height: 100svh;
+    background: #faf7f2;
+    color: #1c160f;
+    font-family: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+}
+
+.lg-top {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    max-width: 760px;
+    margin: 0 auto;
+    padding: clamp(1.4rem, 4vw, 2.1rem) clamp(1.25rem, 5vw, 2rem);
+}
+.lg-mark {
+    font-weight: 600;
+    font-size: 1.16rem;
+    letter-spacing: -0.022em;
+    color: #6b0f1a;
+    text-decoration: none;
+}
+.lg-back {
+    font-size: 0.94rem;
+    color: #786c5b;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+.lg-back:hover { color: #1c160f; }
+
+.lg-doc {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: clamp(1rem, 4vw, 2rem) clamp(1.25rem, 5vw, 2rem) clamp(4rem, 11vw, 6.5rem);
+}
+.lg-title {
+    margin: 0;
+    font-weight: 600;
+    font-size: clamp(2rem, 7vw, 3rem);
+    letter-spacing: -0.035em;
+    line-height: 1.05;
+}
+.lg-updated {
+    margin: 0.85rem 0 0;
+    font-size: 0.9rem;
+    color: #9a8f7e;
+}
+.lg-lead {
+    margin: 1.5rem 0 0;
+    font-size: clamp(1.06rem, 3vw, 1.2rem);
+    line-height: 1.6;
+    color: #5c5346;
+    max-width: 58ch;
+}
+
+.lg-sec { margin-top: clamp(2.1rem, 6vw, 2.9rem); }
+.lg-h {
+    margin: 0 0 0.65rem;
+    font-weight: 600;
+    font-size: clamp(1.16rem, 4vw, 1.34rem);
+    letter-spacing: -0.015em;
+    color: #1c160f;
+}
+.lg-p {
+    margin: 0 0 0.9rem;
+    font-size: 1.02rem;
+    line-height: 1.75;
+    color: #4a4236;
+    max-width: 66ch;
+}
+.lg-p:last-child { margin-bottom: 0; }
+
+.lg-foot {
+    margin-top: clamp(3rem, 8vw, 4.5rem);
+    padding-top: clamp(1.4rem, 4vw, 2rem);
+    border-top: 1px solid rgba(28, 22, 15, 0.1);
+    font-size: 0.95rem;
+    color: #786c5b;
+}
+.lg-foot p { margin: 0; }
+.lg-foot-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.4rem;
+    margin-top: 0.9rem;
+}
+.lg a {
+    color: #6b0f1a;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    text-decoration-thickness: 1px;
+    transition: color 0.2s ease;
+}
+.lg-foot-links a {
+    color: #786c5b;
+    text-decoration: none;
+}
+.lg-foot-links a:hover { color: #6b0f1a; }

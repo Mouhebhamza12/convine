@@ -163,8 +163,8 @@ export default function LandingPage() {
                 <div className="lx-foot-bottom">
                     <p>© {new Date().getFullYear()} Convive. All rights reserved.</p>
                     <div className="lx-foot-legal">
-                        <Link to="/login">Privacy</Link>
-                        <Link to="/login">Terms</Link>
+                        <Link to="/privacy">Privacy</Link>
+                        <Link to="/terms">Terms</Link>
                         <button type="button" className="lx-totop" onClick={scrollTop}>Back to top ↑</button>
                     </div>
                 </div>

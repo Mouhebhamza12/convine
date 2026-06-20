@@ -61,7 +61,7 @@ export default function CreateCustomerPage() {
             setCopied(true);
             setTimeout(() => setCopied(false), 2000);
         } catch {
-            setError('Could not copy automatically — select and copy the details manually.');
+            setError('Could not copy automatically. Select and copy the details manually.');
         }
     }
 
@@ -78,7 +78,7 @@ export default function CreateCustomerPage() {
 
             <main className="mx-auto max-w-3xl px-6 py-10">
                 <p className="text-base leading-7 text-black/60">
-                    Use this after the customer pays and chooses a template. Send them the generated login — never your admin password. They fill in the rest of the details from their own dashboard.
+                    Use this after the customer pays and chooses a template. Send them the generated login, never your admin password. They fill in the rest of the details from their own dashboard.
                 </p>
 
                 <form className="mt-8 space-y-5 border border-black/10 bg-white p-6" onSubmit={handleSubmit}>
@@ -106,7 +106,7 @@ export default function CreateCustomerPage() {
                         <select className="mt-2 w-full border border-black/15 px-4 py-3 outline-none focus:border-black" value={form.template_slug} onChange={(e) => updateField('template_slug', e.target.value)}>
                             {WEDDING_TEMPLATES.map((t) => (
                                 <option key={t.slug} value={t.slug}>
-                                    {t.name} — {t.tagline}
+                                    {t.name} · {t.tagline}
                                 </option>
                             ))}
                         </select>

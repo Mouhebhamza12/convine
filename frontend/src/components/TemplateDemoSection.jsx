@@ -6,7 +6,7 @@ import { initialOf, isArabicName } from '../templates/ivoire/IvoireStrings';
 import ivoireBg from '../../assets/ivoire/bg.jpg';
 import ivoireSeal from '../../assets/ivoire/seal.png';
 
-/* per-world ambient palette — the whole section bleeds to the focused card */
+/* per-world ambient palette, the whole section bleeds to the focused card */
 const THEME = {
     velvet: { accent: '#6b0f1a', soft: '#f1e2dd' },
     ivoire: { accent: '#a8793f', soft: '#f3ebdf' },

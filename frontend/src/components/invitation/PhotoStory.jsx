@@ -9,7 +9,7 @@ export default function PhotoStory({ photos = [] }) {
     const titleRef = useRef(null);
     const itemsRef = useRef([]);
 
-    // Only the couple's real photos — 1 to 4. With none, the section is omitted.
+    // Only the couple's real photos, 1 to 4. With none, the section is omitted.
     const photoList = (photos || []).filter((p) => typeof p === 'string' && p.trim()).slice(0, 4);
 
     useEffect(() => {

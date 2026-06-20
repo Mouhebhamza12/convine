@@ -3062,7 +3062,7 @@ html, body {
     transition: transform 0.12s linear;
 }
 
-/* Remove the right-edge scroll-position dots on Velvet — the journey still
+/* Remove the right-edge scroll-position dots on Velvet, the journey still
    advances by scroll / swipe / arrow keys; the indicator is just removed. */
 .velvet-invitation .snap-dots {
     display: none;

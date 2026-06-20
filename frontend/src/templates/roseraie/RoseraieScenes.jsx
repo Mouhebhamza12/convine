@@ -54,7 +54,7 @@ export function RoseraieDate({ eventDate, strings }) {
 
 /* ─── OUR STORY: three portraits in soft ovals ─── */
 export function RoseraiePhotos({ photos = [], strings }) {
-    // Only the couple's real photos — 1 to 4. With none, the section is omitted.
+    // Only the couple's real photos, 1 to 4. With none, the section is omitted.
     const items = (photos || []).filter((p) => typeof p === 'string' && p.trim()).slice(0, 4);
     if (!items.length) return null;
     return (
