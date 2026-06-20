@@ -208,24 +208,77 @@ class CustomerAccessTest extends TestCase
             ->assertForbidden();
     }
 
-    public function test_customer_can_sync_guest_names(): void
+    public function test_customer_can_sync_guest_list_with_duplicate_names(): void
+    {
+        $user = $this->provisionCustomer();
+
+        $response = $this->actingAs($user)->putJson('/api/wedding/guests', [
+            'guests' => [
+                ['id' => null, 'name' => 'Mohamed'],
+                ['id' => null, 'name' => 'Fatima'],
+                ['id' => null, 'name' => 'Mohamed'], // two real people share a name
+            ],
+        ]);
+
+        $response->assertOk()->assertJsonCount(3, 'guests');
+
+        // Each guest is a distinct row with its own private link.
+        $tokens = collect($response->json('guests'))->pluck('token');
+        $this->assertSame(3, $tokens->unique()->count());
+        $this->assertDatabaseCount('guests', 3);
+    }
+
+    public function test_renaming_a_guest_keeps_their_link_and_rsvp(): void
+    {
+        $user = $this->provisionCustomer();
+
+        $guest = $this->actingAs($user)->putJson('/api/wedding/guests', [
+            'guests' => [['id' => null, 'name' => 'Mohamed']],
+        ])->assertOk()->json('guests.0');
+
+        // The guest opens their link and accepts.
+        $this->postJson('/api/invite/'.$guest['token'].'/rsvp', ['status' => 'attending'])->assertOk();
+
+        // The customer fixes the spelling — the link and RSVP must survive.
+        $this->actingAs($user)->putJson('/api/wedding/guests', [
+            'guests' => [['id' => $guest['id'], 'name' => 'Mohammed']],
+        ])
+            ->assertOk()
+            ->assertJsonPath('guests.0.name', 'Mohammed')
+            ->assertJsonPath('guests.0.token', $guest['token'])
+            ->assertJsonPath('guests.0.rsvp_status', 'attending');
+
+        $this->assertDatabaseCount('guests', 1);
+    }
+
+    public function test_customer_can_remove_a_guest(): void
+    {
+        $user = $this->provisionCustomer();
+
+        $guests = $this->actingAs($user)->putJson('/api/wedding/guests', [
+            'guests' => [
+                ['id' => null, 'name' => 'Mohamed'],
+                ['id' => null, 'name' => 'Fatima'],
+            ],
+        ])->assertOk()->json('guests');
+
+        // Keep only the first guest.
+        $this->actingAs($user)->putJson('/api/wedding/guests', [
+            'guests' => [['id' => $guests[0]['id'], 'name' => $guests[0]['name']]],
+        ])->assertOk()->assertJsonCount(1, 'guests');
+
+        $this->assertDatabaseCount('guests', 1);
+        $this->assertDatabaseMissing('guests', ['name' => 'Fatima']);
+    }
+
+    private function provisionCustomer(): User
     {
         $admin = User::factory()->create(['role' => UserRole::Admin]);
-        $provisioned = app(CustomerProvisioner::class)->create($admin, [
+
+        return app(CustomerProvisioner::class)->create($admin, [
             'name' => 'Amina Yacine',
             'title' => 'Amina & Yacine Wedding',
             'email_local' => 'amina.yacine',
-        ]);
-
-        $response = $this->actingAs($provisioned['user'])->putJson('/api/wedding/guests', [
-            'names' => ['Mohamed', 'Fatima', 'Karim', 'Nadia'],
-        ]);
-
-        $response
-            ->assertOk()
-            ->assertJsonCount(4, 'guests');
-
-        $this->assertDatabaseHas('guests', ['name' => 'Mohamed']);
-        $this->assertDatabaseHas('guests', ['name' => 'Nadia']);
+        ])['user'];
     }
 }

@@ -19,31 +19,46 @@ class GuestController extends Controller
 
         $this->authorize('update', $wedding);
 
+        // The full desired guest list, each row carrying its stable id (or null
+        // for a brand-new guest). Identity is the id, never the name — so two
+        // guests may share a name, and renaming one never disturbs the link
+        // already shared with them or the RSVP they have given.
         $data = $request->validate([
-            'names' => ['required', 'array', 'min:1'],
-            'names.*' => ['required', 'string', 'max:255'],
+            'guests' => ['present', 'array'],
+            'guests.*.id' => ['nullable', 'integer'],
+            'guests.*.name' => ['required', 'string', 'max:255'],
         ]);
 
-        $names = collect($data['names'])
-            ->map(fn (string $name) => trim($name))
-            ->filter()
-            ->unique()
-            ->values();
+        $existing = $wedding->guests()->get()->keyBy('id');
+        $keptIds = [];
 
-        $existing = $wedding->guests()->get()->keyBy(fn (Guest $guest) => strtolower($guest->name));
+        $guests = collect($data['guests'])
+            ->map(fn (array $row) => ['id' => $row['id'] ?? null, 'name' => trim($row['name'])])
+            ->filter(fn (array $row) => $row['name'] !== '')
+            ->values()
+            ->map(function (array $row, int $index) use ($wedding, $existing, &$keptIds) {
+                $current = $row['id'] !== null ? $existing->get($row['id']) : null;
 
-        $wedding->guests()->delete();
+                if ($current) {
+                    $current->update(['name' => $row['name'], 'sort_order' => $index]);
+                    $keptIds[] = $current->id;
 
-        $guests = $names->map(function (string $name, int $index) use ($wedding, $existing) {
-            $match = $existing->get(strtolower($name));
+                    return $current;
+                }
 
-            return $wedding->guests()->create([
-                'name' => $name,
-                'sort_order' => $index,
-                'token' => $match?->token ?? (string) Str::uuid(),
-                'rsvp_status' => $match?->rsvp_status,
-            ]);
-        });
+                $guest = $wedding->guests()->create([
+                    'name' => $row['name'],
+                    'sort_order' => $index,
+                    'token' => (string) Str::uuid(),
+                    'rsvp_status' => null,
+                ]);
+                $keptIds[] = $guest->id;
+
+                return $guest;
+            });
+
+        // Drop the guests the customer removed from the list.
+        $wedding->guests()->whereNotIn('id', $keptIds ?: [0])->delete();
 
         return response()->json([
             'guests' => $guests->map(fn (Guest $guest) => [

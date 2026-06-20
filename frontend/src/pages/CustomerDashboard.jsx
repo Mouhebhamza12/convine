@@ -31,6 +31,8 @@ const CheckIcon = () => (<svg {...ic} width="16" height="16"><path d="M20 6 9 17
 const EyeIcon = () => (<svg {...ic} width="16" height="16"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z" /><circle cx="12" cy="12" r="2.6" /></svg>);
 const CopyIcon = () => (<svg {...ic} width="15" height="15"><rect x="9" y="9" width="11" height="11" rx="2" /><path d="M5 15V5a2 2 0 0 1 2-2h8" /></svg>);
 const ShareIcon = () => (<svg {...ic} width="15" height="15"><path d="M12 3v12" /><path d="m8 7 4-4 4 4" /><path d="M5 12v7a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-7" /></svg>);
+const TrashIcon = () => (<svg {...ic} width="16" height="16"><path d="M4 7h16M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2M6 7l1 13a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1l1-13" /></svg>);
+const PlusIcon = () => (<svg {...ic} width="17" height="17"><path d="M12 5v14M5 12h14" /></svg>);
 
 function Spinner() {
     return (
@@ -46,6 +48,13 @@ function SaveStatus({ state }) {
     if (state === 'error') return <span className="text-sm font-medium text-[#a23a3a]">Couldn’t save. Tap Save</span>;
     if (state === 'unsaved') return <span className="text-sm text-[#8a7b6a]">Editing… changes save automatically</span>;
     return <span className="flex items-center gap-1.5 text-sm font-medium text-[#0f7a44]"><CheckIcon /> All changes saved</span>;
+}
+
+function GuestSaveHint({ state, error }) {
+    if (state === 'saving') return <span className="flex items-center gap-1.5 text-xs text-[#8a7b6a]"><Spinner /> Saving…</span>;
+    if (state === 'error') return <span className="text-xs font-medium text-[#a23a3a]">{error || 'Couldn’t save'}</span>;
+    if (state === 'saved') return <span className="flex items-center gap-1 text-xs font-medium text-[#0f7a44]"><CheckIcon /> Saved</span>;
+    return null;
 }
 
 function SectionCard({ icon, title, hint, children }) {
@@ -75,12 +84,12 @@ function Field({ label, children }) {
 export default function CustomerDashboard() {
     const { user, logout } = useAuth();
     const [wedding, setWedding] = useState(null);
-    const [guestText, setGuestText] = useState('');
+    const [newGuestName, setNewGuestName] = useState('');
     const [photoFiles, setPhotoFiles] = useState([]);
     const [loading, setLoading] = useState(true);
     const [saveState, setSaveState] = useState('idle'); // idle | unsaved | saving | saved | error
-    const [guestSaving, setGuestSaving] = useState(false);
-    const [guestMsg, setGuestMsg] = useState('');
+    const [guestState, setGuestState] = useState('idle'); // idle | saving | saved | error
+    const [guestError, setGuestError] = useState('');
     const [loadError, setLoadError] = useState('');
     const [copiedId, setCopiedId] = useState(null);
 
@@ -91,6 +100,11 @@ export default function CustomerDashboard() {
     const pendingRef = useRef(false);
     const timerRef = useRef(null);
 
+    // Guest list saver state (its own endpoint, independent of the field autosave).
+    const guestSavingRef = useRef(false);
+    const guestPendingRef = useRef(false);
+    const cidRef = useRef(0); // client-side keys for guests not yet saved to the server
+
     useEffect(() => { weddingRef.current = wedding; }, [wedding]);
     useEffect(() => { photoFilesRef.current = photoFiles; }, [photoFiles]);
 
@@ -98,7 +112,6 @@ export default function CustomerDashboard() {
         api.getWedding()
             .then((data) => {
                 setWedding(data.wedding);
-                setGuestText(data.wedding.guests.map((g) => g.name).join('\n'));
                 setSaveState('saved');
             })
             .catch((err) => setLoadError(err.message))
@@ -200,22 +213,68 @@ export default function CustomerDashboard() {
         scheduleSave(400);
     }
 
-    async function saveGuests(event) {
-        event.preventDefault();
-        setGuestSaving(true);
-        setGuestMsg('');
-        const names = guestText.split('\n').map((l) => l.trim()).filter(Boolean);
+    /* ─── guest list: a stable-identity manager that saves each change live ───
+       Every change sends the whole desired list (each row carrying its id, or
+       null when new). The server reconciles by id, so renaming never breaks a
+       shared link and two guests can share a name. In-flight saves coalesce the
+       latest change the same way the field autosave does. */
+    const guestKey = (g) => (g.id != null ? `id-${g.id}` : `cid-${g.cid}`);
+
+    const persistGuests = useCallback(async () => {
+        if (guestSavingRef.current) { guestPendingRef.current = true; return; }
+        guestSavingRef.current = true;
+        setGuestState('saving');
+        setGuestError('');
+
+        const list = (weddingRef.current?.guests ?? [])
+            .map((g) => ({ id: typeof g.id === 'number' ? g.id : null, name: (g.name ?? '').trim() }))
+            .filter((g) => g.name);
+
         try {
-            const data = await api.syncGuests(names);
+            const data = await api.syncGuests(list);
+            weddingRef.current = { ...weddingRef.current, guests: data.guests };
             setWedding((cur) => ({ ...cur, guests: data.guests }));
-            setGuestText(data.guests.map((g) => g.name).join('\n'));
-            setGuestMsg(`${data.guests.length} guest ${data.guests.length === 1 ? 'link' : 'links'} ready to share.`);
+            setGuestState('saved');
         } catch (err) {
-            setGuestMsg(err.message);
+            setGuestError(err.message);
+            setGuestState('error');
         } finally {
-            setGuestSaving(false);
+            guestSavingRef.current = false;
+            if (guestPendingRef.current) { guestPendingRef.current = false; persistGuests(); }
         }
-    }
+    }, []);
+
+    const applyGuests = useCallback((nextGuests) => {
+        weddingRef.current = { ...weddingRef.current, guests: nextGuests };
+        setWedding((cur) => ({ ...cur, guests: nextGuests }));
+        persistGuests();
+    }, [persistGuests]);
+
+    // Accepts a single name or a whole list at once: split on new lines and
+    // commas so the customer can paste their guest list straight in.
+    const addGuests = useCallback((rawText) => {
+        const names = String(rawText).split(/[\n,]+/).map((n) => n.trim()).filter(Boolean);
+        if (!names.length) return;
+        const cur = weddingRef.current?.guests ?? [];
+        const additions = names.map((name) => {
+            cidRef.current += 1;
+            return { id: null, cid: cidRef.current, name, token: null, rsvp_status: null };
+        });
+        applyGuests([...cur, ...additions]);
+        setNewGuestName('');
+    }, [applyGuests]);
+
+    const removeGuest = useCallback((guest) => {
+        const cur = weddingRef.current?.guests ?? [];
+        applyGuests(cur.filter((g) => guestKey(g) !== guestKey(guest)));
+    }, [applyGuests]);
+
+    const renameGuest = useCallback((guest, rawName) => {
+        const name = rawName.trim();
+        if (!name || name === guest.name) return;
+        const cur = weddingRef.current?.guests ?? [];
+        applyGuests(cur.map((g) => (guestKey(g) === guestKey(guest) ? { ...g, name } : g)));
+    }, [applyGuests]);
 
     async function copyLink(link, id) {
         try {
@@ -381,7 +440,7 @@ export default function CustomerDashboard() {
                 </SectionCard>
 
                 {/* ── Guests & RSVPs ── */}
-                <SectionCard icon={<UsersIcon />} title="Guests & RSVPs" hint="One name per line. Each guest gets their own private link.">
+                <SectionCard icon={<UsersIcon />} title="Guests & RSVPs" hint="Add each guest by name. Everyone gets their own private link, and the name you type is how they’re greeted on the invitation.">
                     <div className="grid grid-cols-3 gap-2.5">
                         <div className="rounded-xl border border-[#ece3d6] bg-[#fbfaf7] p-3 text-center">
                             <p className="text-[11px] font-medium uppercase tracking-wide text-[#8a7b6a]">Accepted</p>
@@ -397,25 +456,45 @@ export default function CustomerDashboard() {
                         </div>
                     </div>
 
-                    <form className="space-y-3" onSubmit={saveGuests}>
-                        <textarea
-                            className={`${INPUT_CLS} min-h-40 font-mono text-sm`}
-                            value={guestText}
-                            onChange={(e) => setGuestText(e.target.value)}
-                            placeholder={'Mohamed\nFatima\nKarim\nNadia'}
-                        />
-                        <button className="auth-button auth-button-fill w-full sm:w-auto" type="submit" disabled={guestSaving}>
-                            {guestSaving ? 'Saving guests…' : 'Save guest list & generate links'}
-                        </button>
-                        {guestMsg ? <p className="text-sm text-[#0065c8]">{guestMsg}</p> : null}
-                    </form>
+                    <div className="space-y-1.5">
+                        <form
+                            className="flex gap-2"
+                            onSubmit={(e) => { e.preventDefault(); addGuests(newGuestName); }}
+                        >
+                            <input
+                                className={INPUT_CLS}
+                                value={newGuestName}
+                                onChange={(e) => setNewGuestName(e.target.value)}
+                                onPaste={(e) => {
+                                    const text = e.clipboardData.getData('text');
+                                    if (/[\n,]/.test(text)) { e.preventDefault(); addGuests(text); }
+                                }}
+                                placeholder="Add a guest, or paste a list"
+                                aria-label="Guest name"
+                            />
+                            <button
+                                type="submit"
+                                className="auth-button auth-button-fill inline-flex shrink-0 items-center gap-1.5 px-5 disabled:opacity-50"
+                                disabled={!newGuestName.trim()}
+                            >
+                                <PlusIcon /> Add
+                            </button>
+                        </form>
+                        <p className="px-1 text-xs text-[#9a8b78]">Add one at a time, or paste a whole list: one name per line, or separated by commas.</p>
+                    </div>
 
                     {guests.length ? (
-                        <div className="border-t border-[#ece3d6] pt-4">
-                            <h3 className="text-sm font-semibold text-[#5c4d3d]">Guest links & responses</h3>
+                        <div>
+                            <div className="flex items-center justify-between gap-3">
+                                <h3 className="text-sm font-semibold text-[#5c4d3d]">
+                                    {guests.length} {guests.length === 1 ? 'guest' : 'guests'}
+                                </h3>
+                                <GuestSaveHint state={guestState} error={guestError} />
+                            </div>
                             <ul className="mt-3 space-y-2.5">
                                 {guests.map((guest) => {
                                     const link = inviteLink(guest.token);
+                                    const key = guestKey(guest);
                                     const raw = guest.rsvp_status;
                                     const badge = raw === 'attending'
                                         ? { label: 'Accepted', cls: 'bg-[#e8f5ee] text-[#0f7a44] border-[#bfe3cf]' }
@@ -423,10 +502,28 @@ export default function CustomerDashboard() {
                                             ? { label: 'Refused', cls: 'bg-[#fbeaea] text-[#8a2e2e] border-[#eccaca]' }
                                             : { label: 'Awaiting', cls: 'bg-black/[0.04] text-black/45 border-black/10' };
                                     return (
-                                        <li key={guest.id} className="rounded-xl border border-[#ece3d6] bg-[#fbfaf7] p-3.5">
-                                            <div className="flex items-center justify-between gap-3">
-                                                <p className="min-w-0 truncate font-medium">{guest.name}</p>
+                                        <li key={key} className="rounded-xl border border-[#ece3d6] bg-[#fbfaf7] p-3.5">
+                                            <div className="flex items-center gap-2">
+                                                <input
+                                                    className="min-w-0 flex-1 rounded-md border border-transparent bg-transparent px-1.5 py-1 font-medium text-[#2c2419] outline-none transition focus:border-[#e0d5c5] focus:bg-white focus:ring-2 focus:ring-[#8b5a3c]/15"
+                                                    defaultValue={guest.name}
+                                                    aria-label="Guest name"
+                                                    onKeyDown={(e) => { if (e.key === 'Enter') e.currentTarget.blur(); }}
+                                                    onBlur={(e) => {
+                                                        const value = e.target.value.trim();
+                                                        if (!value) { e.target.value = guest.name; return; }
+                                                        renameGuest(guest, value);
+                                                    }}
+                                                />
                                                 <span className={`shrink-0 rounded-full border px-2.5 py-0.5 text-xs font-medium ${badge.cls}`}>{badge.label}</span>
+                                                <button
+                                                    type="button"
+                                                    onClick={() => removeGuest(guest)}
+                                                    aria-label={`Remove ${guest.name}`}
+                                                    className="grid h-8 w-8 shrink-0 place-items-center rounded-full text-[#b3a594] transition hover:bg-[#f3e3d8] hover:text-[#8a2e2e]"
+                                                >
+                                                    <TrashIcon />
+                                                </button>
                                             </div>
                                             {link ? (
                                                 <div className="mt-2 space-y-2">
@@ -441,22 +538,27 @@ export default function CustomerDashboard() {
                                                         </button>
                                                         <button
                                                             type="button"
-                                                            onClick={() => copyLink(link, guest.id)}
+                                                            onClick={() => copyLink(link, key)}
                                                             className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-lg border border-[#dcc9b4] px-3 py-2 text-xs font-medium text-[#6b4a34] transition hover:bg-[#f6efe6]"
                                                         >
-                                                            {copiedId === guest.id ? <><CheckIcon /> Copied</> : <><CopyIcon /> Copy</>}
+                                                            {copiedId === key ? <><CheckIcon /> Copied</> : <><CopyIcon /> Copy</>}
                                                         </button>
                                                     </div>
                                                 </div>
                                             ) : (
-                                                <p className="mt-1 text-sm text-[#8a7b6a]">Re-save guests to generate this link.</p>
+                                                <p className="mt-2 flex items-center gap-1.5 text-sm text-[#8a7b6a]"><Spinner /> Generating link…</p>
                                             )}
                                         </li>
                                     );
                                 })}
                             </ul>
                         </div>
-                    ) : null}
+                    ) : (
+                        <div className="rounded-xl border border-dashed border-[#d8c8b4] bg-[#fbf7f1] px-5 py-8 text-center">
+                            <p className="text-sm font-medium text-[#6b5d4d]">No guests yet</p>
+                            <p className="mx-auto mt-1 max-w-xs text-sm text-[#8a7b6a]">Add your first guest above. Each one gets a private link you can share by WhatsApp, Messages, or copy.</p>
+                        </div>
+                    )}
                 </SectionCard>
             </main>
 

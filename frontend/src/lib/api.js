@@ -81,10 +81,10 @@ export const api = {
             method: 'PATCH',
             body: payload instanceof FormData ? payload : JSON.stringify(payload),
         }),
-    syncGuests: (names) =>
+    syncGuests: (guests) =>
         request('/api/wedding/guests', {
             method: 'PUT',
-            body: JSON.stringify({ names }),
+            body: JSON.stringify({ guests }),
         }),
     getInvitation: (token) => request(`/api/invite/${token}`),
     submitRsvp: (token, status) =>
