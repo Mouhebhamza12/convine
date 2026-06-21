@@ -23,6 +23,7 @@
 /backend/public/assets
 /backend/public/_headers
 /backend/public/textures
+/backend/public/favicon.png
 /backend/storage/*.key
 /backend/storage/pail
 /public/build
