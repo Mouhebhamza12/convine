@@ -1,27 +1,28 @@
 # Deploying Convine to a DigitalOcean Droplet
 
-A single Ubuntu server runs everything: **Nginx** serves the built React SPA and
-proxies `/api` to **Laravel** (PHP 8.3) on the **same origin**. SQLite is the
-database; uploaded photos live on the droplet's persistent disk. HTTPS is free
-via Let's Encrypt; the domain is your free Namecheap `.me`.
+One Ubuntu server runs everything. **Vite builds the React SPA straight into
+`backend/public`** (`frontend/vite.config.js` → `outDir: ../backend/public`), and
+**Laravel serves it** — `routes/web.php` returns the SPA shell for non-API routes
+while handling `/api` and `/storage` itself. So the document root is
+`backend/public`, the SPA and API share **one origin**, and the session cookie
+works without CORS/Sanctum. SQLite is the database; uploaded photos live on the
+droplet's persistent disk; HTTPS is free via Let's Encrypt.
 
 > Same-origin serving also removes the cross-origin/proxy cookie problem you saw
-> in local dev, so the login/session should be solid in production.
+> in local dev, so login/session should be solid in production.
 
 ---
 
 ## 0. Before you start
 - Activate **DigitalOcean** in your GitHub Student Pack ($200 credit).
 - Claim your free **Namecheap `.me`** domain.
-- Code is on GitHub at `https://github.com/Mouhebhamza12/convine`.
+- Code is at `https://github.com/Mouhebhamza12/convine`.
 
 ## 1. Create the droplet
 DigitalOcean → **Create → Droplets**:
-- **Ubuntu 24.04 LTS**
-- **Basic / Regular** — pick **2 GB RAM ($12/mo)** so the `npm run build` doesn't run out of memory (1 GB can work with swap; see step 3).
-- Datacenter near your guests.
-- **SSH key** (recommended) or password.
-- Create, then copy the **public IPv4**.
+- **Ubuntu 24.04 LTS**, **Basic / Regular**, **2 GB RAM ($12/mo)** so the Vite
+  build doesn't run out of memory (1 GB works only with the swap step below).
+- Datacenter near your guests; add your **SSH key**; create; copy the **public IPv4**.
 
 ## 2. Point the domain (Namecheap)
 Namecheap → **Domain List → Manage → Advanced DNS** → add:
@@ -29,29 +30,23 @@ Namecheap → **Domain List → Manage → Advanced DNS** → add:
 |------|------|-------|
 | A | `@` | `<DROPLET_IP>` |
 | A | `www` | `<DROPLET_IP>` |
-Remove any default parking records. DNS takes ~5–30 min to propagate.
+Remove default parking records. DNS takes ~5–30 min.
 
 ## 3. Install the stack
 ```bash
 ssh root@<DROPLET_IP>
 apt update && apt upgrade -y
 
-# (1 GB droplet only) add 2 GB swap so npm build won't OOM:
+# (1 GB droplet only) 2 GB swap so the build won't OOM:
 fallocate -l 2G /swapfile && chmod 600 /swapfile && mkswap /swapfile && swapon /swapfile
 echo '/swapfile none swap sw 0 0' >> /etc/fstab
 
-# Web stack
 apt install -y nginx git unzip curl \
   php8.3 php8.3-fpm php8.3-cli php8.3-sqlite3 php8.3-mbstring \
   php8.3-xml php8.3-curl php8.3-zip php8.3-gd
 
-# Composer
-curl -sS https://getcomposer.org/installer | php
-mv composer.phar /usr/local/bin/composer
-
-# Node 20 (for the Vite build)
-curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
-apt install -y nodejs
+curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer
+curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && apt install -y nodejs
 ```
 
 ## 4. Raise PHP upload limits (for the 0–4 photo feature)
@@ -71,32 +66,46 @@ cd convine
 ## 6. Configure & build the backend
 ```bash
 cd /var/www/convine/backend
-cp ../deploy/laravel.env.example .env
-nano .env          # replace YOURDOMAIN.me everywhere with your real domain
+cp .env.example .env
+nano .env
+```
+In `.env` set, for production (the file's header lists the same checklist):
+```
+APP_ENV=production
+APP_DEBUG=false
+APP_URL=https://YOURDOMAIN.me
+SESSION_SECURE_COOKIE=true
+ADMIN_EMAIL=you@yourdomain.me            # your real admin login
+ADMIN_PASSWORD=use-a-strong-unique-password
+```
+Then:
+```bash
 composer install --no-dev --optimize-autoloader
 php artisan key:generate
 touch database/database.sqlite
 php artisan migrate --force
-php artisan db:seed --force      # creates admin: you@platform.com / admin-change-me
+php artisan db:seed --force      # seeds the admin from ADMIN_EMAIL / ADMIN_PASSWORD
 php artisan storage:link
-php artisan config:cache && php artisan route:cache && php artisan view:cache
 ```
 
-## 7. Build the frontend
+## 7. Build the frontend (emits into backend/public)
 ```bash
 cd /var/www/convine/frontend
 npm ci
-npm run build                    # outputs frontend/dist
+npm run build       # writes index.html + /assets into ../backend/public
 ```
 
-## 8. Permissions
+## 8. Cache config + permissions
 ```bash
+cd /var/www/convine/backend
+php artisan config:cache && php artisan view:cache
+# (do NOT run route:cache — web.php uses closures)
 cd /var/www/convine
 chown -R www-data:www-data backend/storage backend/bootstrap/cache backend/database
 chmod -R 775 backend/storage backend/bootstrap/cache
 ```
 
-## 9. Nginx
+## 9. Nginx (document root = backend/public)
 ```bash
 cp /var/www/convine/deploy/nginx.conf /etc/nginx/sites-available/convine
 nano /etc/nginx/sites-available/convine     # replace YOURDOMAIN.me
@@ -110,25 +119,12 @@ Visit **http://YOURDOMAIN.me** — the platform should load.
 ```bash
 apt install -y certbot python3-certbot-nginx
 certbot --nginx -d YOURDOMAIN.me -d www.YOURDOMAIN.me   # choose "redirect HTTP -> HTTPS"
-```
-`SESSION_SECURE_COOKIE=true` is already set, so re-cache config:
-```bash
 cd /var/www/convine/backend && php artisan config:cache && systemctl reload php8.3-fpm
 ```
 
 ## 11. Firewall
 ```bash
-ufw allow OpenSSH
-ufw allow 'Nginx Full'
-ufw --force enable
-```
-
-## 12. Change the admin password (important!)
-Log in at `https://YOURDOMAIN.me/login` as `you@platform.com` / `admin-change-me`,
-then change it — or from the server:
-```bash
-cd /var/www/convine/backend
-php artisan tinker --execute="\$u=App\Models\User::where('email','you@platform.com')->first(); \$u->password=Hash::make('YOUR-NEW-STRONG-PASSWORD'); \$u->save(); echo 'updated';"
+ufw allow OpenSSH && ufw allow 'Nginx Full' && ufw --force enable
 ```
 
 ---
@@ -139,12 +135,13 @@ cd /var/www/convine && sudo ./deploy/deploy.sh
 ```
 
 ## Where things live
-- **Uploaded photos:** `backend/storage/app/public/weddings/photos`, served at `/storage/...` — they persist across redeploys.
-- **Database:** `backend/database/database.sqlite`. Back it up with `cp` periodically.
-- **Logs:** `backend/storage/logs/laravel.log`, and `journalctl -u nginx` / `journalctl -u php8.3-fpm`.
+- **Uploaded photos:** `backend/storage/app/public/weddings/photos`, served at `/storage/...`; persist across redeploys.
+- **Database:** `backend/database/database.sqlite` — back it up with `cp` periodically.
+- **Logs:** `backend/storage/logs/laravel.log`; `journalctl -u nginx`; `journalctl -u php8.3-fpm`.
 
 ## Troubleshooting
-- **500 on every request** → check `backend/.env` has `APP_KEY` and `php artisan config:cache` was run after edits.
-- **419 / login won't stick** → confirm `APP_URL` and `SANCTUM_STATEFUL_DOMAINS` match the real domain and you're on **https**.
+- **503 "Frontend build not found"** → run step 7 (`npm run build`) so `backend/public/index.html` exists.
+- **500 on every request** → `backend/.env` missing `APP_KEY`, or run `php artisan config:cache` after editing `.env`.
+- **419 / login won't stick** → confirm `APP_URL` matches the real https domain and `SESSION_SECURE_COOKIE=true`.
 - **413 on photo upload** → re-check step 4 (PHP limits) and `client_max_body_size` in nginx.
-- **502 Bad Gateway** → PHP-FPM socket path; confirm `unix:/run/php/php8.3-fpm.sock` exists (`ls /run/php/`).
+- **502 Bad Gateway** → confirm the FPM socket exists: `ls /run/php/php8.3-fpm.sock`.
