@@ -4,9 +4,6 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const DEFAULT_MESSAGE =
-    'We are delighted to invite you to celebrate our wedding and share this special day with us.';
-
 const G = 'var(--hero-gold)';
 
 /* ─── Top divider: ·· ♥ ·· flanked by tapering rules ─── */
@@ -82,8 +79,9 @@ function WaxSealCoin({ className }) {
     );
 }
 
-export default function InvitationLetter({ guestName, brideName, groomName, message }) {
+export default function InvitationLetter({ guestName, brideName, groomName, message, strings }) {
     const sceneRef = useRef(null);
+    const S = strings.letter;
 
     useEffect(() => {
         const ctx = gsap.context(() => {
@@ -114,12 +112,12 @@ export default function InvitationLetter({ guestName, brideName, groomName, mess
                 <HeartDotsDivider />
 
                 <p className="letter-greeting">
-                    Dear <strong>{guestName}</strong>,
+                    {S.greeting} <strong>{guestName}</strong>,
                 </p>
 
                 <FleuronRule />
 
-                <p className="letter-body">{message || DEFAULT_MESSAGE}</p>
+                <p className="letter-body">{message || S.defaultMsg}</p>
 
                 <p className="letter-names">
                     {brideName} &amp; {groomName}

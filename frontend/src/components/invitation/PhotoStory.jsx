@@ -4,7 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
-export default function PhotoStory({ photos = [] }) {
+export default function PhotoStory({ photos = [], strings }) {
     const sceneRef = useRef(null);
     const titleRef = useRef(null);
     const itemsRef = useRef([]);
@@ -73,7 +73,7 @@ export default function PhotoStory({ photos = [] }) {
     return (
         <section ref={sceneRef} className="invite-scene photo-story-scene">
             <p ref={titleRef} className="photo-story-title">
-                Moments That Define Us
+                {strings.photos.title}
             </p>
 
             <div className="photo-story-stage">

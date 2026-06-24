@@ -1,6 +1,6 @@
 import roses from '../../assets/roseraie/roses.svg';
 import damask from '../../assets/roseraie/damask.svg';
-import { formatLongDate, formatDateParts } from './RoseraieStrings';
+import { formatLongDate, formatDateParts } from '../../lib/locales';
 
 /* Entrance driven by FullPageScroller: any `.fp-reveal` inside the active
    section fades + lifts in; `--slow` pieces drift for parallax. All decoration
@@ -16,7 +16,7 @@ export function RoseraieHero({ bride, groom, eventDate, strings }) {
                 <em>{strings.hero.and}</em>
                 <span>{groom}</span>
             </h1>
-            <p className="fp-reveal ro-hero__date">{formatLongDate(eventDate)}</p>
+            <p className="fp-reveal ro-hero__date">{formatLongDate(eventDate, strings.code)}</p>
         </section>
     );
 }
@@ -37,7 +37,7 @@ export function RoseraieLetter({ guestName, bride, groom, message, strings }) {
 
 /* ─── THE DATE: a baroque damask backs the day ─── */
 export function RoseraieDate({ eventDate, strings }) {
-    const { weekday, day, month, year } = formatDateParts(eventDate);
+    const { weekday, day, month, year } = formatDateParts(eventDate, strings.code);
     return (
         <section className="ro-scene ro-date">
             <p className="fp-reveal ro-eyebrow">{strings.date.label}</p>
@@ -68,9 +68,6 @@ export function RoseraiePhotos({ photos = [], strings }) {
                         <span className="ro-photo__frame">
                             <img src={src} alt="" className="ro-photo__img" />
                         </span>
-                        {strings.photos.captions[i] ? (
-                            <figcaption className="ro-photo__cap">{strings.photos.captions[i]}</figcaption>
-                        ) : null}
                     </figure>
                 ))}
             </div>

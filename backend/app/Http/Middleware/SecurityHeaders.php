@@ -33,7 +33,10 @@ class SecurityHeaders
                 ."img-src 'self' data: blob:; "
                 ."media-src 'self' blob: data:; "
                 ."connect-src 'self'; "
-                ."object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'";
+                // The desktop preview renders the invitation inside a same-origin
+                // <iframe> (?frame=raw), so the shell must allow being framed by
+                // itself. 'self' still blocks framing by any other site.
+                ."object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'";
 
         $headers = [
             'X-Content-Type-Options' => 'nosniff',

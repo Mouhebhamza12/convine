@@ -2,6 +2,8 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { api } from '../lib/api';
+import { supportedLocalesFor } from '../lib/templates';
+import { LOCALES } from '../lib/locales';
 
 const MAX_PHOTOS = 4;
 const AUTOSAVE_MS = 1100; // wait this long after the last keystroke before saving
@@ -9,8 +11,26 @@ const AUTOSAVE_MS = 1100; // wait this long after the last keystroke before savi
 const INPUT_CLS =
     'w-full rounded-xl border border-[#e0d5c5] bg-[#fffdfa] px-4 py-3.5 text-base text-[#2c2419] outline-none transition focus:border-[#8b5a3c] focus:ring-2 focus:ring-[#8b5a3c]/15 placeholder:text-[#b3a594]';
 
-function inviteLink(token) {
-    return token ? `${window.location.origin}/invite/${token}` : null;
+// A guest link, optionally in a chosen language. The primary language needs no
+// param (clean link); any other offered language is requested via ?lang=.
+function inviteLink(token, lang, primary) {
+    if (!token) return null;
+    const base = `${window.location.origin}/invite/${token}`;
+    return lang && lang !== primary ? `${base}?lang=${lang}` : base;
+}
+
+// Bring a freshly-loaded wedding into a consistent language shape: a non-empty
+// offered set (within what the template supports), a primary, and a per-language
+// message map seeded from the existing single message.
+function normalizeLangs(wedding) {
+    const supported = supportedLocalesFor(wedding.template_slug);
+    let offered = (wedding.locales ?? []).filter((c) => supported.includes(c));
+    let primary = supported.includes(wedding.locale) ? wedding.locale : supported[0];
+    if (!offered.length) offered = [primary];
+    if (!offered.includes(primary)) primary = offered[0];
+    const messages = { ...(wedding.messages ?? {}) };
+    if (!messages[primary] && wedding.message) messages[primary] = wedding.message;
+    return { ...wedding, locale: primary, locales: offered, messages };
 }
 
 /* Only send a maps URL once it actually looks like one, otherwise a half-typed
@@ -27,6 +47,7 @@ const PinIcon = () => (<svg {...ic}><path d="M12 21s-6-5.2-6-10a6 6 0 1 1 12 0c0
 const PenIcon = () => (<svg {...ic}><path d="M12 20h9" /><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z" /></svg>);
 const CamIcon = () => (<svg {...ic}><path d="M3 8h3l1.5-2h9L18 8h3a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1Z" /><circle cx="12" cy="13" r="3.2" /></svg>);
 const UsersIcon = () => (<svg {...ic}><circle cx="9" cy="8" r="3.2" /><path d="M3 20c0-3 2.7-5 6-5s6 2 6 5" /><path d="M16 4.5a3 3 0 0 1 0 6M17 15c2.4.5 4 2.4 4 5" /></svg>);
+const GlobeIcon = () => (<svg {...ic}><circle cx="12" cy="12" r="9" /><path d="M3 12h18M12 3c2.5 2.5 3.8 5.7 3.8 9S14.5 18.5 12 21c-2.5-2.5-3.8-5.7-3.8-9S9.5 5.5 12 3Z" /></svg>);
 const CheckIcon = () => (<svg {...ic} width="16" height="16"><path d="M20 6 9 17l-5-5" /></svg>);
 const EyeIcon = () => (<svg {...ic} width="16" height="16"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z" /><circle cx="12" cy="12" r="2.6" /></svg>);
 const CopyIcon = () => (<svg {...ic} width="15" height="15"><rect x="9" y="9" width="11" height="11" rx="2" /><path d="M5 15V5a2 2 0 0 1 2-2h8" /></svg>);
@@ -92,6 +113,8 @@ export default function CustomerDashboard() {
     const [guestError, setGuestError] = useState('');
     const [loadError, setLoadError] = useState('');
     const [copiedId, setCopiedId] = useState(null);
+    const [msgTab, setMsgTab] = useState(''); // which language's message is being edited
+    const [shareLang, setShareLang] = useState({}); // per-guest chosen share language
 
     // Refs so the debounced saver always reads the freshest values.
     const weddingRef = useRef(null);
@@ -111,7 +134,7 @@ export default function CustomerDashboard() {
     useEffect(() => {
         api.getWedding()
             .then((data) => {
-                setWedding(data.wedding);
+                setWedding(normalizeLangs(data.wedding));
                 setSaveState('saved');
             })
             .catch((err) => setLoadError(err.message))
@@ -135,6 +158,15 @@ export default function CustomerDashboard() {
         pending: guests.filter((g) => !g.rsvp_status).length,
     };
 
+    /* ─── language: the couple's own choice ─── */
+    const templateLocales = supportedLocalesFor(wedding?.template_slug);
+    const offered = wedding?.locales?.length ? wedding.locales : (wedding?.locale ? [wedding.locale] : ['en']);
+    const primary = wedding?.locale ?? offered[0];
+    const multiLang = templateLocales.length > 1; // template can carry more than one language
+    // keep the offered set in the template's display order
+    const orderedOffered = templateLocales.filter((c) => offered.includes(c));
+    const activeMsgLang = offered.includes(msgTab) ? msgTab : primary;
+
     /* ─── autosave engine ─── */
     const doSave = useCallback(async () => {
         const w = weddingRef.current;
@@ -154,10 +186,18 @@ export default function CustomerDashboard() {
         fd.append('event_time', w.event_time ?? '');
         fd.append('venue', w.venue ?? '');
         fd.append('venue_address', w.venue_address ?? '');
-        fd.append('message', w.message ?? '');
         if (isSendableUrl(w.google_maps_url ?? '')) {
             fd.append('google_maps_url', w.google_maps_url ?? '');
         }
+
+        // Language: the primary, the offered set, and the message per language.
+        // `message` is mirrored from the primary language for back-compat.
+        const wPrimary = w.locale ?? 'en';
+        const wOffered = w.locales?.length ? w.locales : [wPrimary];
+        fd.append('locale', wPrimary);
+        wOffered.forEach((c) => fd.append('locales[]', c));
+        wOffered.forEach((c) => fd.append(`messages[${c}]`, w.messages?.[c] ?? ''));
+        fd.append('message', w.messages?.[wPrimary] ?? w.message ?? '');
         existing.forEach((p) => fd.append('photos[]', p));
         files.slice(0, Math.max(0, MAX_PHOTOS - existing.length)).forEach((f) => fd.append('photos[]', f));
 
@@ -191,6 +231,35 @@ export default function CustomerDashboard() {
     function updateField(field, value) {
         setWedding((cur) => ({ ...cur, [field]: value }));
         scheduleSave();
+    }
+
+    function setMessageFor(code, value) {
+        setWedding((cur) => ({ ...cur, messages: { ...(cur.messages ?? {}), [code]: value } }));
+        scheduleSave();
+    }
+
+    // Offer / withdraw a language. The offered set is never empty, and the
+    // primary language must always remain offered.
+    function toggleOffered(code) {
+        setWedding((cur) => {
+            const has = (cur.locales ?? []).includes(code);
+            let locales = has ? (cur.locales ?? []).filter((c) => c !== code) : [...(cur.locales ?? []), code];
+            if (!locales.length) locales = [code];
+            let locale = cur.locale;
+            if (!locales.includes(locale)) locale = locales[0];
+            return { ...cur, locales, locale };
+        });
+        scheduleSave(400);
+    }
+
+    // The default language a guest sees, and the one mirrored to `message`.
+    function setPrimaryLang(code) {
+        setWedding((cur) => {
+            const locales = (cur.locales ?? []).includes(code) ? cur.locales : [...(cur.locales ?? []), code];
+            return { ...cur, locale: code, locales };
+        });
+        setMsgTab(code);
+        scheduleSave(400);
     }
 
     function onAddPhotos(event) {
@@ -385,13 +454,79 @@ export default function CustomerDashboard() {
                     </Field>
                 </SectionCard>
 
+                {multiLang ? (
+                    <SectionCard
+                        icon={<GlobeIcon />}
+                        title="Invitation language"
+                        hint="Choose the language(s) you’ll send. Each guest sees only one: the language of the link you share with them. No switcher ever appears inside the invitation."
+                    >
+                        <div className="flex flex-wrap gap-2">
+                            {templateLocales.map((code) => {
+                                const on = offered.includes(code);
+                                const isPrimary = code === primary;
+                                return (
+                                    <div
+                                        key={code}
+                                        className={`flex items-center gap-1 rounded-full border py-1 pl-1 pr-1.5 transition ${on ? 'border-[#8b5a3c] bg-[#f6efe6]' : 'border-[#e0d5c5] bg-white'}`}
+                                    >
+                                        <button
+                                            type="button"
+                                            lang={code}
+                                            onClick={() => toggleOffered(code)}
+                                            className={`rounded-full px-3 py-1 text-sm font-medium ${on ? 'text-[#6b4a34]' : 'text-[#8a7b6a]'}`}
+                                        >
+                                            {LOCALES[code]?.endonym ?? code}
+                                        </button>
+                                        {on ? (
+                                            isPrimary ? (
+                                                <span className="rounded-full bg-[#8b5a3c] px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-white">Default</span>
+                                            ) : (
+                                                <button type="button" onClick={() => setPrimaryLang(code)} className="rounded-full px-2 py-0.5 text-[11px] font-medium text-[#8a7b6a] hover:text-[#6b4a34]">
+                                                    Set default
+                                                </button>
+                                            )
+                                        ) : null}
+                                    </div>
+                                );
+                            })}
+                        </div>
+                        <p className="text-xs text-[#9a8b78]">
+                            {orderedOffered.length > 1
+                                ? `You’re offering ${orderedOffered.length} languages. Share each guest the link in the language they read, from the guest list below.`
+                                : 'Add another language to send the same invitation, in their words, to guests who read it.'}
+                        </p>
+                    </SectionCard>
+                ) : null}
+
                 <SectionCard icon={<PenIcon />} title="Your message" hint="A few warm words to open the invitation.">
+                    {orderedOffered.length > 1 ? (
+                        <div className="flex flex-wrap gap-1.5">
+                            {orderedOffered.map((code) => (
+                                <button
+                                    key={code}
+                                    type="button"
+                                    lang={code}
+                                    onClick={() => setMsgTab(code)}
+                                    className={`rounded-full px-3 py-1.5 text-sm font-medium transition ${code === activeMsgLang ? 'bg-[#8b5a3c] text-white' : 'border border-[#e0d5c5] text-[#6b4a34] hover:bg-[#f6efe6]'}`}
+                                >
+                                    {LOCALES[code]?.endonym ?? code}
+                                </button>
+                            ))}
+                        </div>
+                    ) : null}
                     <textarea
+                        key={activeMsgLang}
+                        dir={activeMsgLang === 'ar' ? 'rtl' : 'ltr'}
                         className={`${INPUT_CLS} min-h-32 resize-y leading-relaxed`}
-                        value={wedding.message ?? ''}
-                        onChange={(e) => updateField('message', e.target.value)}
+                        value={wedding.messages?.[activeMsgLang] ?? ''}
+                        onChange={(e) => setMessageFor(activeMsgLang, e.target.value)}
                         placeholder="We would be honoured to have you celebrate our wedding with us…"
                     />
+                    {orderedOffered.length > 1 ? (
+                        <p className="text-xs text-[#9a8b78]">
+                            Writing the <b lang={activeMsgLang}>{LOCALES[activeMsgLang]?.label}</b> message. Each language has its own.
+                        </p>
+                    ) : null}
                 </SectionCard>
 
                 <SectionCard
@@ -493,8 +628,9 @@ export default function CustomerDashboard() {
                             </div>
                             <ul className="mt-3 space-y-2.5">
                                 {guests.map((guest) => {
-                                    const link = inviteLink(guest.token);
                                     const key = guestKey(guest);
+                                    const gLang = offered.includes(shareLang[key]) ? shareLang[key] : primary;
+                                    const link = inviteLink(guest.token, gLang, primary);
                                     const raw = guest.rsvp_status;
                                     const badge = raw === 'attending'
                                         ? { label: 'Accepted', cls: 'bg-[#e8f5ee] text-[#0f7a44] border-[#bfe3cf]' }
@@ -527,6 +663,22 @@ export default function CustomerDashboard() {
                                             </div>
                                             {link ? (
                                                 <div className="mt-2 space-y-2">
+                                                    {orderedOffered.length > 1 ? (
+                                                        <div className="flex flex-wrap items-center gap-1.5">
+                                                            <span className="text-xs text-[#9a8b78]">Send in</span>
+                                                            {orderedOffered.map((code) => (
+                                                                <button
+                                                                    key={code}
+                                                                    type="button"
+                                                                    lang={code}
+                                                                    onClick={() => setShareLang((m) => ({ ...m, [key]: code }))}
+                                                                    className={`rounded-full px-2.5 py-1 text-xs font-medium transition ${code === gLang ? 'bg-[#6b4a34] text-white' : 'border border-[#e0d5c5] text-[#6b4a34] hover:bg-[#f6efe6]'}`}
+                                                                >
+                                                                    {LOCALES[code]?.label ?? code}
+                                                                </button>
+                                                            ))}
+                                                        </div>
+                                                    ) : null}
                                                     <a className="block truncate text-sm text-[#0065c8] hover:underline" href={link} target="_blank" rel="noreferrer">{link}</a>
                                                     <div className="flex gap-2">
                                                         <button

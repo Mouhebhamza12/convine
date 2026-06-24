@@ -143,6 +143,7 @@ class CustomerController extends Controller
             'venue_address' => $wedding->venue_address,
             'message' => $wedding->message,
             'template_slug' => $wedding->template_slug,
+            'locale' => $wedding->locale,
             'status' => $wedding->status,
             'published' => $wedding->status !== 'draft',
             'paid' => (bool) $wedding->paid,

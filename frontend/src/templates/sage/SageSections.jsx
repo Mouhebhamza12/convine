@@ -3,6 +3,8 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useRsvp } from '../../components/shared/useRsvp';
 import { useCountdown } from '../../components/shared/useCountdown';
+import { timeInWords } from './SageStrings';
+import { formatNumber } from '../../lib/locales';
 import buildingImg from '../../../assets/buildingsvg.png';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -57,25 +59,15 @@ function PocketWatch({ time, className }) {
     );
 }
 
-function timeInWords(t) {
-    const [h, m] = String(t || '19:00').split(':').map(Number);
-    const names = ['twelve', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven'];
-    const hour = names[h % 12];
-    const part = h < 12 ? 'in the morning' : h < 18 ? 'in the afternoon' : 'in the evening';
-    if (!m) return `${hour} o’clock ${part}`;
-    if (m === 30) return `half past ${hour} ${part}`;
-    return `${hour}:${String(m).padStart(2, '0')} ${part}`;
-}
-
-export function SageTime({ eventTime }) {
+export function SageTime({ eventTime, strings }) {
     const ref = useRef(null);
     useReveal(ref, '.sg-tm-fade');
     return (
         <section ref={ref} className="sage-scene">
-            <p className="sg-tm-fade sage-eyebrow">When the watch reads</p>
+            <p className="sg-tm-fade sage-eyebrow">{strings.time.eyebrow}</p>
             <PocketWatch time={eventTime} className="sg-tm-fade sg-watch" />
-            <p className="sg-tm-fade sg-watch__words">at {timeInWords(eventTime)}</p>
-            <p className="sg-tm-fade sg-watch__note">the ceremony begins, we would be honored by your presence</p>
+            <p className="sg-tm-fade sg-watch__words">{strings.time.at} {timeInWords(eventTime, strings.code)}</p>
+            <p className="sg-tm-fade sg-watch__note">{strings.time.note}</p>
         </section>
     );
 }
@@ -89,15 +81,16 @@ function DottedLeader() {
     );
 }
 
-export function SageCountdown({ eventDate, eventTime }) {
+export function SageCountdown({ eventDate, eventTime, strings }) {
     const ref = useRef(null);
     useReveal(ref, '.sg-jr-fade');
     const { days, hours, minutes, seconds } = useCountdown(eventDate, eventTime);
+    const labels = strings.countdown.rows;
     const rows = [
-        ['Days remaining', days],
-        ['Hours', hours],
-        ['Minutes', minutes],
-        ['Seconds', seconds],
+        [labels[0], days],
+        [labels[1], hours],
+        [labels[2], minutes],
+        [labels[3], seconds],
     ];
 
     return (
@@ -111,19 +104,19 @@ export function SageCountdown({ eventDate, eventTime }) {
                     <line x1="14" y1="4" x2="14" y2="96" stroke="#c98f86" strokeWidth="0.25" opacity="0.5" />
                 </svg>
                 <header className="sg-journal__head">
-                    <span>Field notes</span>
-                    <em>counting the days</em>
+                    <span>{strings.countdown.head}</span>
+                    <em>{strings.countdown.sub}</em>
                 </header>
                 <div className="sg-journal__rows">
                     {rows.map(([label, value]) => (
                         <div key={label} className="sg-journal__row">
                             <span>{label}</span>
                             <DottedLeader />
-                            <strong>{value}</strong>
+                            <strong>{formatNumber(value, strings.code)}</strong>
                         </div>
                     ))}
                 </div>
-                <p className="sg-journal__obs">obs: the garden will be in full bloom by then</p>
+                <p className="sg-journal__obs">{strings.countdown.obs}</p>
             </div>
         </section>
     );
@@ -142,16 +135,17 @@ function CompassRose({ className }) {
     );
 }
 
-export function SageLocation({ venue, venueAddress, googleMapsUrl }) {
+export function SageLocation({ venue, venueAddress, googleMapsUrl, strings }) {
     const ref = useRef(null);
     useReveal(ref, '.sg-pl-fade');
     const mapsQuery = encodeURIComponent(venueAddress || venue || '');
     const mapsUrl = googleMapsUrl || `https://www.google.com/maps/search/?api=1&query=${mapsQuery}`;
+    const S = strings.location;
 
     return (
         <section ref={ref} className="sage-scene">
-            <p className="sg-pl-fade sg-plate__no">Plate № I: the grounds</p>
-            <h3 className="sg-pl-fade sg-plate__title">{venue || 'The Estate'}</h3>
+            <p className="sg-pl-fade sg-plate__no">{S.plate}</p>
+            <h3 className="sg-pl-fade sg-plate__title">{venue || S.defaultVenue}</h3>
 
             <div className="sg-pl-fade sg-plate">
                 <img className="sg-plate__img" src={buildingImg} alt={venue || 'Venue'} />
@@ -164,17 +158,17 @@ export function SageLocation({ venue, venueAddress, googleMapsUrl }) {
                     <path d="M90 78 L66 66" strokeWidth="0.45" />
                     <circle cx="66" cy="66" r="0.9" fill={INK} stroke="none" />
                 </svg>
-                <span className="sg-plate__label sg-plate__label--1">the spires</span>
-                <span className="sg-plate__label sg-plate__label--2">grand hall</span>
-                <span className="sg-plate__label sg-plate__label--3">ceremony lawn</span>
+                <span className="sg-plate__label sg-plate__label--1">{S.labels[0]}</span>
+                <span className="sg-plate__label sg-plate__label--2">{S.labels[1]}</span>
+                <span className="sg-plate__label sg-plate__label--3">{S.labels[2]}</span>
             </div>
 
-            {venueAddress && <p className="sg-pl-fade sg-plate__caption">surveyed at: {venueAddress}</p>}
+            {venueAddress && <p className="sg-pl-fade sg-plate__caption">{S.caption} {venueAddress}</p>}
 
             {mapsQuery && (
                 <a className="sg-pl-fade sg-plate__btn" href={mapsUrl} target="_blank" rel="noopener noreferrer">
                     <CompassRose className="sg-plate__compass" />
-                    <span>Chart your way there</span>
+                    <span>{S.btn}</span>
                 </a>
             )}
         </section>
@@ -201,11 +195,12 @@ function WaxSeal({ className }) {
     );
 }
 
-export function SageRsvp({ guestName, initialStatus, onSubmit, isDemo }) {
+export function SageRsvp({ guestName, initialStatus, onSubmit, isDemo, strings }) {
     const ref = useRef(null);
     useReveal(ref, '.sg-rp-fade');
     const { status, submitting, respond } = useRsvp(initialStatus, onSubmit, isDemo);
     const attending = status === 'attending';
+    const S = strings.rsvp;
 
     return (
         <section ref={ref} className="sage-scene">
@@ -216,18 +211,18 @@ export function SageRsvp({ guestName, initialStatus, onSubmit, isDemo }) {
                     <line x1="0" y1="6.5" x2="200" y2="6.5" stroke={INK} strokeWidth="0.6" />
                 </svg>
 
-                <p className="sg-reply__head">The favour of a reply is requested</p>
-                <p className="sg-reply__guest">prepared for <strong>{guestName}</strong></p>
+                <p className="sg-reply__head">{S.head}</p>
+                <p className="sg-reply__guest">{S.guest} <strong>{guestName}</strong></p>
 
                 {!status ? (
                     <div className="sg-reply__options">
                         <button type="button" disabled={submitting} onClick={() => respond('attending')} className="sg-reply__opt">
                             <CheckBox checked={false} />
-                            <span>accepts with pleasure</span>
+                            <span>{S.accept}</span>
                         </button>
                         <button type="button" disabled={submitting} onClick={() => respond('declined')} className="sg-reply__opt">
                             <CheckBox checked={false} />
-                            <span>declines with regret</span>
+                            <span>{S.decline}</span>
                         </button>
                     </div>
                 ) : (
@@ -235,18 +230,16 @@ export function SageRsvp({ guestName, initialStatus, onSubmit, isDemo }) {
                         <div className="sg-reply__options">
                             <div className={`sg-reply__opt is-final${attending ? '' : ' is-dim'}`}>
                                 <CheckBox checked={attending} />
-                                <span>accepts with pleasure</span>
+                                <span>{S.accept}</span>
                             </div>
                             <div className={`sg-reply__opt is-final${attending ? ' is-dim' : ''}`}>
                                 <CheckBox checked={!attending} />
-                                <span>declines with regret</span>
+                                <span>{S.decline}</span>
                             </div>
                         </div>
                         <WaxSeal className="sg-reply__seal" />
                         <p className="sg-reply__msg">
-                            {attending
-                                ? `Noted with joy, we cannot wait to celebrate with you, ${guestName}.`
-                                : `Noted with love, you will be missed dearly, ${guestName}.`}
+                            {attending ? S.confirmYes(guestName) : S.confirmNo(guestName)}
                         </p>
                     </div>
                 )}

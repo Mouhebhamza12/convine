@@ -107,7 +107,8 @@ export function monogramLetters(bride, groom, { demo = false } = {}) {
     return { letters: [initialOf(bride), initialOf(groom)], arabic: false };
 }
 
-const AR_MONTHS = ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو', 'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'];
+/* Algerian/Maghrebi month names (French-derived), not the Mashriqi forms. */
+const AR_MONTHS = ['جانفي', 'فيفري', 'مارس', 'أفريل', 'ماي', 'جوان', 'جويلية', 'أوت', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'];
 const AR_WEEKDAYS = ['الأحد', 'الإثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'];
 
 /** { weekday, day, month, year } in Arabic for the details scene. */

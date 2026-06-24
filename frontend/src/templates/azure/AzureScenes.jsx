@@ -4,6 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import {
     OrnateFrame, CoupleIllustration, StarsCluster, Star, Flourish, HeartDivider, ClockIcon, PinIcon,
 } from './AzureArt';
+import { azDateParts, azTime } from './AzureStrings';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -30,34 +31,12 @@ function jumpToSection(index) {
     requestAnimationFrame(stepFn);
 }
 
-function ordinal(d) {
-    if (d % 10 === 1 && d !== 11) return 'st';
-    if (d % 10 === 2 && d !== 12) return 'nd';
-    if (d % 10 === 3 && d !== 13) return 'rd';
-    return 'th';
-}
-function parseDate(s) {
-    const d = new Date(s);
-    return Number.isNaN(d.getTime()) ? null : d;
-}
-function ampm(t) {
-    if (!t) return '9:00 AM';
-    const [h, m] = String(t).split(':').map(Number);
-    const ap = h < 12 ? 'AM' : 'PM';
-    return `${((h + 11) % 12) + 1}:${String(m || 0).padStart(2, '0')} ${ap}`;
-}
-function longDate(d, deltaDays = 0) {
-    if (!d) return null;
-    const x = new Date(d.getTime() - deltaDays * 86400000);
-    return { day: x.getDate(), ord: ordinal(x.getDate()), mon: x.toLocaleString('en-US', { month: 'short' }).toUpperCase(), year: x.getFullYear() };
-}
-
 /* ─── HERO: the signature blue invitation screen ─── */
-export function AzureHero({ bride, groom, eventDate, eventTime, venue, rsvpPhone }) {
+export function AzureHero({ bride, groom, eventDate, eventTime, venue, rsvpPhone, strings }) {
     const ref = useRef(null);
-    const d = parseDate(eventDate);
-    const dt = longDate(d);
-    const deadline = longDate(d, 13);
+    const code = strings.code;
+    const dt = azDateParts(eventDate, code);
+    const deadline = azDateParts(eventDate, code, 13);
 
     useEffect(() => {
         const ctx = gsap.context(() => {
@@ -71,7 +50,7 @@ export function AzureHero({ bride, groom, eventDate, eventTime, venue, rsvpPhone
 
     return (
         <section ref={ref} className="azure-scene azure-hero">
-            <p className="azure-hero__fade azure-hero__invite">You&apos;re invited to<br />share in the joy of our wedding day</p>
+            <p className="azure-hero__fade azure-hero__invite">{strings.hero.invite[0]}<br />{strings.hero.invite[1]}</p>
 
             <h1 className="azure-hero__fade azure-hero__names">
                 <span>{bride}</span>
@@ -80,7 +59,7 @@ export function AzureHero({ bride, groom, eventDate, eventTime, venue, rsvpPhone
 
             <HeartDivider className="azure-hero__fade azure-hero__hdiv" />
 
-            <p className="azure-hero__fade azure-hero__together">Together with Love and Joy</p>
+            <p className="azure-hero__fade azure-hero__together">{strings.hero.together}</p>
 
             <div className="azure-hero__fade azure-hero__art">
                 <StarsCluster className="azure-acc azure-acc--stars" />
@@ -96,7 +75,7 @@ export function AzureHero({ bride, groom, eventDate, eventTime, venue, rsvpPhone
             <div className="azure-hero__fade azure-hero__meta">
                 <button type="button" className="azure-meta__col azure-meta__btn" onClick={() => jumpToSection(1)} aria-label="View ceremony time">
                     <ClockIcon className="azure-meta__icon" />
-                    <span>Start at<br />{ampm(eventTime)}</span>
+                    <span>{strings.hero.startAt}<br />{azTime(eventTime, code)}</span>
                 </button>
                 <span className="azure-meta__sep" />
                 {dt && (
@@ -108,13 +87,13 @@ export function AzureHero({ bride, groom, eventDate, eventTime, venue, rsvpPhone
                 <span className="azure-meta__sep" />
                 <button type="button" className="azure-meta__col azure-meta__btn" onClick={() => jumpToSection(4)} aria-label="View the venue location">
                     <PinIcon className="azure-meta__icon" />
-                    <span>{venue || 'The Venue'}</span>
+                    <span>{venue || strings.hero.venueDefault}</span>
                 </button>
             </div>
 
             {deadline && (
                 <p className="azure-hero__fade azure-hero__rsvp">
-                    Kindly RSVP before {deadline.day}{deadline.ord} {deadline.mon}, {deadline.year}
+                    {strings.hero.rsvpBefore} {deadline.day}{deadline.ord} {deadline.mon}, {deadline.year}
                 </p>
             )}
 
@@ -124,9 +103,9 @@ export function AzureHero({ bride, groom, eventDate, eventTime, venue, rsvpPhone
 }
 
 /* ─── Guest letter ─── */
-export function AzureLetter({ guestName, bride, groom, message }) {
+export function AzureLetter({ guestName, bride, groom, message, strings }) {
     const ref = useRef(null);
-    const defaultMsg = 'We are delighted to invite you to celebrate our wedding and share this special day with us.';
+    const defaultMsg = strings.letter.defaultMsg;
 
     useEffect(() => {
         const ctx = gsap.context(() => {
@@ -143,7 +122,7 @@ export function AzureLetter({ guestName, bride, groom, message }) {
             <div ref={ref} className="azure-letter">
                 <Star className="azure-acc azure-letter__star--tl" />
                 <Star className="azure-acc azure-letter__star--br" />
-                <p className="azure-letter__greeting">Dear <strong>{guestName}</strong>,</p>
+                <p className="azure-letter__greeting">{strings.letter.greeting} <strong>{guestName}</strong>,</p>
                 <p className="azure-letter__body">{message || defaultMsg}</p>
                 <HeartDivider className="azure-letter__div" />
                 <p className="azure-letter__sign">{bride} &amp; {groom}</p>
@@ -153,7 +132,7 @@ export function AzureLetter({ guestName, bride, groom, message }) {
 }
 
 /* ─── Photos ─── */
-export function AzurePhotos({ photos = [] }) {
+export function AzurePhotos({ photos = [], strings }) {
     const stageRef = useRef(null);
     const items = (photos || []).filter((p) => typeof p === 'string' && p.trim()).slice(0, 4);
 
@@ -168,13 +147,11 @@ export function AzurePhotos({ photos = [] }) {
         return () => ctx.revert();
     }, []);
 
-    const captions = ['snapshot no. 1', 'snapshot no. 2', 'snapshot no. 3', 'snapshot no. 4'];
-
     if (!items.length) return null;
 
     return (
         <section className="azure-scene">
-            <p className="azure-eyebrow">From our travel album</p>
+            <p className="azure-eyebrow">{strings.photos.eyebrow}</p>
             <div ref={stageRef} className="azure-photo-stage">
                 {items.map((src, i) => (
                     <div key={i} className={`azure-photo azure-photo--${i + 1} az-scrap`}>
@@ -184,7 +161,6 @@ export function AzurePhotos({ photos = [] }) {
                             <path d="M4 4 L66 1 M64 18 L2 21" stroke="currentColor" strokeWidth="0.8" opacity="0.4" />
                         </svg>
                         <img src={src} alt="" loading="lazy" />
-                        <p className="az-scrap__caption">{captions[i]}</p>
                     </div>
                 ))}
             </div>

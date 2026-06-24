@@ -2,21 +2,12 @@ import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { FiligreeCorner, FloralCornerLight, FloralSprig, SageRule } from './SageBotanicals';
+import { formatDots } from './SageStrings';
 
 gsap.registerPlugin(ScrollTrigger);
 
-function formatDots(eventDate) {
-    if (!eventDate) return '00 • 00 • 0000';
-    const parts = String(eventDate).split(/[-/]/);
-    if (parts.length === 3) {
-        const [y, m, d] = parts;
-        return `${d.padStart(2, '0')} • ${m.padStart(2, '0')} • ${y}`;
-    }
-    return eventDate;
-}
-
 /* ─── Cream details card (the signature invitation screen) ─── */
-export function SageDetails({ bride, groom, eventDate, eventTime, venue, venueAddress }) {
+export function SageDetails({ bride, groom, eventDate, eventTime, venue, venueAddress, strings }) {
     const ref = useRef(null);
 
     useEffect(() => {
@@ -46,12 +37,12 @@ export function SageDetails({ bride, groom, eventDate, eventTime, venue, venueAd
                 <FloralCornerLight className="sage-detail-floral sage-detail-floral--bl" />
 
                 <div className="sage-frame__inner">
-                    <p className="sage-detail-fade sage-detail__eyebrow">the wedding of</p>
+                    <p className="sage-detail-fade sage-detail__eyebrow">{strings.details.eyebrow}</p>
                     <FloralSprig className="sage-detail-fade sage-detail__sprig" />
                     <h2 className="sage-detail-fade sage-detail__names">{bride} &amp; {groom}</h2>
-                    <p className="sage-detail-fade sage-detail__date">{formatDots(eventDate)}</p>
+                    <p className="sage-detail-fade sage-detail__date">{formatDots(eventDate, strings.code)}</p>
                     {timeLine && <p className="sage-detail-fade sage-detail__meta">{timeLine}</p>}
-                    <p className="sage-detail-fade sage-detail__meta">Kindly RSVP below</p>
+                    <p className="sage-detail-fade sage-detail__meta">{strings.details.rsvp}</p>
                 </div>
             </div>
         </section>
@@ -59,9 +50,9 @@ export function SageDetails({ bride, groom, eventDate, eventTime, venue, venueAd
 }
 
 /* ─── Guest letter ─── */
-export function SageLetter({ guestName, bride, groom, message }) {
+export function SageLetter({ guestName, bride, groom, message, strings }) {
     const ref = useRef(null);
-    const defaultMsg = 'We are delighted to invite you to celebrate our wedding and share this special day with us.';
+    const defaultMsg = strings.letter.defaultMsg;
 
     useEffect(() => {
         const ctx = gsap.context(() => {
@@ -79,7 +70,7 @@ export function SageLetter({ guestName, bride, groom, message }) {
             <div ref={ref} className="sage-letter">
                 <FiligreeCorner className="sage-filigree sage-filigree--tl" />
                 <FiligreeCorner className="sage-filigree sage-filigree--br" />
-                <p className="sage-letter__greeting">Dear <strong>{guestName}</strong>,</p>
+                <p className="sage-letter__greeting">{strings.letter.greeting} <strong>{guestName}</strong>,</p>
                 <p className="sage-letter__body">{message || defaultMsg}</p>
                 <SageRule className="sage-letter__rule" />
                 <p className="sage-letter__sign">{bride} &amp; {groom}</p>
@@ -89,7 +80,7 @@ export function SageLetter({ guestName, bride, groom, message }) {
 }
 
 /* ─── Photos ─── */
-export function SagePhotos({ photos = [] }) {
+export function SagePhotos({ photos = [], strings }) {
     const stageRef = useRef(null);
     const items = (photos || []).filter((p) => typeof p === 'string' && p.trim()).slice(0, 4);
 
@@ -104,13 +95,11 @@ export function SagePhotos({ photos = [] }) {
         return () => ctx.revert();
     }, []);
 
-    const figures = ['fig. i: how we met', 'fig. ii: the proposal', 'fig. iii: us, lately'];
-
     if (!items.length) return null;
 
     return (
         <section className="sage-scene">
-            <p className="sage-eyebrow">Herbarium of moments</p>
+            <p className="sage-eyebrow">{strings.photos.eyebrow}</p>
             <SageRule className="sage-eyebrow-rule" />
             <div ref={stageRef} className="sage-photo-stage">
                 {items.map((src, i) => (
@@ -121,7 +110,6 @@ export function SagePhotos({ photos = [] }) {
                             <line x1="9" y1="8.5" x2="9" y2="24" strokeWidth="1.4" />
                         </svg>
                         <img src={src} alt="" loading="lazy" />
-                        {figures[i] ? <p className="sg-spec__label">{figures[i]}</p> : null}
                     </div>
                 ))}
             </div>

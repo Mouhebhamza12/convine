@@ -2,7 +2,8 @@ import { useRef, useEffect } from 'react';
 import gsap from 'gsap';
 import { DoveMonogram, FloralCornerLight } from './SageBotanicals';
 
-export default function SageOpening({ onComplete, bride, groom, guestName }) {
+export default function SageOpening({ onComplete, bride, groom, guestName, strings }) {
+    const S = strings.cover;
     const rootRef = useRef(null);
     const innerRef = useRef(null);
 
@@ -34,16 +35,16 @@ export default function SageOpening({ onComplete, bride, groom, guestName }) {
 
             <div ref={innerRef} className="sage-cover__inner">
                 <DoveMonogram className="sage-cover__doves" />
-                <p className="sage-cover__eyebrow">The Wedding Of</p>
+                <p className="sage-cover__eyebrow">{S.eyebrow}</p>
                 <div className="sage-cover__names">
                     <span className="sage-cover__name sage-cover__name--1">{bride}</span>
                     <span className="sage-cover__amp">&amp;</span>
                     <span className="sage-cover__name sage-cover__name--2">{groom}</span>
                 </div>
 
-                <p className="sage-cover__addressed">Addressed To</p>
+                <p className="sage-cover__addressed">{S.addressed}</p>
                 <div className="sage-cover__guest">{guestName || ''}</div>
-                <p className="sage-cover__apology">We apologize for any misspelling on your name or title</p>
+                <p className="sage-cover__apology">{S.apology}</p>
             </div>
         </div>
     );

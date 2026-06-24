@@ -35,6 +35,7 @@ class CustomerProvisioner
                 'event_date' => $data['event_date'] ?? null,
                 'venue' => $data['venue'] ?? null,
                 'template_slug' => $data['template_slug'] ?? 'velvet',
+                'locale' => $data['locale'] ?? 'en',
                 'status' => 'draft',
             ]);
 

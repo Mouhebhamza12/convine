@@ -43,7 +43,21 @@ class WeddingController extends Controller
             'message' => ['nullable', 'string', 'max:5000'],
             'photos' => ['nullable', 'array', 'max:4'],
             'status' => ['sometimes', 'string', 'in:draft,ready,sent'],
+            // Language is the couple's own choice (never the admin's): the primary
+            // locale, the set they offer guests, and the message in each.
+            'locale' => ['sometimes', 'string', 'in:en,fr,ar'],
+            'locales' => ['sometimes', 'array'],
+            'locales.*' => ['string', 'in:en,fr,ar'],
+            'messages' => ['sometimes', 'array'],
+            'messages.*' => ['nullable', 'string', 'max:5000'],
         ]);
+
+        // Keep the plain `message` column in sync with the primary language so
+        // single-language templates and older readers keep working unchanged.
+        $primary = $data['locale'] ?? $wedding->locale ?? 'en';
+        if (array_key_exists('messages', $data) && array_key_exists($primary, $data['messages'])) {
+            $data['message'] = $data['messages'][$primary];
+        }
 
         $wedding->update([
             ...$data,
@@ -86,7 +100,10 @@ class WeddingController extends Controller
             'venue_address' => $wedding->venue_address,
             'google_maps_url' => $wedding->google_maps_url,
             'template_slug' => $wedding->template_slug,
+            'locale' => $wedding->locale,
+            'locales' => $wedding->locales ?: [],
             'message' => $wedding->message,
+            'messages' => $wedding->messages ?: [],
             'photos' => $wedding->photos ?? [],
             'status' => $wedding->status,
             'guests' => $wedding->guests->map(fn ($guest) => [

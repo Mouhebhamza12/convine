@@ -14,13 +14,15 @@ import GoldenParticles from '../../components/invitation/GoldenParticles';
 import OrnamentalDivider from '../../components/invitation/OrnamentalDivider';
 import AddToCalendar from '../../components/invitation/AddToCalendar';
 import InvitationFooter from '../../components/invitation/InvitationFooter';
+import { velvetStrings } from './VelvetStrings';
 import '../../css/invitation.css';
 
-export default function VelvetInvitation({ data, isDemo, onRsvp }) {
+export default function VelvetInvitation({ data, isDemo, onRsvp, locale = 'en' }) {
     const [startedOpening, setStartedOpening] = useState(false);
     const [drapeOpen, setDrapeOpen] = useState(false);
     const [scrollPct, setScrollPct] = useState(0);
     const { guest, wedding } = data;
+    const strings = velvetStrings(locale);
 
     const bride = wedding.bride_name || 'Amina';
     const groom = wedding.groom_name || 'Yacine';
@@ -42,7 +44,7 @@ export default function VelvetInvitation({ data, isDemo, onRsvp }) {
     }, [drapeOpen]);
 
     return (
-        <div className="invitation-root velvet-invitation">
+        <div className="invitation-root velvet-invitation" lang={strings.code} dir={strings.dir}>
             {/* Floating golden particles background */}
             {startedOpening && <GoldenParticles />}
 
@@ -64,23 +66,25 @@ export default function VelvetInvitation({ data, isDemo, onRsvp }) {
                 />
             )}
 
-            <SnapJourney enabled={drapeOpen} className={startedOpening ? 'is-visible' : ''} accent="#c9a227" rsvpIndex={8}>
+            <SnapJourney enabled={drapeOpen} className={startedOpening ? 'is-visible' : ''} accent="#c9a227" rsvpIndex={8} rsvpLabel={strings.rsvp.cta}>
                 {/* ── Section 1: Couple Names ── */}
                 <CoupleNames
                     brideName={bride}
                     groomName={groom}
                     visible={startedOpening}
+                    eyebrow={strings.hero.eyebrow}
+                    tagline={strings.hero.tagline}
                 />
 
                 <OrnamentalDivider variant="diamond" />
 
                 {/* ── Section 2: Save the Date (Scratch Reveal) ── */}
-                <DateReveal eventDate={wedding.event_date} visible={startedOpening} />
+                <DateReveal eventDate={wedding.event_date} visible={startedOpening} strings={strings} />
 
                 <OrnamentalDivider variant="arabesque" />
 
                 {/* ── Section 3: Ceremony Time ── */}
-                <WeddingTime eventTime={wedding.event_time} />
+                <WeddingTime eventTime={wedding.event_time} strings={strings} />
 
                 <OrnamentalDivider variant="dots" />
 
@@ -89,23 +93,24 @@ export default function VelvetInvitation({ data, isDemo, onRsvp }) {
                     guestName={guest.name}
                     brideName={bride}
                     groomName={groom}
-                    message={wedding.message}
+                    message={isDemo ? '' : wedding.message}
+                    strings={strings}
                 />
 
                 <OrnamentalDivider variant="diamond" />
 
                 {/* ── Section 5: Our Love Story (Photos) ── */}
-                <PhotoStory photos={wedding.photos} />
+                <PhotoStory photos={wedding.photos} strings={strings} />
 
                 <OrnamentalDivider variant="arabesque" />
 
                 {/* ── Section 6: Countdown Timer ── */}
-                <Countdown eventDate={wedding.event_date} eventTime={wedding.event_time} />
+                <Countdown eventDate={wedding.event_date} eventTime={wedding.event_time} strings={strings} />
 
                 <OrnamentalDivider variant="arabesque" />
 
                 {/* ── Section 8: Venue & Directions ── */}
-                <Location venue={wedding.venue} venueAddress={wedding.venue_address} googleMapsUrl={wedding.google_maps_url} />
+                <Location venue={wedding.venue} venueAddress={wedding.venue_address} googleMapsUrl={wedding.google_maps_url} strings={strings} />
 
                 <OrnamentalDivider variant="dots" />
 
@@ -118,6 +123,7 @@ export default function VelvetInvitation({ data, isDemo, onRsvp }) {
                     googleMapsUrl={wedding.google_maps_url}
                     brideName={bride}
                     groomName={groom}
+                    strings={strings}
                 />
 
                 <OrnamentalDivider variant="diamond" />
@@ -128,10 +134,11 @@ export default function VelvetInvitation({ data, isDemo, onRsvp }) {
                     initialStatus={guest.rsvp_status}
                     onSubmit={onRsvp}
                     isDemo={isDemo}
+                    strings={strings}
                 />
 
                 {/* ── Elegant Footer ── */}
-                <InvitationFooter brideName={bride} groomName={groom} />
+                <InvitationFooter brideName={bride} groomName={groom} strings={strings} />
             </SnapJourney>
         </div>
     );

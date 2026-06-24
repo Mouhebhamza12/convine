@@ -110,6 +110,7 @@ export default function CreateCustomerPage() {
                                 </option>
                             ))}
                         </select>
+                        <p className="mt-2 text-sm text-black/50">The couple choose their language(s) from their own dashboard.</p>
                     </label>
 
                     <details className="border-t border-black/10 pt-4">

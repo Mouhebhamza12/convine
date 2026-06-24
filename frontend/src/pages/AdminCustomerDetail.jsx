@@ -219,6 +219,7 @@ export default function AdminCustomerDetail() {
                                         </option>
                                     ))}
                                 </select>
+                                <p className="mt-2 text-sm text-black/50">The couple set their invitation language from their own dashboard.</p>
                             </label>
 
                             <div className="flex items-center justify-between border-t border-black/10 pt-4">

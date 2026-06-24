@@ -471,3 +471,44 @@
     .roseraie-fp .ro-scene { padding-top: clamp(2rem, 5vh, 3rem); padding-bottom: clamp(2rem, 5vh, 3rem); }
     .ro-photos__floral { display: none; }
 }
+
+/* ─────────────── ARABIC (RTL) ───────────────
+   The same Roseraie design, rendered right-to-left in Arabic type. The Latin
+   display/script faces carry no Arabic glyphs, so the whole composition remaps
+   to the loaded Arabic families: Amiri (naskh serif) for running text, Aref
+   Ruqaa for the decorative "script" roles (the ampersand, the signature, the
+   big weekday/day), and Reem Kufi for the tracked eyebrow labels. Letter-
+   spacing and uppercasing-meaningless and actively harmful for Arabic, which
+   joins its letters-are neutralised throughout. dir="rtl" on the root mirrors
+   the layout; this block only restyles the type. */
+.roseraie-invitation[lang="ar"] { font-family: 'Amiri', 'Markazi Text', serif; }
+
+.roseraie-invitation[lang="ar"] p,
+.roseraie-invitation[lang="ar"] span,
+.roseraie-invitation[lang="ar"] h1,
+.roseraie-invitation[lang="ar"] strong,
+.roseraie-invitation[lang="ar"] em,
+.roseraie-invitation[lang="ar"] a,
+.roseraie-invitation[lang="ar"] figcaption,
+.roseraie-invitation[lang="ar"] button {
+    font-family: 'Amiri', 'Markazi Text', serif;
+    letter-spacing: normal;
+    text-transform: none;
+    font-style: normal;
+}
+
+/* running Arabic text wants a little more leading than the Latin defaults */
+.roseraie-invitation[lang="ar"] .ro-letter__body,
+.roseraie-invitation[lang="ar"] .ro-rsvp__msg { line-height: 2; }
+
+/* tracked small-cap labels → a clean Arabic kufi */
+.roseraie-invitation[lang="ar"] .ro-eyebrow { font-family: 'Reem Kufi', sans-serif; }
+
+/* decorative "script" roles → ruqʿah display */
+.roseraie-invitation[lang="ar"] .ro-hero__names span,
+.roseraie-invitation[lang="ar"] .ro-hero__names em,
+.roseraie-invitation[lang="ar"] .ro-letter__names,
+.roseraie-invitation[lang="ar"] .ro-date__weekday,
+.roseraie-invitation[lang="ar"] .ro-date__day {
+    font-family: 'Aref Ruqaa', 'Amiri', serif;
+}

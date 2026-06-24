@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { useRsvp } from '../../components/shared/useRsvp';
 import { useCountdown } from '../../components/shared/useCountdown';
-import { formatTime12 } from './RoseraieStrings';
+import { formatTime, formatNumber } from '../../lib/locales';
 import { HeartWhole, HeartBroken } from './RoseraieArt';
 import roses from '../../assets/roseraie/roses.svg';
 import damask from '../../assets/roseraie/damask.svg';
@@ -13,7 +13,7 @@ export function RoseraieTime({ eventTime, strings }) {
         <section className="ro-scene ro-time">
             <p className="fp-reveal ro-eyebrow">{strings.time.label}</p>
             <p className="fp-reveal ro-time__from">{strings.time.from}</p>
-            <p className="fp-reveal ro-time__value">{formatTime12(eventTime)}</p>
+            <p className="fp-reveal ro-time__value">{formatTime(eventTime, strings.code)}</p>
             <p className="fp-reveal ro-time__note">{strings.time.note}</p>
         </section>
     );
@@ -30,7 +30,7 @@ export function RoseraieCountdown({ eventDate, eventTime, strings }) {
             <div className="fp-reveal ro-count__row">
                 {strings.countdown.units.map((unit, i) => (
                     <div key={unit} className="ro-count__cell">
-                        <span className="ro-count__num">{String(values[i]).padStart(2, '0')}</span>
+                        <span className="ro-count__num">{formatNumber(values[i], strings.code, { minDigits: 2 })}</span>
                         <span className="ro-count__unit">{unit}</span>
                     </div>
                 ))}

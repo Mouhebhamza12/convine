@@ -3,6 +3,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import confetti from 'canvas-confetti';
 import { parseEventDate } from '../../lib/formatWeddingDate';
+import { intlFor } from '../../lib/locales';
 import {
     drawScratchOverlay,
     measureScratchRatio,
@@ -15,6 +16,27 @@ gsap.registerPlugin(ScrollTrigger);
 const DATE_KEYS = ['day', 'month', 'year'];
 const BRUSH_SCALE = 1.05;
 const REVEAL_RATIO = 0.5;
+
+/* Localised { day, month, year } for the reveal cards. English keeps the
+   existing parser; other languages read native month names + numerals. */
+function localizedDateParts(eventDate, locale) {
+    if (locale === 'en') return parseEventDate(eventDate);
+    const d = eventDate ? new Date(`${eventDate}T12:00:00`) : null;
+    if (!d || Number.isNaN(d.getTime())) return parseEventDate(eventDate);
+    const intl = intlFor(locale);
+    return {
+        day: new Intl.DateTimeFormat(intl, { day: 'numeric' }).format(d),
+        month: new Intl.DateTimeFormat(intl, { month: 'long' }).format(d),
+        year: new Intl.DateTimeFormat(intl, { year: 'numeric' }).format(d),
+    };
+}
+
+/* "N more to scratch" progress hint, per language. */
+const MORE_HINT = {
+    en: (n) => `${n} more to scratch`,
+    fr: (n) => (n === 1 ? 'encore 1 à gratter' : `encore ${n} à gratter`),
+    ar: (n) => `بقي ${n} للكشف`,
+};
 
 function ScratchCard({ label, value, variant, theme, shape, revealed, onReveal, showLabel = true, CoinIcon = null }) {
     const containerRef = useRef(null);
@@ -184,11 +206,12 @@ export default function DateScratchReveal({
     hintDone = 'Save the date in your heart',
     showLabel = true,
     CoinIcon = null,
+    locale = 'en',
 }) {
     const sceneRef = useRef(null);
     const titleRef = useRef(null);
     const rowRef = useRef(null);
-    const { day, month, year } = parseEventDate(eventDate);
+    const { day, month, year } = localizedDateParts(eventDate, locale);
     const values = { day, month, year };
     const [revealed, setRevealed] = useState({ day: false, month: false, year: false });
 
@@ -246,7 +269,7 @@ export default function DateScratchReveal({
         ? hintDone
         : revealedCount === 0
           ? hintScratch
-          : `${3 - revealedCount} more to scratch`;
+          : (MORE_HINT[locale] ?? MORE_HINT.en)(3 - revealedCount);
 
     return (
         <section ref={sceneRef} className={sceneClass}>

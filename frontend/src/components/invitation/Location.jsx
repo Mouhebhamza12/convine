@@ -21,8 +21,9 @@ function FleuronRule() {
     );
 }
 
-export default function Location({ venue, venueAddress, googleMapsUrl }) {
+export default function Location({ venue, venueAddress, googleMapsUrl, strings }) {
     const sceneRef = useRef(null);
+    const S = strings.location;
 
     const mapsQuery = encodeURIComponent(venueAddress || venue || '');
     const mapsUrl = googleMapsUrl || `https://www.google.com/maps/search/?api=1&query=${mapsQuery}`;
@@ -75,11 +76,11 @@ export default function Location({ venue, venueAddress, googleMapsUrl }) {
                     </svg>
                 </div>
 
-                <p className="location-title">Where We Celebrate</p>
+                <p className="location-title">{S.title}</p>
 
                 <FleuronRule />
 
-                <h2 className="location-venue">{venue || 'Venue TBA'}</h2>
+                <h2 className="location-venue">{venue || S.venueDefault}</h2>
 
                 <div className="location-building">
                     <img className="location-building-img" src={buildingImg} alt={venue || 'Venue'} />
@@ -110,7 +111,7 @@ export default function Location({ venue, venueAddress, googleMapsUrl }) {
                             />
                             <circle cx="24" cy="18" r="6" fill="currentColor" />
                         </svg>
-                        Open in Google Maps
+                        {S.mapBtn}
                     </a>
                 )}
             </div>

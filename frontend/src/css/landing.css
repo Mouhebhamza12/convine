@@ -79,6 +79,47 @@
     max-width: 36ch;
 }
 
+/* ── page-level language preview control (NOT an in-invitation switcher) ── */
+.lx-lang {
+    display: inline-flex;
+    gap: 4px;
+    margin: 1.4rem auto 0;
+    padding: 4px;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--lx-ink) 6%, transparent);
+    border: 1px solid color-mix(in srgb, var(--lx-ink) 10%, transparent);
+}
+.lx-lang button {
+    appearance: none;
+    border: 0;
+    cursor: pointer;
+    padding: 0.42rem 0.95rem;
+    border-radius: 999px;
+    background: transparent;
+    color: var(--lx-muted);
+    font-family: var(--lx-sans);
+    font-weight: 600;
+    font-size: clamp(0.82rem, 3vw, 0.94rem);
+    line-height: 1;
+    transition: background 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+}
+.lx-lang button:hover { color: var(--lx-ink); }
+.lx-lang button.is-on {
+    background: #fff;
+    color: var(--lx-accent);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06), 0 6px 16px -10px rgba(0, 0, 0, 0.4);
+}
+.lx-lang button[lang="ar"] { font-size: clamp(0.95rem, 3.4vw, 1.08rem); }
+
+.lx-langnote {
+    margin: 0.9rem auto 0;
+    max-width: 34ch;
+    font-family: var(--lx-sans);
+    font-size: clamp(0.82rem, 3vw, 0.92rem);
+    line-height: 1.45;
+    color: var(--lx-muted);
+}
+
 /* reveal-on-scroll */
 .lx-reveal {
     opacity: 0;

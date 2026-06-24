@@ -10,7 +10,6 @@
  */
 import { useRef, useState, useCallback, useEffect, useMemo } from 'react';
 import { Canvas } from '@react-three/fiber';
-import { Environment } from '@react-three/drei';
 import gsap from 'gsap';
 import CurtainMesh from './CurtainMesh';
 import useCurtainSound from './useCurtainSound';
@@ -40,11 +39,14 @@ function useReducedMotion() {
 function CurtainScene({ leftSimRef, rightSimRef }) {
   return (
     <>
-      {/* Cinematic key light from front-top */}
-      <ambientLight intensity={0.12} />
+      {/* Cinematic key light from front-top. Ambient is lifted a touch to make
+          up for the removed image-based environment reflection (which required a
+          third-party HDR fetch the deployed CSP blocks); the curtain now lights
+          entirely from these in-scene sources, so it is fully self-contained. */}
+      <ambientLight intensity={0.22} />
       <directionalLight
         position={[0, 3, 2]}
-        intensity={1.1}
+        intensity={1.25}
         color="#fff8eb"
       />
       {/* Left warm rim light for highlights on drapes */}
@@ -60,10 +62,7 @@ function CurtainScene({ leftSimRef, rightSimRef }) {
         color="#ffeed4"
       />
       {/* Ambient bottom glow */}
-      <pointLight position={[0, -0.8, 1.5]} intensity={0.4} color="#ffb380" />
-
-      {/* Subtle environment reflection for fabric sheen */}
-      <Environment preset="apartment" environmentIntensity={0.25} />
+      <pointLight position={[0, -0.8, 1.5]} intensity={0.5} color="#ffb380" />
 
       {/* Left curtain panel */}
       <CurtainMesh side="left" simulatorRef={leftSimRef} />

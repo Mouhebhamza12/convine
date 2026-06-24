@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { formatEventTime } from '../../lib/formatWeddingDate';
+import { formatTime } from '../../lib/locales';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -65,8 +65,10 @@ function BottomFlourish() {
     );
 }
 
-export default function WeddingTime({ eventTime, thanks = 'We would be honored by your presence' }) {
+export default function WeddingTime({ eventTime, strings }) {
     const sceneRef = useRef(null);
+    const S = strings.time;
+    const thanks = S.thanks;
 
     useEffect(() => {
         const ctx = gsap.context(() => {
@@ -96,13 +98,13 @@ export default function WeddingTime({ eventTime, thanks = 'We would be honored b
         <section ref={sceneRef} className="invite-scene time-scene velvet-section">
             <TopFleuron />
 
-            <p className="time-label">The Ceremony Begins</p>
+            <p className="time-label">{S.label}</p>
 
             <div className="time-display">
                 <span className="time-icon">
                     <ClockIcon />
                 </span>
-                <p className="time-value">{formatEventTime(eventTime)}</p>
+                <p className="time-value">{formatTime(eventTime, strings.code)}</p>
             </div>
 
             <HeartRule />

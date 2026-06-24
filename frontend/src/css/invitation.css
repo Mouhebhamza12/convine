@@ -3062,11 +3062,8 @@ html, body {
     transition: transform 0.12s linear;
 }
 
-/* Remove the right-edge scroll-position dots on Velvet, the journey still
-   advances by scroll / swipe / arrow keys; the indicator is just removed. */
-.velvet-invitation .snap-dots {
-    display: none;
-}
+/* Velvet shows the same right-edge scroll-position dots as the other templates
+   (in addition to the slim gold progress bar at the very top). */
 
 html.invitation-active {
     scroll-behavior: smooth;
@@ -3120,4 +3117,20 @@ html.invitation-active {
     .velvet-invitation .letter-frame {
         padding: 2.5rem 1.5rem 2rem;
     }
+}
+
+/* ─────────────── ARABIC (RTL) baseline, shared by every template ───────────────
+   Any invitation rendered with lang="ar" gets its running type remapped to an
+   Arabic serif and its Latin letter-spacing / uppercasing neutralised (both
+   break Arabic shaping). Scoped to text elements so SVG <text> ornaments are
+   left untouched. Specificity is kept low (no !important) so a template can
+   still give specific elements a finer Arabic face (as Roseraie does). */
+.invitation-root[lang="ar"] {
+    font-family: 'Amiri', 'Markazi Text', serif;
+}
+.invitation-root[lang="ar"] :where(p, h1, h2, h3, h4, h5, h6, span, strong, b, em, i, a, li, button, figcaption, blockquote, label, small, time) {
+    font-family: 'Amiri', 'Markazi Text', serif;
+    letter-spacing: normal;
+    text-transform: none;
+    font-style: normal;
 }

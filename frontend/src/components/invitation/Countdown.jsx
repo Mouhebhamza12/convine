@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, useCallback } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { getCountdownTarget } from '../../lib/formatWeddingDate';
+import { formatNumber } from '../../lib/locales';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -16,8 +17,9 @@ function calcRemaining(target) {
     };
 }
 
-export default function Countdown({ eventDate, eventTime }) {
+export default function Countdown({ eventDate, eventTime, strings }) {
     const sceneRef = useRef(null);
+    const code = strings.code;
     const unitsRef = useRef([]);
     const secondsRef = useRef(null);
     const prevSecondsRef = useRef(null);
@@ -74,11 +76,12 @@ export default function Countdown({ eventDate, eventTime }) {
         return () => ctx.revert();
     }, []);
 
+    const labels = strings.countdown.units;
     const units = [
-        { value: remaining.days, label: 'Days' },
-        { value: remaining.hours, label: 'Hours' },
-        { value: remaining.minutes, label: 'Minutes' },
-        { value: remaining.seconds, label: 'Seconds' },
+        { key: 'days', value: remaining.days, label: labels[0] },
+        { key: 'hours', value: remaining.hours, label: labels[1] },
+        { key: 'minutes', value: remaining.minutes, label: labels[2] },
+        { key: 'seconds', value: remaining.seconds, label: labels[3] },
     ];
 
     return (
@@ -95,11 +98,11 @@ export default function Countdown({ eventDate, eventTime }) {
                 </svg>
             </div>
 
-            <p className="countdown-title">Until We Say I Do</p>
+            <p className="countdown-title">{strings.countdown.title}</p>
 
             <div className="countdown-grid">
                 {units.map((unit, index) => (
-                    <div key={unit.label} style={{ display: 'contents' }}>
+                    <div key={unit.key} style={{ display: 'contents' }}>
                         {/* Pulsing colon separator between units */}
                         {index > 0 && (
                             <span className="countdown-separator" aria-hidden="true">:</span>
@@ -115,9 +118,9 @@ export default function Countdown({ eventDate, eventTime }) {
                             <div className="countdown-glow">
                                 <span
                                     className="countdown-number"
-                                    ref={unit.label === 'Seconds' ? secondsRef : null}
+                                    ref={unit.key === 'seconds' ? secondsRef : null}
                                 >
-                                    {String(unit.value).padStart(2, '0')}
+                                    {formatNumber(unit.value, code, { minDigits: 2 })}
                                 </span>
                             </div>
                             <span className="countdown-label">{unit.label}</span>

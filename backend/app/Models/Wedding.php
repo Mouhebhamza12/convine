@@ -21,7 +21,10 @@ class Wedding extends Model
         'venue_address',
         'google_maps_url',
         'template_slug',
+        'locale',
+        'locales',
         'message',
+        'messages',
         'photos',
         'status',
         'paid',
@@ -32,6 +35,8 @@ class Wedding extends Model
     {
         return [
             'event_date' => 'date',
+            'locales' => 'array',
+            'messages' => 'array',
             'photos' => 'array',
             'paid' => 'boolean',
             'paid_at' => 'datetime',

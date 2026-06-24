@@ -24,6 +24,8 @@ class InvitationController extends Controller
             ],
             'wedding' => [
                 'template_slug' => $wedding->template_slug,
+                'locale' => $wedding->locale,
+                'locales' => $wedding->locales ?: [],
                 'bride_name' => $wedding->bride_name,
                 'groom_name' => $wedding->groom_name,
                 'event_date' => $wedding->event_date?->toDateString(),
@@ -32,6 +34,7 @@ class InvitationController extends Controller
                 'venue_address' => $wedding->venue_address,
                 'google_maps_url' => $wedding->google_maps_url,
                 'message' => $wedding->message,
+                'messages' => $wedding->messages ?: [],
                 'photos' => $wedding->photos ?? [],
             ],
         ]);

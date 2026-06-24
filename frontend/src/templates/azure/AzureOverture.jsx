@@ -4,20 +4,11 @@ import {
     ArchPanel, ChevronCue,
     OrnateFrame, CoupleIllustration, StarsCluster, Star, Flourish, HeartDivider,
 } from './AzureArt';
+import { azCoverDate } from './AzureStrings';
 
 const reduceMotion = () =>
     typeof window !== 'undefined' &&
     window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-function parseDate(s) {
-    const d = new Date(s);
-    return Number.isNaN(d.getTime()) ? null : d;
-}
-function coverDate(d) {
-    if (!d) return null;
-    const mon = d.toLocaleString('en-US', { month: 'long' }).toUpperCase();
-    return `${d.getDate()} · ${mon} · ${d.getFullYear()}`;
-}
 
 /**
  * AzureOverture-the opening screen for the Azure template.
@@ -27,12 +18,12 @@ function coverDate(d) {
  * scalloped medallion-the same drawing that runs through the invitation.
  * The arch draws itself on, the content settles, and a tap dissolves it.
  */
-export default function AzureOverture({ onStart, onComplete, bride, groom, eventDate, venue }) {
+export default function AzureOverture({ onStart, onComplete, bride, groom, eventDate, venue, strings }) {
     const rootRef = useRef(null);
     const stageRef = useRef(null);
     const [opening, setOpening] = useState(false);
 
-    const dateLabel = coverDate(parseDate(eventDate));
+    const dateLabel = azCoverDate(eventDate, strings.code);
 
     /* ── entrance ── */
     useEffect(() => {
@@ -100,7 +91,7 @@ export default function AzureOverture({ onStart, onComplete, bride, groom, event
                     <Flourish variant="b" className="az-ov__decor az-ov__decor--r" />
 
                     <div className="az-ov__col">
-                        <p className="az-ov__rise az-ov__eyebrow">You are invited to the wedding of</p>
+                        <p className="az-ov__rise az-ov__eyebrow">{strings.overture.eyebrow}</p>
 
                         <h1 className="az-ov__rise az-ov__names">
                             <span>{bride}</span>
@@ -123,7 +114,7 @@ export default function AzureOverture({ onStart, onComplete, bride, groom, event
             </div>
 
             <div className="az-ov__cue az-ov__tap" aria-hidden="true">
-                <span>Tap to Open</span>
+                <span>{strings.overture.tap}</span>
                 <ChevronCue className="az-ov__chevron" />
             </div>
         </div>

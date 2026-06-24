@@ -4,7 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
-export default function InvitationFooter({ brideName, groomName }) {
+export default function InvitationFooter({ brideName, groomName, strings }) {
     const footerRef = useRef(null);
     const contentRef = useRef(null);
 
@@ -44,7 +44,7 @@ export default function InvitationFooter({ brideName, groomName }) {
                 </div>
 
                 <p className="invitation-footer__thanks">
-                    Thank you for being part of our story
+                    {strings.footer.thanks}
                 </p>
 
                 {/* Branding */}

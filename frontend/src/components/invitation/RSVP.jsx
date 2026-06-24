@@ -35,8 +35,9 @@ function createRipple(e) {
     );
 }
 
-export default function RSVP({ guestName, initialStatus, onSubmit, isDemo }) {
+export default function RSVP({ guestName, initialStatus, onSubmit, isDemo, strings }) {
     const sceneRef = useRef(null);
+    const S = strings.rsvp;
     const contentRef = useRef(null);
     const successRef = useRef(null);
     const [status, setStatus] = useState(initialStatus);
@@ -115,12 +116,10 @@ export default function RSVP({ guestName, initialStatus, onSubmit, isDemo }) {
                     <div ref={successRef} className="rsvp-success-animated">
                         <p className="rsvp-confirmation-icon">{isAttending ? '♥' : '✦'}</p>
                         <h2 className="rsvp-confirmation-title">
-                            {isAttending ? 'We cannot wait!' : 'Thank you, dear friend'}
+                            {isAttending ? S.yesTitle : S.noTitle}
                         </h2>
                         <p className="rsvp-confirmation-text">
-                            {isAttending
-                                ? `Your presence means the world to us, ${guestName}. We look forward to celebrating together.`
-                                : `We understand, ${guestName}. Thank you for letting us know, you will be in our hearts on our special day.`}
+                            {isAttending ? S.confirmYes(guestName) : S.confirmNo(guestName)}
                         </p>
                     </div>
                 </div>
@@ -174,8 +173,8 @@ export default function RSVP({ guestName, initialStatus, onSubmit, isDemo }) {
                     </svg>
                 </div>
 
-                <h2 className="rsvp-title">Kindly Respond</h2>
-                <p className="rsvp-subtitle">Your response is a gift to us</p>
+                <h2 className="rsvp-title">{S.title}</h2>
+                <p className="rsvp-subtitle">{S.subtitle}</p>
 
                 <div className="rsvp-buttons">
                     <button
@@ -184,7 +183,7 @@ export default function RSVP({ guestName, initialStatus, onSubmit, isDemo }) {
                         disabled={submitting}
                         onClick={(e) => handleRsvp('attending', e)}
                     >
-                        Joyfully Accept
+                        {S.accept}
                     </button>
                     <button
                         type="button"
@@ -192,7 +191,7 @@ export default function RSVP({ guestName, initialStatus, onSubmit, isDemo }) {
                         disabled={submitting}
                         onClick={(e) => handleRsvp('declined', e)}
                     >
-                        Respectfully Decline
+                        {S.decline}
                     </button>
                 </div>
             </div>

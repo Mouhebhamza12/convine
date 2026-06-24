@@ -4,15 +4,11 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useRsvp } from '../../components/shared/useRsvp';
 import { useCountdown } from '../../components/shared/useCountdown';
 import { HeartDivider, Star, PinIcon } from './AzureArt';
+import { azTime, azTicketDate } from './AzureStrings';
+import { formatNumber } from '../../lib/locales';
 import buildingImg from '../../../assets/azurehouse.png';
 
 gsap.registerPlugin(ScrollTrigger);
-
-function ampm(t) {
-    if (!t) return '7:00 PM';
-    const [h, m] = String(t).split(':').map(Number);
-    return `${((h + 11) % 12) + 1}:${String(m || 0).padStart(2, '0')} ${h < 12 ? 'AM' : 'PM'}`;
-}
 
 function useReveal(ref, selector) {
     useEffect(() => {
@@ -97,52 +93,50 @@ function CornerBrackets({ className }) {
 }
 
 /* ─── CEREMONY TIME → first-class boarding pass ─── */
-export function AzureTime({ eventTime, eventDate, bride, groom }) {
+export function AzureTime({ eventTime, eventDate, bride, groom, strings }) {
     const ref = useRef(null);
     useReveal(ref, '.az-tk-fade');
-    const d = new Date(eventDate);
-    const dateStr = Number.isNaN(d.getTime())
-        ? ''
-        : d.toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' }).toUpperCase();
+    const S = strings.time;
+    const dateStr = azTicketDate(eventDate, strings.code);
 
     return (
         <section ref={ref} className="azure-scene">
-            <p className="az-tk-fade azure-eyebrow-sans">Now boarding</p>
+            <p className="az-tk-fade azure-eyebrow-sans">{S.nowBoarding}</p>
             <div className="az-tk-fade az-ticket">
                 <div className="az-ticket__main">
                     <header className="az-ticket__head">
-                        <span>First class · Ceremony</span>
+                        <span>{S.firstClass}</span>
                         <PlaneGlyph className="az-ticket__plane" />
                         <span>{dateStr}</span>
                     </header>
                     <div className="az-ticket__route">
                         <div>
-                            <small>From</small>
-                            <strong>This<br />Moment</strong>
+                            <small>{S.from}</small>
+                            <strong>{S.fromVal[0]}<br />{S.fromVal[1]}</strong>
                         </div>
                         <svg className="az-ticket__dots" viewBox="0 0 120 12" fill="none" stroke="currentColor" aria-hidden="true">
                             <line x1="4" y1="6" x2="116" y2="6" strokeWidth="1.2" strokeDasharray="1 6" strokeLinecap="round" />
                             <path d="M52 6 L66 1 L61 6 L66 11 Z" fill="currentColor" stroke="none" />
                         </svg>
                         <div>
-                            <small>To</small>
-                            <strong>Forever<br />After</strong>
+                            <small>{S.to}</small>
+                            <strong>{S.toVal[0]}<br />{S.toVal[1]}</strong>
                         </div>
                     </div>
                     <div className="az-ticket__row">
-                        <div><small>Departure</small><b className="az-ticket__time">{ampm(eventTime)}</b></div>
-                        <div><small>Gate</small><b>Love</b></div>
-                        <div><small>Seat</small><b>Beside us</b></div>
+                        <div><small>{S.departure}</small><b className="az-ticket__time">{azTime(eventTime, strings.code)}</b></div>
+                        <div><small>{S.gate}</small><b>{S.gateVal}</b></div>
+                        <div><small>{S.seat}</small><b>{S.seatVal}</b></div>
                     </div>
                 </div>
                 <Perforation className="az-ticket__perf" />
                 <div className="az-ticket__stub">
                     <small>{bride} &amp; {groom}</small>
-                    <b>{ampm(eventTime)}</b>
+                    <b>{azTime(eventTime, strings.code)}</b>
                     <Barcode className="az-ticket__barcode" />
                 </div>
             </div>
-            <p className="az-tk-fade az-under-note">We would be honored by your presence on board</p>
+            <p className="az-tk-fade az-under-note">{S.note}</p>
         </section>
     );
 }
@@ -157,15 +151,18 @@ function BoardCell({ children }) {
     );
 }
 
-export function AzureCountdown({ eventDate, eventTime }) {
+export function AzureCountdown({ eventDate, eventTime, strings }) {
     const ref = useRef(null);
     useReveal(ref, '.az-bd-fade');
     const { days, hours, minutes, seconds } = useCountdown(eventDate, eventTime);
+    const code = strings.code;
+    const pad = (n, len) => formatNumber(n, code, { minDigits: len });
+    const labels = strings.countdown.units;
     const units = [
-        ['Days', String(days).padStart(3, '0')],
-        ['Hours', String(hours).padStart(2, '0')],
-        ['Min', String(minutes).padStart(2, '0')],
-        ['Sec', String(seconds).padStart(2, '0')],
+        [labels[0], pad(days, 3)],
+        [labels[1], pad(hours, 2)],
+        [labels[2], pad(minutes, 2)],
+        [labels[3], pad(seconds, 2)],
     ];
 
     return (
@@ -173,10 +170,10 @@ export function AzureCountdown({ eventDate, eventTime }) {
             <div className="az-bd-fade az-board">
                 <header className="az-board__head">
                     <PlaneGlyph className="az-board__plane" />
-                    <span>Departures</span>
-                    <span className="az-board__status">On time</span>
+                    <span>{strings.countdown.departures}</span>
+                    <span className="az-board__status">{strings.countdown.onTime}</span>
                 </header>
-                <p className="az-board__dest">Destination: Happily ever after</p>
+                <p className="az-board__dest">{strings.countdown.dest}</p>
                 <div className="az-board__rows">
                     {units.map(([label, value]) => (
                         <div key={label} className="az-board__unit">
@@ -193,19 +190,20 @@ export function AzureCountdown({ eventDate, eventTime }) {
 }
 
 /* ─── VENUE → vintage postcard ─── */
-export function AzureLocation({ venue, venueAddress, googleMapsUrl }) {
+export function AzureLocation({ venue, venueAddress, googleMapsUrl, strings }) {
     const ref = useRef(null);
     useReveal(ref, '.az-pc-fade');
     const mapsQuery = encodeURIComponent(venueAddress || venue || '');
     const mapsUrl = googleMapsUrl || `https://www.google.com/maps/search/?api=1&query=${mapsQuery}`;
     const addrParts = (venueAddress || '').split(',').map((s) => s.trim()).filter(Boolean);
+    const S = strings.location;
 
     return (
         <section ref={ref} className="azure-scene">
             <div className="az-pc-fade az-postcard">
                 <div className="az-postcard__left">
-                    <p className="az-postcard__greet">Greetings from</p>
-                    <h3 className="az-postcard__venue">{venue || 'The Venue'}</h3>
+                    <p className="az-postcard__greet">{S.greet}</p>
+                    <h3 className="az-postcard__venue">{venue || S.venueDefault}</h3>
                     <div className="az-postcard__img">
                         <img src={buildingImg} alt={venue || 'Venue'} />
                     </div>
@@ -217,7 +215,7 @@ export function AzureLocation({ venue, venueAddress, googleMapsUrl }) {
                         <PostageStamp className="az-postcard__stamp" />
                     </div>
                     <div className="az-postcard__addr">
-                        {(addrParts.length ? addrParts : ['Address to follow']).slice(0, 3).map((line, i) => (
+                        {(addrParts.length ? addrParts : [S.addrFallback]).slice(0, 3).map((line, i) => (
                             <p key={i}>
                                 <span>{line}</span>
                                 <svg viewBox="0 0 100 4" preserveAspectRatio="none" aria-hidden="true"><line x1="0" y1="2" x2="100" y2="2" stroke="currentColor" strokeWidth="1" opacity="0.4" /></svg>
@@ -227,7 +225,7 @@ export function AzureLocation({ venue, venueAddress, googleMapsUrl }) {
                     {mapsQuery && (
                         <a className="az-postcard__btn" href={mapsUrl} target="_blank" rel="noopener noreferrer">
                             <PinIcon className="az-postcard__pin" />
-                            Visit · open in maps
+                            {S.btn}
                         </a>
                     )}
                 </div>
@@ -237,11 +235,12 @@ export function AzureLocation({ venue, venueAddress, googleMapsUrl }) {
 }
 
 /* ─── RSVP → passport stamp page ─── */
-export function AzureRsvp({ guestName, initialStatus, onSubmit, isDemo }) {
+export function AzureRsvp({ guestName, initialStatus, onSubmit, isDemo, strings }) {
     const ref = useRef(null);
     useReveal(ref, '.az-pp-fade');
     const { status, submitting, respond } = useRsvp(initialStatus, onSubmit, isDemo);
     const stampRef = useRef(null);
+    const S = strings.rsvp;
 
     useEffect(() => {
         if (status && stampRef.current) {
@@ -256,17 +255,17 @@ export function AzureRsvp({ guestName, initialStatus, onSubmit, isDemo }) {
             <div className="az-pp-fade az-passport">
                 <CornerBrackets className="az-passport__corners" />
                 <header className="az-passport__head">
-                    <span>Official reply</span>
+                    <span>{S.official}</span>
                     <Star className="az-passport__star" />
-                    <span>Visa de mariage</span>
+                    <span>{S.visa}</span>
                 </header>
                 <p className="az-passport__bearer">
-                    Bearer: <strong>{guestName}</strong>
+                    {S.bearer} <strong>{guestName}</strong>
                 </p>
 
                 {!status ? (
                     <>
-                        <p className="az-passport__note">Stamp your decision below</p>
+                        <p className="az-passport__note">{S.note}</p>
                         <div className="az-passport__stamps">
                             <button type="button" disabled={submitting} onClick={() => respond('attending')} className="az-stampbtn">
                                 <svg viewBox="0 0 120 120" fill="none" stroke="currentColor" aria-hidden="true">
@@ -274,7 +273,7 @@ export function AzureRsvp({ guestName, initialStatus, onSubmit, isDemo }) {
                                     <circle cx="60" cy="60" r="45" strokeWidth="1.2" strokeDasharray="3 4" />
                                     <path d="M60 78 C46 64 40 54 47 45 C52 39 60 42 60 49 C60 42 68 39 73 45 C80 54 74 64 60 78 Z" strokeWidth="2.4" />
                                 </svg>
-                                <span>Joyfully<br />accept</span>
+                                <span>{S.accept[0]}<br />{S.accept[1]}</span>
                             </button>
                             <button type="button" disabled={submitting} onClick={() => respond('declined')} className="az-stampbtn az-stampbtn--decline">
                                 <svg viewBox="0 0 120 120" fill="none" stroke="currentColor" aria-hidden="true">
@@ -282,7 +281,7 @@ export function AzureRsvp({ guestName, initialStatus, onSubmit, isDemo }) {
                                     <rect x="16" y="30" width="88" height="60" strokeWidth="1.2" strokeDasharray="3 4" transform="rotate(-4 60 60)" />
                                     <path d="M44 50 C52 58 68 70 76 70 M76 50 C68 58 52 70 44 70" strokeWidth="2.2" strokeLinecap="round" transform="rotate(-4 60 60)" />
                                 </svg>
-                                <span>Regretfully<br />decline</span>
+                                <span>{S.decline[0]}<br />{S.decline[1]}</span>
                             </button>
                         </div>
                     </>
@@ -291,17 +290,15 @@ export function AzureRsvp({ guestName, initialStatus, onSubmit, isDemo }) {
                         <svg ref={stampRef} className="az-passport__bigstamp" viewBox="0 0 240 120" fill="none" stroke="currentColor" aria-hidden="true">
                             <rect x="6" y="6" width="228" height="108" strokeWidth="4" />
                             <rect x="16" y="16" width="208" height="88" strokeWidth="1.4" strokeDasharray="4 5" />
-                            <text x="120" y="58" textAnchor="middle" fontFamily="Jost, sans-serif" fontWeight="600" fontSize="26" letterSpacing="6" fill="currentColor" stroke="none">
-                                {attending ? 'APPROVED' : 'REGRETS'}
+                            <text x="120" y="58" textAnchor="middle" fontFamily={strings.code === 'ar' ? "'Reem Kufi', sans-serif" : 'Jost, sans-serif'} fontWeight="600" fontSize="26" letterSpacing={strings.code === 'ar' ? 0 : 6} fill="currentColor" stroke="none">
+                                {attending ? S.approved : S.regrets}
                             </text>
-                            <text x="120" y="86" textAnchor="middle" fontFamily="Jost, sans-serif" fontSize="11" letterSpacing="3" fill="currentColor" stroke="none">
-                                {attending ? 'ADMIT TO FOREVER' : 'MISSED WITH LOVE'}
+                            <text x="120" y="86" textAnchor="middle" fontFamily={strings.code === 'ar' ? "'Reem Kufi', sans-serif" : 'Jost, sans-serif'} fontSize="11" letterSpacing={strings.code === 'ar' ? 0 : 3} fill="currentColor" stroke="none">
+                                {attending ? S.approvedSub : S.regretsSub}
                             </text>
                         </svg>
                         <p className="az-passport__msg">
-                            {attending
-                                ? `Your presence means the world to us, ${guestName}. See you at the gate.`
-                                : `We understand, ${guestName}, you will be in our hearts on the day.`}
+                            {attending ? S.confirmYes(guestName) : S.confirmNo(guestName)}
                         </p>
                     </div>
                 )}

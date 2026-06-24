@@ -107,9 +107,10 @@ function FleuronRule({ className = '' }) {
     );
 }
 
-export default function AddToCalendar({ eventDate, eventTime, venue, venueAddress, brideName, groomName }) {
+export default function AddToCalendar({ eventDate, eventTime, venue, venueAddress, brideName, groomName, strings }) {
     const sceneRef = useRef(null);
     const contentRef = useRef(null);
+    const S = strings.calendar;
 
     const title = `${brideName || 'Bride'} & ${groomName || 'Groom'}'s Wedding`;
 
@@ -152,11 +153,11 @@ export default function AddToCalendar({ eventDate, eventTime, venue, venueAddres
             <div ref={contentRef} className="calendar-card">
                 <OvalMedallion />
 
-                <p className="calendar-title">Save the Date</p>
+                <p className="calendar-title">{S.title}</p>
 
                 <FleuronRule />
 
-                <p className="calendar-subtitle">Add our special day to your calendar so you never forget</p>
+                <p className="calendar-subtitle">{S.subtitle}</p>
 
                 <div className="calendar-buttons">
                     <button type="button" className="calendar-btn calendar-btn--google" onClick={handleGoogle}>
@@ -165,7 +166,7 @@ export default function AddToCalendar({ eventDate, eventTime, venue, venueAddres
                             <path d="M1 7H15" stroke="currentColor" strokeWidth="0.8" opacity="0.5" />
                             <path d="M5 1V5M11 1V5" stroke="currentColor" strokeWidth="1" strokeLinecap="round" />
                         </svg>
-                        Add to Google Calendar
+                        {S.google}
                     </button>
                     <button type="button" className="calendar-btn calendar-btn--ics" onClick={handleIcs}>
                         <svg width="17" height="17" viewBox="0 0 16 16" fill="none">
@@ -173,7 +174,7 @@ export default function AddToCalendar({ eventDate, eventTime, venue, venueAddres
                             <path d="M10 1V5H14" stroke="currentColor" strokeWidth="0.8" />
                             <path d="M6 9H11M6 11.5H9" stroke="currentColor" strokeWidth="0.8" strokeLinecap="round" opacity="0.6" />
                         </svg>
-                        Download .ics File
+                        {S.ics}
                     </button>
                 </div>
 

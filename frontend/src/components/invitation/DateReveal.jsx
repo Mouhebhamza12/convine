@@ -2,7 +2,8 @@ import { CalendarDays } from 'lucide-react';
 import StationeryCard from '../shared/StationeryCard';
 import DateScratchReveal from '../shared/DateScratchReveal';
 
-export default function DateReveal({ eventDate, visible }) {
+export default function DateReveal({ eventDate, visible, strings }) {
+    const S = strings.date;
     return (
         <section className="invite-scene date-scene velvet-section">
             <StationeryCard>
@@ -11,13 +12,14 @@ export default function DateReveal({ eventDate, visible }) {
                     visible={visible}
                     theme="velvet"
                     shape="circle"
+                    locale={strings.code}
                     sceneClass="date-scratch-scene"
                     titleClass="sc-eyebrow"
                     rowClass="scratch-date-row date-coins-row"
                     hintClass="sc-hint"
-                    title="Our Wedding Date"
-                    hintScratch="Swipe your finger to brush away the coating"
-                    hintDone="Save the date in your heart"
+                    title={S.title}
+                    hintScratch={S.hintScratch}
+                    hintDone={S.hintDone}
                     showLabel={false}
                     CoinIcon={CalendarDays}
                 />
