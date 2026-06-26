@@ -5,6 +5,12 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="referrer" content="strict-origin-when-cross-origin" />
         <meta name="theme-color" content="#f5efe7" />
+
+        <!-- This is a light-only product (luxury stationery). Opt out of browser
+             auto-dark-mode (Chrome/Android "Auto dark theme", etc.) so it never
+             inverts the palette, and lock the Dark Reader extension out too. -->
+        <meta name="color-scheme" content="light" />
+        <meta name="darkreader-lock" />
         <meta name="description" content="Beautiful digital wedding invitations. Open yours to RSVP." />
 
         <!-- og:start (defaults; the server personalises these per invitation for /invite/:token) -->
@@ -34,6 +40,7 @@
              bundle. React removes it on mount, cross-fading into the pixel-
              matched LoadingScreen so the hand-off is invisible. -->
         <style>
+            html { color-scheme: only light; }
             #cv-boot {
                 position: fixed;
                 inset: 0;
